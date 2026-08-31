@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+     <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finalizar Pedido</title>
+
+    <style>
+        /* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter','Segoe UI',Arial,sans-serif;
+}
+
+body{
+    background:#f4f7f5;
+    color:#1f2937;
+    min-height:100vh;
+}
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    width:100%;
+    min-height:76px;
+    background:linear-gradient(135deg,#087f23,#0b9b35);
+    display:flex;
+    align-items:center;
+    padding:10px 42px;
+    box-shadow:0 4px 18px rgba(0,0,0,.12);
+    position:relative;
+    z-index:100;
+}
+
+.navbar{
+    width:100%;
+    max-width:1250px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+}
+
+.menu{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.menu a{
+    color:rgba(255,255,255,.82);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    padding:12px 17px;
+    border-radius:10px;
+    transition:all .25s ease;
+    white-space:nowrap;
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.menu a:hover{
+    color:#fff;
+    background:rgba(255,255,255,.12);
+    transform:translateY(-1px);
+}
+
+.menu a.active{
+    color:#087f23;
+    background:#fff;
+    font-weight:700;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+
+.menu a i{
+    font-size:14px;
+    width:16px;
+    text-align:center;
+    flex-shrink:0;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-shrink:0;
+    margin-left:auto;
+}
+
+/* =====================================================
+   PERFIL
+===================================================== */
+
+.profile-link{
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.avatar,
+.foto-default{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.85);
+}
+
+.avatar{
+    object-fit:cover;
+}
+
+.foto-default{
+    background:#fff;
+    color:#087f23;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.container{
+
+    width:92%;
+
+    max-width:1200px;
+
+    margin:35px auto;
+}
+
+h1{
+
+    font-size:32px;
+
+    margin-bottom:25px;
+
+    color:#183b25;
+}
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+    align-items:flex-start;
+}
+
+/* =====================================================
+   TARJETAS
+===================================================== */
+
+.card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    border:1px solid #e8eee9;
+
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+
+.card h3{
+
+    color:#183b25;
+
+    font-size:20px;
+
+    margin-bottom:20px;
+}
+
+/* =====================================================
+   FORMULARIO
+===================================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px;
+}
+
+.full{
+
+    grid-column:1/3;
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    color:#374151;
+}
+
+input,
+select{
+
+    width:100%;
+
+    height:42px;
+
+    border:1px solid #d5dce0;
+
+    border-radius:10px;
+
+    padding:0 12px;
+
+    font-size:14px;
+
+    outline:none;
+
+    transition:.25s;
+}
+
+input:focus,
+select:focus{
+
+    border-color:#087f23;
+
+    box-shadow:0 0 0 3px rgba(8,127,35,.10);
+}
+
+/* =====================================================
+   RESUMEN
+===================================================== */
+
+.summary-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:12px;
+
+    font-size:14px;
+}
+
+.total{
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    color:#087f23;
+}
+
+hr{
+
+    margin:18px 0;
+
+    border:none;
+
+    border-top:1px solid #ddd;
+}
+
+/* =====================================================
+   MÉTODOS DE PAGO
+===================================================== */
+
+.payment-option{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border:1px solid #d8e1db;
+
+    border-radius:10px;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.payment-option:hover{
+
+    background:#eefaf0;
+
+    border-color:#087f23;
+}
+
+.payment-option input{
+
+    width:auto;
+
+    height:auto;
+}
+
+/* =====================================================
+   BOTONES
+===================================================== */
+
+.btn,
+.btn-confirm{
+
+    width:100%;
+
+    height:46px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    transition:.25s;
+}
+
+.btn:hover,
+.btn-confirm:hover{
+
+    transform:translateY(-2px);
+}
+
+/* =====================================================
+   MAPA
+===================================================== */
+
+.map iframe{
+
+    width:100%;
+
+    height:220px;
+
+    border:none;
+
+    border-radius:12px;
+}
+
+/* =====================================================
+   ESTADO
+===================================================== */
+
+.status{
+
+    margin:12px 0;
+
+    font-size:14px;
+}
+
+.estado{
+
+    display:inline-block;
+
+    background:#fff3cd;
+
+    color:#856404;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+}
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+.mensaje{
+
+    padding:14px;
+
+    border-radius:10px;
+
+    margin-bottom:20px;
+}
+
+.mensaje-error{
+
+    background:#fdeaea;
+
+    color:#b42318;
+}
+
+.mensaje-exito{
+
+    background:#e9f8ec;
+
+    color:#087f23;
+}
+
+/* =====================================================
+   RESPONSIVE HEADER
+===================================================== */
+
+@media(max-width:1000px){
+
+    header{
+        padding:0 20px;
+    }
+
+    .menu{
+        gap:8px;
+    }
+
+    .menu a{
+        font-size:14px;
+        padding:12px 14px;
+    }
+}
+
+@media(max-width:800px){
+
+    header{
+        padding:0 15px;
+    }
+
+    .menu{
+        gap:5px;
+    }
+
+    .menu a{
+        font-size:13px;
+        padding:9px 10px;
+    }
+}
+
+@media(max-width:650px){
+
+    header{
+        padding:10px;
+    }
+
+    .navbar{
+        flex-wrap:wrap;
+    }
+
+    .header-left{
+        width:100%;
+        justify-content:center;
+    }
+
+    .menu{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:4px;
+    }
+
+    .header-right{
+        width:100%;
+        justify-content:center;
+        margin-left:0;
+    }
+}
+
+@media(max-width:480px){
+
+    header{
+        padding:9px 8px;
+    }
+
+    .menu{
+        gap:2px;
+    }
+
+    .menu a{
+        font-size:10px;
+        padding:8px 7px;
+        border-radius:8px;
+    }
+
+    .header-right{
+        gap:7px;
+    }
+
+    .avatar,
+    .foto-default{
+        width:35px;
+        height:35px;
+    }
+}
+
+@media(max-width:380px){
+
+    .menu a{
+        font-size:10px;
+        padding:7px 6px;
+    }
+
+    .avatar,
+    .foto-default{
+        width:33px;
+        height:33px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+<header>
+
+    <div class="navbar">
+
+        <div class="header-left">
+
+           <nav class="menu">
+
+    <a href="{{ url_for('inicio') }}">
+        <i class="fa-solid fa-house"></i>
+        Inicio
+    </a>
+
+    <a href="{{ url_for('catalogo') }}">
+        <i class="fa-solid fa-box-open"></i>
+        Catálogo
+    </a>
+
+    <a href="{{ url_for('gestion_citas') }}">
+        <i class="fa-solid fa-calendar-check"></i>
+        Citas
+    </a>
+
+    <a href="{{ url_for('ver_carrito') }}" class="active">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Carrito
+    </a>
+
+</nav>
+
+        </div>
+
+
+        <div class="header-right">
+
+           <a
+                href="{{ url_for('perfil') }}"
+                class="profile-link"
+            >
+
+                {% if usuario and usuario.fotoUsu %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/perfiles/' + usuario.fotoUsu
+                        ) }}"
+                        alt="Foto de perfil"
+                        class="profile"
+                    >
+
+                {% else %}
+
+                    <div class="foto-default">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                {% endif %}
+
+            </a>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     CONTENIDO
+========================= -->
+
+<div class="container">
+
+    <h1>Finalizar Pedido</h1>
+
+
+    <!-- =========================
+         MENSAJES FLASK
+    ========================= -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div
+                    class="mensaje
+                    {% if category == 'error' %}
+                        mensaje-error
+                    {% else %}
+                        mensaje-exito
+                    {% endif %}"
+                >
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- ==================================================
+         FORMULARIO COMPLETO DEL PEDIDO
+    =================================================== -->
+
+    <form
+        action="{{ url_for('crear_pedido') }}"
+        method="POST"
+        id="pedidoForm"
+    >
+
+        <div class="grid">
+
+
+            <!-- =========================
+                 DETALLES DE ENVÍO
+            ========================= -->
+
+            <div class="card">
+
+                <h3>Detalles de Envío</h3>
+
+
+                <div class="form-grid">
+
+
+                    <div>
+
+                        <label for="nombre">
+                            Nombre Completo *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Su nombre completo"
+                            required
+                            maxlength="100"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="telefono">
+                            Número de Teléfono *
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            placeholder="Ej. 3101234567"
+                            required
+                            maxlength="15"
+                        >
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <label for="direccion">
+                            Dirección de Envío *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="direccion"
+                            name="direccion"
+                            placeholder="Ej. Calle 123 #45-67"
+                            required
+                            maxlength="150"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="ciudad">
+                            Ciudad *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="ciudad"
+                            name="ciudad"
+                            placeholder="Ej. Bogotá"
+                            required
+                            maxlength="60"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="departamento">
+                            Departamento *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="departamento"
+                            name="departamento"
+                            placeholder="Ej. Cundinamarca"
+                            required
+                            maxlength="60"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="codigoPostal">
+                            Código Postal
+                        </label>
+
+                        <input
+                            type="text"
+                            id="codigoPostal"
+                            name="codigoPostal"
+                            placeholder="Ej. 110111"
+                            maxlength="10"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="transportista">
+                            Transportista *
+                        </label>
+
+                        <select
+                            id="transportista"
+                            name="transportista"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccione un transportista
+                            </option>
+
+                            <option value="Servientrega">
+                                Servientrega
+                            </option>
+
+                            <option value="Interrapidisimo">
+                                Interrapidísimo
+                            </option>
+
+                            <option value="TCC">
+                                TCC
+                            </option>
+
+                            <option value="Envia">
+                                Envía
+                            </option>
+
+                            <option value="Coordinadora">
+                                Coordinadora Mercantil
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 RESUMEN
+            ========================= -->
+
+            <div class="card">
+
+                <h3>Resumen del Pedido</h3>
+
+
+                {% if items %}
+
+                    {% for item in items %}
+
+                        <div class="summary-item">
+
+                            <span>
+
+                                {{ item.nombrePro }}
+
+                                x{{ item.cantidadCai }}
+
+                            </span>
+
+                            <span>
+
+                                ${{ "{:,.0f}".format(item.subtotal) }}
+
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>
+                        No hay productos en el carrito.
+                    </p>
+
+                {% endif %}
+
+
+                <hr>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Envío
+                    </span>
+
+                    <span>
+                        Por calcular
+                    </span>
+
+                </div>
+
+
+                <div class="summary-item total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span>
+
+                        ${{ "{:,.0f}".format(total) }}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             MÉTODO DE PAGO
+        ========================= -->
+
+        <div class="card" style="margin-top:20px;">
+
+            <h3>Método de Pago</h3>
+
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="metodo_pago"
+                    value="Tarjeta"
+                    required
+                    onchange="mostrarTarjeta()"
+                >
+
+                Tarjeta de Crédito/Débito
+
+            </label>
+
+
+            <!-- DATOS TARJETA -->
+
+            <div id="datosTarjeta" style="display:none;">
+
+                <label for="numero_tarjeta">
+                    Número de Tarjeta
+                </label>
+
+                <input
+                    type="text"
+                    id="numero_tarjeta"
+                    name="numero_tarjeta"
+                    placeholder="XXXX XXXX XXXX XXXX"
+                    maxlength="19"
+                >
+
+
+                <div class="small-grid">
+
+                    <div>
+
+                        <label for="fecha">
+                            Fecha
+                        </label>
+
+                        <input
+                            type="text"
+                            id="fecha"
+                            name="fecha"
+                            placeholder="MM/AA"
+                            maxlength="5"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="cvv">
+                            CVV
+                        </label>
+
+                        <input
+                            type="password"
+                            id="cvv"
+                            name="cvv"
+                            placeholder="123"
+                            maxlength="4"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="metodo_pago"
+                    value="Efectivo"
+                    onchange="ocultarTarjeta()"
+                >
+
+                Efectivo
+
+            </label>
+
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="metodo_pago"
+                    value="PSE"
+                    onchange="ocultarTarjeta()"
+                >
+
+                PSE
+
+            </label>
+
+
+            <br>
+
+
+            <!-- =========================
+                 ESTADO
+            ========================= -->
+
+            <input
+                type="hidden"
+                name="estado"
+                value="Pendiente"
+            >
+
+
+            <!-- =========================
+                 BOTÓN
+            ========================= -->
+
+            <button
+                type="submit"
+                class="btn-confirm"
+            >
+                Confirmar Pedido
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- =========================
+         SEGUIMIENTO
+    ========================= -->
+
+    <div
+        class="card"
+        style="margin-top:20px;"
+    >
+
+        <h3>Seguimiento del Pedido</h3>
+
+
+        <div class="map">
+
+            <iframe
+                src="https://www.google.com/maps?q=Bogotá,Colombia&output=embed"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
+
+        </div>
+
+
+        <div class="status">
+
+            Estado:
+
+            <span class="estado">
+                Pendiente
+            </span>
+
+        </div>
+
+
+        <div class="status">
+
+            Pedido confirmado:
+
+            Se actualizará después de confirmar el pedido.
+
+        </div>
+
+
+        <div class="status">
+            Enviado desde almacén
+        </div>
+
+
+        <div class="status">
+            En camino a su dirección
+        </div>
+
+
+        <button
+            type="button"
+            class="btn"
+            onclick="rastrearPedido()"
+        >
+            Rastrear Pedido
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================================
+       MOSTRAR DATOS DE TARJETA
+    ========================================= */
+
+    function mostrarTarjeta() {
+
+        const datos = document.getElementById("datosTarjeta");
+
+        datos.style.display = "block";
+
+        document.getElementById("numero_tarjeta").required = true;
+
+        document.getElementById("fecha").required = true;
+
+        document.getElementById("cvv").required = true;
+    }
+
+
+    /* =========================================
+       OCULTAR DATOS DE TARJETA
+    ========================================= */
+
+    function ocultarTarjeta() {
+
+        const datos = document.getElementById("datosTarjeta");
+
+        datos.style.display = "none";
+
+        document.getElementById("numero_tarjeta").required = false;
+
+        document.getElementById("fecha").required = false;
+
+        document.getElementById("cvv").required = false;
+    }
+
+
+    /* =========================================
+       FORMATO NÚMERO TARJETA
+    ========================================= */
+
+    document
+        .getElementById("numero_tarjeta")
+        .addEventListener("input", function () {
+
+            let valor = this.value
+                .replace(/\D/g, "")
+                .substring(0, 16);
+
+            valor = valor.replace(
+                /(.{4})/g,
+                "$1 "
+            ).trim();
+
+            this.value = valor;
+        });
+
+
+    /* =========================================
+       FORMATO FECHA
+    ========================================= */
+
+    document
+        .getElementById("fecha")
+        .addEventListener("input", function () {
+
+            let valor = this.value
+                .replace(/\D/g, "")
+                .substring(0, 4);
+
+            if (valor.length >= 3) {
+
+                valor =
+                    valor.substring(0, 2)
+                    + "/"
+                    + valor.substring(2);
+
+            }
+
+            this.value = valor;
+        });
+
+
+    /* =========================================
+       SOLO NÚMEROS CVV
+    ========================================= */
+
+    document
+        .getElementById("cvv")
+        .addEventListener("input", function () {
+
+            this.value =
+                this.value
+                .replace(/\D/g, "")
+                .substring(0, 4);
+
+        });
+
+
+    /* =========================================
+       RASTREAR PEDIDO
+    ========================================= */
+
+    function rastrearPedido() {
+
+        alert(
+            "El seguimiento estará disponible cuando el pedido haya sido confirmado."
+        );
+
+    }
+
+</script>
+
+</body>
+
+</html>

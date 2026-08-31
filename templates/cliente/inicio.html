@@ -1,0 +1,840 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Natural One Life</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/estilos.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="nav-links">
+
+        <a
+            href="{{ url_for('inicio') }}"
+            class="active"
+        >
+        <i class="fa-solid fa-house"></i>
+            Inicio
+        </a>
+
+
+        <a href="{{ url_for('catalogo') }}">
+            <i class="fa-solid fa-box-open"></i>
+            Catálogo
+        </a>
+
+
+        <a href="{{ url_for('gestion_citas') }}">
+            <i class="fa-solid fa-calendar-check"></i>
+            Citas
+        </a>
+
+
+        <a href="{{ url_for('carrito') }}">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Carrito
+        </a>
+
+    </div>
+
+
+    <div class="nav-right">
+
+        <a
+                href="{{ url_for('perfil') }}"
+                class="profile-link"
+            >
+
+                {% if usuario and usuario.fotoUsu %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/perfiles/' + usuario.fotoUsu
+                        ) }}"
+                        alt="Foto de perfil"
+                        class="profile"
+                    >
+
+                {% else %}
+
+                    <div class="foto-default">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                {% endif %}
+
+            </a>
+
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <img
+        src="{{ url_for(
+            'static',
+            filename='img/productos/banner.png'
+        ) }}"
+        alt="Natural One Life"
+    >
+
+
+    <div class="hero-content">
+
+        <span class="hero-tag">
+            BIENESTAR NATURAL
+        </span>
+
+
+        <h1>
+            Descubre el bienestar natural
+            con Natural One Life
+        </h1>
+
+
+        <p>
+            Encuentra productos naturales seleccionados
+            para acompañar tu bienestar y agenda consultas
+            personalizadas con nuestros especialistas.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('catalogo') }}"
+                class="hero-btn"
+            >
+                Explorar productos
+            </a>
+
+
+            <a
+                href="{{ url_for('gestion_citas') }}"
+                class="hero-btn secondary"
+            >
+                Agendar una cita
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CATEGORÍAS
+===================================================== -->
+
+<section class="categories-section">
+
+    <h2 class="section-title">
+        Explora nuestras categorías
+    </h2>
+
+
+    <p class="section-description">
+        Encuentra productos naturales pensados para
+        diferentes necesidades de bienestar.
+    </p>
+
+
+    <div class="categories">
+
+        {% for categoria in categorias %}
+
+        <a
+            href="{{ url_for(
+                'catalogo',
+                categoria=categoria.idCat
+            ) }}"
+            class="category-card"
+        >
+
+            <div class="category-icon">
+
+                {% if 'aceite' in categoria.nombreCat|lower %}
+
+                    <i class="fa-solid fa-droplet"></i>
+
+                {% elif 'vitamina' in categoria.nombreCat|lower %}
+
+                    <i class="fa-solid fa-capsules"></i>
+
+                {% elif 'suplement' in categoria.nombreCat|lower %}
+
+                    <i class="fa-solid fa-leaf"></i>
+
+                {% elif 'belleza' in categoria.nombreCat|lower %}
+
+                    <i class="fa-solid fa-spa"></i>
+
+                {% elif 'jabón' in categoria.nombreCat|lower
+                   or 'jabon' in categoria.nombreCat|lower %}
+
+                    <i class="fa-solid fa-soap"></i>
+
+                {% elif 'té' in categoria.nombreCat|lower
+                   or 'te' in categoria.nombreCat|lower %}
+
+                    <i class="fa-solid fa-mug-hot"></i>
+
+                {% else %}
+
+                    <i class="fa-solid fa-seedling"></i>
+
+                {% endif %}
+
+            </div>
+
+
+            <h3>
+                {{ categoria.nombreCat }}
+            </h3>
+
+
+            {% if categoria.descripcionCat %}
+
+            <p>
+                {{ categoria.descripcionCat }}
+            </p>
+
+            {% endif %}
+
+        </a>
+
+
+        {% else %}
+
+        <div class="empty-message">
+
+            <i class="fa-solid fa-leaf"></i>
+
+            <p>
+                No hay categorías disponibles actualmente.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCTOS DESTACADOS
+===================================================== -->
+
+<section class="featured-section">
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <h2 class="section-title">
+                Productos destacados
+            </h2>
+
+
+            <p class="section-description">
+                Descubre algunos de nuestros productos naturales.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('catalogo') }}"
+            class="view-all"
+        >
+            Ver todos
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+
+    <div class="products">
+
+        {% for producto in productos %}
+
+        <article class="product-card">
+
+
+            <!-- IMAGEN -->
+
+            <div class="product-image-container">
+
+                {% if producto.imagenesPro %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/productos/' ~ producto.imagenesPro
+                        ) }}"
+                        alt="{{ producto.nombrePro }}"
+                        class="product-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+
+                    <div
+                        class="no-image"
+                        style="display:none;"
+                    >
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+
+                {% else %}
+
+                    <div class="no-image">
+
+                        <i class="fa-solid fa-leaf"></i>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- ESTADO -->
+
+                {% if producto.stockPro <= 0 %}
+
+                    <span class="product-status out">
+                        Agotado
+                    </span>
+
+                {% elif producto.stockPro <= 10 %}
+
+                    <span class="product-status low">
+                        Pocas unidades
+                    </span>
+
+                {% else %}
+
+                    <span class="product-status available">
+                        Disponible
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+
+            <div class="product-info">
+
+
+                {% if producto.nombreCat %}
+
+                <span class="product-category">
+
+                    {{ producto.nombreCat }}
+
+                </span>
+
+                {% endif %}
+
+
+                <h3>
+                    {{ producto.nombrePro }}
+                </h3>
+
+
+                {% if producto.descripcionPro %}
+
+                <p>
+                    {{ producto.descripcionPro|truncate(90) }}
+                </p>
+
+                {% endif %}
+
+
+                <div class="product-bottom">
+
+                    <strong class="price">
+
+                        ${{ "{:,.0f}".format(
+                            producto.precioPro|float
+                        ) }}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- BOTONES -->
+
+                <div class="product-actions">
+
+
+                    <a
+                        href="{{ url_for(
+                            'producto',
+                            id=producto.idPro
+                        ) }}"
+                        class="btn-white"
+                    >
+                        Ver detalles
+                    </a>
+
+
+                    {% if producto.stockPro > 0 %}
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'agregar_carrito',
+                            id=producto.idPro
+                        ) }}"
+                        class="add-cart-form"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn-green"
+                        >
+
+                            <i class="fa-solid fa-cart-plus"></i>
+
+                            Añadir
+
+                        </button>
+
+                    </form>
+
+
+                    {% else %}
+
+                    <button
+                        class="btn-disabled"
+                        disabled
+                    >
+                        Agotado
+                    </button>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        {% else %}
+
+        <div class="empty-products">
+
+            <i class="fa-solid fa-box-open"></i>
+
+            <h3>
+                No hay productos disponibles
+            </h3>
+
+            <p>
+                Actualmente no tenemos productos destacados.
+            </p>
+
+            <a
+                href="{{ url_for('catalogo') }}"
+                class="hero-btn"
+            >
+                Ver catálogo
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BIENESTAR
+===================================================== -->
+
+<section class="wellness-section">
+
+    <div class="wellness-card">
+
+        <div class="wellness-icon">
+
+            <i class="fa-solid fa-leaf"></i>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                NATURAL ONE LIFE
+            </span>
+
+
+            <h2>
+                Tu bienestar empieza con buenas decisiones
+            </h2>
+
+
+            <p>
+                Conoce nuestra selección de productos naturales
+                y recibe orientación personalizada para cuidar
+                tu bienestar de manera integral.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('catalogo') }}"
+            class="wellness-btn"
+        >
+            Ver productos
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CITAS
+===================================================== -->
+
+<section class="cta">
+
+    <div class="cta-content">
+
+        <div class="cta-icon">
+
+            <i class="fa-solid fa-heart-pulse"></i>
+
+        </div>
+
+
+        <div class="cta-text">
+
+            <h2>
+                Expertos en bienestar a tu alcance
+            </h2>
+
+
+            <p>
+                Agenda una consulta personalizada con nuestros
+                especialistas y recibe orientación para tu camino
+                hacia una vida más saludable.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <a href="{{ url_for('gestion_citas') }}">
+
+        <button
+            type="button"
+            class="cta-btn"
+        >
+            Agendar cita ahora
+        </button>
+
+    </a>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-grid">
+
+
+        <div>
+
+            <h3 class="footer-logo">
+                Natural One Life
+            </h3>
+
+
+            <p class="footer-description">
+                Transformando vidas a través de productos naturales,
+                bienestar integral y asesoría especializada.
+            </p>
+
+
+            <div class="social-icons">
+
+                <a
+                    href="#"
+                    aria-label="Facebook"
+                >
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="Instagram"
+                >
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="X"
+                >
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="YouTube"
+                >
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECURSOS -->
+
+        <div>
+
+            <h4>
+                Recursos
+            </h4>
+
+
+            <ul>
+
+                <li>
+                    <a href="{{ url_for('catalogo') }}">
+                        Productos
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{{ url_for('gestion_citas') }}">
+                        Citas
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{{ url_for('perfil') }}">
+                        Mi perfil
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{{ url_for('carrito') }}">
+                        Carrito
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- NATURAL ONE LIFE -->
+
+        <div>
+
+            <h4>
+                Natural One Life
+            </h4>
+
+
+            <ul>
+
+                <li>
+                    <a href="#">
+                        Nosotros
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Misión
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Visión
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Contacto
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- LEGAL -->
+
+        <div>
+
+            <h4>
+                Legal
+            </h4>
+
+
+            <ul>
+
+                <li>
+                    <a href="#">
+                        Privacidad
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Términos
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Cookies
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Políticas
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- CONTACTO -->
+
+        <div>
+
+            <h4>
+                Contacto
+            </h4>
+
+
+            <ul>
+
+                <li>
+                    <a href="#">
+                        WhatsApp
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Correo
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Teléfono
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="#">
+                        Ubicación
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 Natural One Life.
+        Todos los derechos reservados.
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>

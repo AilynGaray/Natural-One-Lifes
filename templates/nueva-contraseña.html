@@ -1,0 +1,797 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Nueva contraseña | Natural One Life
+</title>
+
+
+<style>
+
+/* ==========================================================
+   RESET
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+
+/* ==========================================================
+   BODY
+========================================================== */
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:25px;
+
+    background:
+        linear-gradient(
+            rgba(20,85,40,.78),
+            rgba(8,55,25,.82)
+        ),
+        url("{{ url_for('static', filename='img/fondo-login.jpeg') }}")
+        center/cover no-repeat;
+}
+
+
+/* ==========================================================
+   CONTENEDOR
+========================================================== */
+
+.container{
+
+    width:100%;
+
+    max-width:480px;
+
+    background:rgba(255,255,255,.97);
+
+    padding:42px;
+
+    border-radius:22px;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.28);
+
+    animation:
+        aparecer .4s ease;
+}
+
+
+/* ==========================================================
+   ANIMACIÓN
+========================================================== */
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* ==========================================================
+   ENCABEZADO
+========================================================== */
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+}
+
+
+.logo{
+
+    color:#2e7d32;
+
+    font-size:31px;
+
+    font-weight:800;
+
+    letter-spacing:-.5px;
+}
+
+
+.header p{
+
+    margin-top:9px;
+
+    color:#777;
+
+    font-size:14px;
+
+    line-height:1.5;
+}
+
+
+/* ==========================================================
+   MENSAJE
+========================================================== */
+
+.mensaje{
+
+    display:none;
+
+    margin-bottom:20px;
+
+    padding:13px 16px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    text-align:center;
+
+    line-height:1.4;
+}
+
+
+.mensaje.error{
+
+    display:block;
+
+    background:#fff1f1;
+
+    border:1px solid #f2b8b8;
+
+    color:#b42318;
+}
+
+
+.mensaje.exito{
+
+    display:block;
+
+    background:#eef9f0;
+
+    border:1px solid #b7dfbd;
+
+    color:#246b2c;
+}
+
+
+/* ==========================================================
+   CAMPOS
+========================================================== */
+
+.field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    margin-bottom:20px;
+}
+
+
+label{
+
+    margin-bottom:8px;
+
+    color:#315f37;
+
+    font-size:14px;
+
+    font-weight:700;
+}
+
+
+input{
+
+    width:100%;
+
+    height:50px;
+
+    padding:0 14px;
+
+    border:1px solid #d5ddd5;
+
+    border-radius:10px;
+
+    background:#fbfdfb;
+
+    color:#333;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.25s;
+}
+
+
+input:focus{
+
+    border-color:#43a047;
+
+    box-shadow:
+        0 0 0 3px rgba(67,160,71,.12);
+
+    background:#fff;
+}
+
+
+input:invalid:not(:placeholder-shown){
+
+    border-color:#d93025;
+}
+
+
+/* ==========================================================
+   INDICADOR DE CONTRASEÑA
+========================================================== */
+
+.password-info{
+
+    margin-top:7px;
+
+    color:#777;
+
+    font-size:12px;
+}
+
+
+/* ==========================================================
+   BOTÓN
+========================================================== */
+
+button{
+
+    width:100%;
+
+    height:52px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#2e7d32;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:
+        0 6px 15px rgba(46,125,50,.20);
+}
+
+
+button:hover{
+
+    background:#1b5e20;
+
+    transform:translateY(-1px);
+}
+
+
+button:disabled{
+
+    opacity:.7;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.footer{
+
+    text-align:center;
+
+    margin-top:23px;
+
+    font-size:14px;
+
+    color:#777;
+}
+
+
+.footer a{
+
+    color:#2e7d32;
+
+    text-decoration:none;
+
+    font-weight:700;
+
+}
+
+
+.footer a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:500px){
+
+    body{
+        padding:15px;
+    }
+
+    .container{
+
+        padding:32px 23px;
+
+        border-radius:18px;
+    }
+
+    .logo{
+
+        font-size:27px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================================
+         ENCABEZADO
+    ====================================================== -->
+
+    <div class="header">
+
+        <div class="logo">
+            Natural One Life
+        </div>
+
+        {% if valido %}
+
+            <p>
+                Crea una nueva contraseña para proteger
+                tu cuenta.
+            </p>
+
+        {% else %}
+
+            <p>
+                Recuperación de contraseña
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         MENSAJE JAVASCRIPT
+    ====================================================== -->
+
+    <div
+        id="mensaje"
+        class="mensaje"
+        role="alert"
+        aria-live="polite"
+    ></div>
+
+
+    {% if valido %}
+
+
+        <!-- ================================================
+             FORMULARIO
+        ================================================= -->
+
+        <form
+            id="nuevaPasswordForm"
+            novalidate
+        >
+
+
+            <!-- ============================================
+                 NUEVA CONTRASEÑA
+            ============================================= -->
+
+            <div class="field">
+
+                <label for="password">
+                    Nueva contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Ingresa tu nueva contraseña"
+                    minlength="8"
+                    maxlength="255"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <div class="password-info">
+                    Mínimo 8 caracteres.
+                </div>
+
+            </div>
+
+
+            <!-- ============================================
+                 CONFIRMAR
+            ============================================= -->
+
+            <div class="field">
+
+                <label for="confirmar">
+                    Confirmar contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmar"
+                    placeholder="Repite tu nueva contraseña"
+                    minlength="8"
+                    maxlength="255"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ============================================
+                 BOTÓN
+            ============================================= -->
+
+            <button
+                type="submit"
+                id="btnCambiar"
+            >
+                Cambiar contraseña
+            </button>
+
+
+        </form>
+
+
+    {% else %}
+
+
+        <!-- ================================================
+             TOKEN INVÁLIDO / EXPIRADO
+        ================================================= -->
+
+        <div class="mensaje error">
+
+            {{ mensaje }}
+
+        </div>
+
+
+        <div class="footer">
+
+            <a href="/recuperar">
+                Solicitar un nuevo enlace
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         VOLVER AL LOGIN
+    ====================================================== -->
+
+    <div class="footer">
+
+        <a href="/">
+            ← Volver al inicio de sesión
+        </a>
+
+    </div>
+
+
+</div>
+
+
+{% if valido %}
+
+<script>
+
+
+// ==========================================================
+// ELEMENTOS
+// ==========================================================
+
+const formulario =
+    document.getElementById(
+        "nuevaPasswordForm"
+    );
+
+
+const mensaje =
+    document.getElementById(
+        "mensaje"
+    );
+
+
+const boton =
+    document.getElementById(
+        "btnCambiar"
+    );
+
+
+const password =
+    document.getElementById(
+        "password"
+    );
+
+
+const confirmar =
+    document.getElementById(
+        "confirmar"
+    );
+
+
+// ==========================================================
+// MOSTRAR MENSAJE
+// ==========================================================
+
+function mostrarMensaje(
+    texto,
+    tipo
+){
+
+    mensaje.textContent = texto;
+
+    mensaje.className =
+        "mensaje " + tipo;
+
+}
+
+
+// ==========================================================
+// SUBMIT
+// ==========================================================
+
+formulario.addEventListener(
+    "submit",
+    async function(e){
+
+        e.preventDefault();
+
+
+        const passwordValue =
+            password.value;
+
+
+        const confirmarValue =
+            confirmar.value;
+
+
+        // --------------------------------------------------
+        // VALIDAR PASSWORD
+        // --------------------------------------------------
+
+        if(passwordValue.length < 8){
+
+            mostrarMensaje(
+                "La contraseña debe tener mínimo 8 caracteres.",
+                "error"
+            );
+
+            password.focus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // CONFIRMAR PASSWORD
+        // --------------------------------------------------
+
+        if(passwordValue !== confirmarValue){
+
+            mostrarMensaje(
+                "Las contraseñas no coinciden.",
+                "error"
+            );
+
+            confirmar.focus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // DESACTIVAR BOTÓN
+        // --------------------------------------------------
+
+        boton.disabled = true;
+
+        boton.textContent =
+            "Actualizando...";
+
+
+        try{
+
+
+            // =================================================
+            // ENVIAR AL MISMO ENLACE
+            // =================================================
+
+            const respuesta =
+                await fetch(
+                    window.location.pathname,
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:JSON.stringify({
+
+                            password:
+                                passwordValue,
+
+                            confirmar:
+                                confirmarValue
+
+                        })
+
+                    }
+                );
+
+
+            // =================================================
+            // RESPUESTA
+            // =================================================
+
+            const data =
+                await respuesta.json();
+
+
+            // =================================================
+            // CORRECTO
+            // =================================================
+
+            if(
+                respuesta.ok &&
+                data.estado === "ok"
+            ){
+
+                mostrarMensaje(
+                    data.mensaje,
+                    "exito"
+                );
+
+
+                boton.textContent =
+                    "Contraseña actualizada";
+
+
+                password.disabled = true;
+
+                confirmar.disabled = true;
+
+
+                // ---------------------------------------------
+                // VOLVER AL LOGIN
+                // ---------------------------------------------
+
+                setTimeout(
+                    function(){
+
+                        window.location.href =
+                            "/";
+
+                    },
+                    2000
+                );
+
+
+                return;
+            }
+
+
+            // =================================================
+            // ERROR
+            // =================================================
+
+            mostrarMensaje(
+                data.mensaje ||
+                "No fue posible actualizar la contraseña.",
+                "error"
+            );
+
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Cambiar contraseña";
+
+
+        }
+        catch(error){
+
+            console.error(
+                "ERROR:",
+                error
+            );
+
+
+            mostrarMensaje(
+                "No fue posible conectar con el servidor.",
+                "error"
+            );
+
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Cambiar contraseña";
+
+        }
+
+    }
+);
+
+</script>
+
+{% endif %}
+
+
+</body>
+
+</html>

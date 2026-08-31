@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Carrito | Natural One Life</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter','Segoe UI',Arial,sans-serif;
+}
+
+html{
+    width:100%;
+    min-width:320px;
+    overflow-x:hidden;
+}
+
+body{
+    width:100%;
+    min-height:100vh;
+
+    background:#f4f7f5;
+    color:#1f2937;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    width:100%;
+    min-height:76px;
+
+    background:linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    display:flex;
+    align-items:center;
+
+    padding:0 25px;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.12);
+
+    position:relative;
+    z-index:100;
+}
+
+.navbar{
+    width:100%;
+    max-width:1250px;
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+
+    min-width:0;
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+
+    white-space:nowrap;
+}
+
+.nav a{
+    color:rgba(255,255,255,.82);
+
+    text-decoration:none;
+
+    font-size:15px;
+    font-weight:500;
+
+    padding:12px 15px;
+
+    border-radius:10px;
+
+    transition:all .25s ease;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:7px;
+
+    white-space:nowrap;
+}
+
+.nav a:hover{
+    color:#fff;
+
+    background:rgba(255,255,255,.12);
+
+    transform:translateY(-1px);
+}
+
+.nav a.active{
+    color:#087f23;
+
+    background:#fff;
+
+    font-weight:700;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+
+.nav a i{
+    width:16px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    flex-shrink:0;
+}
+
+.nav a.active i{
+    color:#087f23;
+}
+
+
+/* =====================================================
+   HEADER RIGHT
+===================================================== */
+
+.header-right{
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    flex-shrink:0;
+}
+
+.profile-link{
+    text-decoration:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+}
+
+.profile,
+.foto-default{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:2px solid rgba(255,255,255,.85);
+}
+
+.profile{
+    object-fit:cover;
+}
+
+.foto-default{
+    background:#fff;
+
+    color:#087f23;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:21px;
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.container{
+    width:92%;
+    max-width:1250px;
+
+    margin:34px auto;
+
+    flex:1;
+}
+
+
+/* =====================================================
+   TÍTULO
+===================================================== */
+
+.title{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    color:#183b25;
+
+    font-size:27px;
+    font-weight:800;
+
+    margin-bottom:24px;
+}
+
+.title::before{
+    content:"";
+
+    width:5px;
+    height:32px;
+
+    flex-shrink:0;
+
+    background:linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    border-radius:5px;
+}
+
+
+/* =====================================================
+   PEDIDO EXITOSO
+===================================================== */
+
+.pedido-exitoso{
+    width:100%;
+    max-width:720px;
+
+    margin:35px auto;
+
+    background:#fff;
+
+    border-radius:22px;
+
+    padding:45px 35px;
+
+    text-align:center;
+
+    border:1px solid #e3eae4;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.09);
+
+    animation:aparecer .45s ease;
+}
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.icono-exito{
+    width:76px;
+    height:76px;
+
+    margin:0 auto 20px;
+
+    border-radius:50%;
+
+    background:#e8f7ec;
+
+    color:#087f23;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:40px;
+    font-weight:800;
+
+    border:5px solid #f4faf5;
+}
+
+.pedido-exitoso h2{
+    color:#183b25;
+
+    font-size:27px;
+
+    margin-bottom:12px;
+}
+
+.pedido-exitoso p{
+    color:#6b7280;
+
+    font-size:15px;
+
+    line-height:1.6;
+
+    margin-bottom:24px;
+}
+
+.pedido-numero{
+    background:#f5f9f6;
+
+    border:1px solid #e0e9e2;
+
+    border-radius:13px;
+
+    padding:17px;
+
+    margin-bottom:15px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    text-align:left;
+
+    gap:15px;
+}
+
+.pedido-numero span{
+    color:#6b7280;
+    font-size:14px;
+}
+
+.pedido-numero strong{
+    color:#183b25;
+    font-size:17px;
+}
+
+.pedido-estado{
+    display:inline-block;
+
+    background:#e8f7ec;
+
+    color:#087f23;
+
+    border-radius:20px;
+
+    padding:7px 15px;
+
+    font-size:13px;
+    font-weight:700;
+
+    margin-bottom:25px;
+}
+
+
+/* =====================================================
+   BOTONES PEDIDO
+===================================================== */
+
+.acciones-pedido{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+.btn-continuar,
+.btn-perfil{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    min-width:180px;
+    min-height:46px;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:all .25s ease;
+}
+
+.btn-continuar{
+    color:#fff;
+
+    background:linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    box-shadow:0 4px 10px rgba(8,127,35,.20);
+}
+
+.btn-perfil{
+    color:#087f23;
+
+    background:#eef4ef;
+
+    border:1px solid #dce6df;
+}
+
+.btn-continuar:hover,
+.btn-perfil:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   CONTENIDO CARRITO
+===================================================== */
+
+.content{
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        350px;
+
+    gap:28px;
+
+    align-items:start;
+}
+
+
+/* =====================================================
+   PRODUCTO
+===================================================== */
+
+.product-card{
+    width:100%;
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    margin-bottom:15px;
+
+    border:1px solid #e3eae4;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+
+    transition:.25s;
+
+    min-width:0;
+}
+
+.product-card:hover{
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 25px rgba(0,0,0,.09);
+}
+
+.product-left{
+    display:flex;
+    align-items:center;
+
+    gap:17px;
+
+    min-width:0;
+
+    flex:1;
+}
+
+.product-img{
+    width:82px;
+    height:82px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+    flex-shrink:0;
+
+    background:#f1f5f2;
+
+    border:1px solid #e1e8e3;
+}
+
+.product-info{
+    min-width:0;
+
+    flex:1;
+}
+
+.product-info h3{
+    color:#183b25;
+
+    font-size:16px;
+    font-weight:700;
+
+    line-height:1.4;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   ACCIONES
+===================================================== */
+
+.product-actions{
+    display:flex;
+
+    align-items:center;
+    justify-content:flex-end;
+
+    gap:14px;
+
+    flex-shrink:0;
+}
+
+
+/* =====================================================
+   CANTIDAD
+===================================================== */
+
+.qty{
+    display:flex;
+    align-items:center;
+
+    background:#f8faf8;
+
+    border:1px solid #d4dfd7;
+
+    border-radius:9px;
+
+    overflow:hidden;
+
+    flex-shrink:0;
+}
+
+.qty a{
+    display:flex;
+
+    text-decoration:none;
+}
+
+.qty button{
+    width:35px;
+    height:38px;
+
+    border:none;
+
+    background:transparent;
+
+    color:#087f23;
+
+    font-size:20px;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.qty button:hover{
+    background:#087f23;
+    color:#fff;
+}
+
+.qty input{
+    width:42px;
+    height:38px;
+
+    border:none;
+
+    border-left:1px solid #d4dfd7;
+    border-right:1px solid #d4dfd7;
+
+    text-align:center;
+
+    font-size:14px;
+    font-weight:600;
+
+    outline:none;
+
+    background:#fff;
+}
+
+
+/* =====================================================
+   PRECIO
+===================================================== */
+
+.price{
+    min-width:100px;
+
+    color:#087f23;
+
+    font-size:16px;
+    font-weight:800;
+
+    text-align:right;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   ELIMINAR
+===================================================== */
+
+.delete{
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:#fff0f0;
+
+    color:#d43d3d;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    flex-shrink:0;
+}
+
+.delete:hover{
+    background:#d43d3d;
+    color:#fff;
+}
+
+
+/* =====================================================
+   RESUMEN
+===================================================== */
+
+.summary{
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:24px;
+
+    border:1px solid #e3eae4;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+
+    position:sticky;
+
+    top:20px;
+
+    width:100%;
+}
+
+.summary h2{
+    color:#183b25;
+
+    font-size:20px;
+
+    margin-bottom:20px;
+
+    padding-bottom:15px;
+
+    border-bottom:1px solid #e3eae4;
+}
+
+.row{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:15px;
+
+    color:#66716a;
+
+    font-size:14px;
+}
+
+.row span:last-child{
+    color:#374151;
+
+    font-weight:600;
+
+    white-space:nowrap;
+}
+
+.divider{
+    border-top:1px solid #e3eae4;
+
+    margin:19px 0;
+}
+
+.total{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:15px;
+
+    color:#183b25;
+
+    font-size:20px;
+    font-weight:800;
+
+    margin-bottom:20px;
+}
+
+.total span:last-child{
+    color:#087f23;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   BOTÓN CONFIRMAR
+===================================================== */
+
+.btn-confirm{
+    width:100%;
+
+    min-height:46px;
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    color:#fff;
+
+    font-size:14px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 4px 10px rgba(8,127,35,.20);
+}
+
+.btn-confirm:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   CARRITO VACÍO
+===================================================== */
+
+.empty-cart{
+    background:#fff;
+
+    border:1px dashed #cdd8cf;
+
+    border-radius:16px;
+
+    padding:60px 25px;
+
+    text-align:center;
+}
+
+.empty-cart-icon{
+    font-size:45px;
+
+    margin-bottom:15px;
+}
+
+.empty-cart h2{
+    color:#183b25;
+
+    font-size:20px;
+
+    margin-bottom:8px;
+}
+
+.empty-cart p{
+    font-size:14px;
+
+    color:#7b857e;
+}
+
+.btn-catalogo{
+    display:inline-block;
+
+    margin-top:20px;
+
+    padding:12px 18px;
+
+    min-height:44px;
+
+    background:#087f23;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    border-radius:9px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.25s;
+}
+
+.btn-catalogo:hover{
+    background:#066d1e;
+
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    width:100%;
+
+    background:linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    margin-top:auto;
+
+    padding:22px 0;
+}
+
+.footer-content{
+    width:92%;
+    max-width:1250px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:20px;
+}
+
+.footer-links{
+    display:flex;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+}
+
+.footer-links a{
+    color:rgba(255,255,255,.9);
+
+    text-decoration:none;
+
+    font-size:12px;
+}
+
+.social{
+    display:flex;
+
+    gap:17px;
+
+    flex-shrink:0;
+}
+
+.social a{
+    color:#fff;
+
+    text-decoration:none;
+
+    font-weight:600;
+}
+
+
+/* =====================================================
+   TABLET / PANTALLAS MEDIANAS
+===================================================== */
+
+@media(max-width:1050px){
+
+    .header{
+        padding:0 18px;
+    }
+
+    .nav{
+        gap:3px;
+    }
+
+    .nav a{
+        font-size:14px;
+
+        padding:11px 11px;
+    }
+
+    .content{
+        grid-template-columns:
+            minmax(0,1fr)
+            320px;
+
+        gap:20px;
+    }
+
+    .product-card{
+        gap:12px;
+    }
+
+    .product-actions{
+        gap:9px;
+    }
+
+    .price{
+        min-width:85px;
+    }
+}
+
+
+/* =====================================================
+   TABLET PEQUEÑA
+===================================================== */
+
+@media(max-width:900px){
+
+    .header{
+        min-height:70px;
+
+        padding:0 12px;
+    }
+
+    .navbar{
+        gap:10px;
+    }
+
+    .nav{
+        gap:2px;
+    }
+
+    .nav a{
+        font-size:13px;
+
+        padding:10px 8px;
+
+        gap:5px;
+    }
+
+    .nav a i{
+        font-size:13px;
+    }
+
+    .profile,
+    .foto-default{
+        width:39px;
+        height:39px;
+    }
+
+    .content{
+        grid-template-columns:
+            minmax(0,1fr)
+            300px;
+
+        gap:18px;
+    }
+
+    .product-left{
+        gap:12px;
+    }
+
+    .product-img{
+        width:72px;
+        height:72px;
+    }
+
+    .product-info h3{
+        font-size:14px;
+    }
+
+    .product-actions{
+        gap:7px;
+    }
+
+    .qty button{
+        width:31px;
+    }
+
+    .qty input{
+        width:36px;
+    }
+
+    .price{
+        min-width:75px;
+
+        font-size:14px;
+    }
+
+    .delete{
+        width:36px;
+        height:36px;
+    }
+}
+
+
+/* =====================================================
+   PANTALLAS DONDE YA NO CABE EL RESUMEN
+===================================================== */
+
+@media(max-width:760px){
+
+    .container{
+        width:94%;
+
+        margin:25px auto;
+    }
+
+    /*
+       El diseño sigue siendo tipo PC,
+       pero el resumen pasa debajo.
+    */
+
+    .content{
+        grid-template-columns:1fr;
+
+        gap:20px;
+    }
+
+    aside{
+        width:100%;
+    }
+
+    .summary{
+        position:relative;
+
+        top:auto;
+    }
+
+    .product-card{
+        padding:16px;
+    }
+
+    .product-img{
+        width:76px;
+        height:76px;
+    }
+
+    .product-info h3{
+        font-size:15px;
+    }
+
+    .product-actions{
+        gap:10px;
+    }
+
+    .price{
+        min-width:85px;
+
+        font-size:15px;
+    }
+}
+
+
+/* =====================================================
+   CELULAR GRANDE
+===================================================== */
+
+@media(max-width:600px){
+
+    .header{
+        min-height:66px;
+
+        padding:0 8px;
+    }
+
+    .navbar{
+        gap:6px;
+    }
+
+    .nav{
+        gap:1px;
+    }
+
+    .nav a{
+        font-size:12px;
+
+        padding:9px 7px;
+
+        border-radius:8px;
+
+        gap:4px;
+    }
+
+    .nav a i{
+        font-size:12px;
+
+        width:13px;
+    }
+
+    .header-right{
+        gap:6px;
+    }
+
+    .profile,
+    .foto-default{
+        width:36px;
+        height:36px;
+    }
+
+    .container{
+        width:94%;
+
+        margin:24px auto;
+    }
+
+    .title{
+        font-size:23px;
+
+        margin-bottom:20px;
+    }
+
+    .title::before{
+        height:28px;
+    }
+
+    /*
+       IMPORTANTE:
+       mantenemos el producto horizontal.
+    */
+
+    .product-card{
+        padding:14px;
+
+        gap:10px;
+    }
+
+    .product-left{
+        gap:10px;
+    }
+
+    .product-img{
+        width:65px;
+        height:65px;
+    }
+
+    .product-info h3{
+        font-size:14px;
+    }
+
+    .product-actions{
+        gap:6px;
+    }
+
+    .qty button{
+        width:29px;
+        height:35px;
+    }
+
+    .qty input{
+        width:32px;
+        height:35px;
+    }
+
+    .price{
+        min-width:70px;
+
+        font-size:13px;
+    }
+
+    .delete{
+        width:34px;
+        height:35px;
+    }
+
+    .summary{
+        padding:20px;
+    }
+}
+
+
+/* =====================================================
+   CELULAR PEQUEÑO
+===================================================== */
+
+@media(max-width:480px){
+
+    .header{
+        min-height:62px;
+
+        padding:0 5px;
+    }
+
+    .nav a{
+        font-size:10px;
+
+        padding:8px 5px;
+
+        gap:3px;
+    }
+
+    .nav a i{
+        font-size:11px;
+
+        width:11px;
+    }
+
+    .profile,
+    .foto-default{
+        width:33px;
+        height:33px;
+    }
+
+    .container{
+        width:95%;
+
+        margin:20px auto;
+    }
+
+    .title{
+        font-size:21px;
+
+        gap:9px;
+    }
+
+    /*
+       Producto sigue horizontal,
+       pero reducimos proporcionalmente.
+    */
+
+    .product-card{
+        padding:11px;
+
+        gap:7px;
+    }
+
+    .product-left{
+        gap:7px;
+    }
+
+    .product-img{
+        width:58px;
+        height:58px;
+
+        border-radius:9px;
+    }
+
+    .product-info h3{
+        font-size:12px;
+    }
+
+    .product-actions{
+        gap:4px;
+    }
+
+    .qty button{
+        width:25px;
+        height:32px;
+
+        font-size:17px;
+    }
+
+    .qty input{
+        width:27px;
+        height:32px;
+
+        font-size:12px;
+    }
+
+    .price{
+        min-width:58px;
+
+        font-size:12px;
+    }
+
+    .delete{
+        width:31px;
+        height:32px;
+
+        font-size:12px;
+    }
+
+    .summary{
+        padding:18px;
+    }
+
+    .summary h2{
+        font-size:18px;
+    }
+
+    .total{
+        font-size:18px;
+    }
+
+    .footer-content{
+        padding:0 5px;
+    }
+
+    .footer-links{
+        gap:12px;
+    }
+
+    .social{
+        gap:10px;
+    }
+}
+
+
+/* =====================================================
+   CELULAR MUY PEQUEÑO
+===================================================== */
+
+@media(max-width:380px){
+
+    .nav a{
+        font-size:9px;
+
+        padding:7px 4px;
+    }
+
+    .nav a i{
+        font-size:10px;
+    }
+
+    .profile,
+    .foto-default{
+        width:31px;
+        height:31px;
+    }
+
+    .product-img{
+        width:52px;
+        height:52px;
+    }
+
+    .product-info h3{
+        font-size:11px;
+    }
+
+    .qty button{
+        width:22px;
+    }
+
+    .qty input{
+        width:24px;
+    }
+
+    .price{
+        min-width:52px;
+
+        font-size:11px;
+    }
+
+    .delete{
+        width:29px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="navbar">
+
+        <div class="header-left">
+
+            <nav class="nav">
+
+                <a href="{{ url_for('inicio') }}">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>Inicio</span>
+
+                </a>
+
+
+                <a href="{{ url_for('catalogo') }}">
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <span>Catálogo</span>
+
+                </a>
+
+
+                <a href="{{ url_for('gestion_citas') }}">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    <span>Citas</span>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('ver_carrito') }}"
+                    class="active"
+                >
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <span>Carrito</span>
+
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <a
+                href="{{ url_for('perfil') }}"
+                class="profile-link"
+            >
+
+                {% if usuario and usuario.fotoUsu %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/perfiles/' + usuario.fotoUsu
+                        ) }}"
+                        alt="Foto de perfil"
+                        class="profile"
+                    >
+
+                {% else %}
+
+                    <div class="foto-default">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                {% endif %}
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<div class="container">
+
+
+{% if pedido_exitoso %}
+
+
+    <div class="pedido-exitoso">
+
+
+        <div class="icono-exito">
+            ✓
+        </div>
+
+
+        <h2>
+            ¡Pedido realizado correctamente!
+        </h2>
+
+
+        <p>
+            Tu pedido ha sido registrado y el pago
+            fue procesado correctamente.
+        </p>
+
+
+        <div class="pedido-numero">
+
+            <span>
+                Número de pedido
+            </span>
+
+            <strong>
+                #{{ pedido_exitoso.id }}
+            </strong>
+
+        </div>
+
+
+        <div class="pedido-estado">
+
+            ✓ Pago confirmado
+
+        </div>
+
+
+        <p>
+
+            Recibirás información sobre el estado
+            de tu pedido mientras es preparado y enviado.
+
+        </p>
+
+
+        <div class="acciones-pedido">
+
+
+            <a
+                href="{{ url_for('catalogo') }}"
+                class="btn-continuar"
+            >
+
+                Seguir comprando
+
+            </a>
+
+
+            <a
+                href="{{ url_for('perfil') }}"
+                class="btn-perfil"
+            >
+
+                Ver mi perfil
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+{% else %}
+
+
+    <h1 class="title">
+
+        Tu Carrito de Compras
+
+    </h1>
+
+
+    <div class="content">
+
+
+        <!-- =================================================
+             PRODUCTOS
+        ================================================== -->
+
+        <div class="left">
+
+
+            {% if items %}
+
+
+                {% for item in items %}
+
+
+                <div class="product-card">
+
+
+                    <div class="product-left">
+
+
+                        {% if item.imagenesPro %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='img/productos/' + item.imagenesPro
+                                ) }}"
+                                class="product-img"
+                                alt="{{ item.nombrePro }}"
+                            >
+
+                        {% else %}
+
+                            <div class="product-img"></div>
+
+                        {% endif %}
+
+
+                        <div class="product-info">
+
+                            <h3>
+                                {{ item.nombrePro }}
+                            </h3>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ACCIONES -->
+
+                    <div class="product-actions">
+
+
+                        <!-- CANTIDAD -->
+
+                        <div class="qty">
+
+
+                            <a
+                                href="{{ url_for(
+                                    'disminuir',
+                                    id=item.idCai
+                                ) }}"
+                                title="Disminuir cantidad"
+                            >
+
+                                <button
+                                    type="button"
+                                    aria-label="Disminuir"
+                                >
+
+                                    −
+
+                                </button>
+
+                            </a>
+
+
+                            <input
+                                type="text"
+                                value="{{ item.cantidadCai }}"
+                                readonly
+                                aria-label="Cantidad"
+                            >
+
+
+                            <a
+                                href="{{ url_for(
+                                    'aumentar',
+                                    id=item.idCai
+                                ) }}"
+                                title="Aumentar cantidad"
+                            >
+
+                                <button
+                                    type="button"
+                                    aria-label="Aumentar"
+                                >
+
+                                    +
+
+                                </button>
+
+                            </a>
+
+
+                        </div>
+
+
+                        <!-- PRECIO -->
+
+                        <div class="price">
+
+                            $
+                            {{ "{:,.0f}".format(item.subtotal) }}
+
+                        </div>
+
+
+                        <!-- ELIMINAR -->
+
+                        <a
+                            href="{{ url_for(
+                                'eliminar_carrito',
+                                id=item.idCai
+                            ) }}"
+                            title="Eliminar producto"
+                            onclick="return confirmarEliminacion();"
+                        >
+
+                            <button
+                                type="button"
+                                class="delete"
+                                aria-label="Eliminar"
+                            >
+
+                                🗑
+
+                            </button>
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <!-- =================================================
+                     CARRITO VACÍO
+                ================================================== -->
+
+                <div class="empty-cart">
+
+
+                    <div class="empty-cart-icon">
+                        🛒
+                    </div>
+
+
+                    <h2>
+                        Tu carrito está vacío
+                    </h2>
+
+
+                    <p>
+                        Agrega productos del catálogo
+                        para comenzar tu compra.
+                    </p>
+
+
+                    <a
+                        href="{{ url_for('catalogo') }}"
+                        class="btn-catalogo"
+                    >
+
+                        Ir al catálogo
+
+                    </a>
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- =================================================
+             RESUMEN
+        ================================================== -->
+
+        <aside>
+
+
+            <div class="summary">
+
+
+                <h2>
+                    Resumen del Pedido
+                </h2>
+
+
+                <div class="row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span>
+                        ${{ "{:,.0f}".format(total) }}
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span>
+                        Envío
+                    </span>
+
+                    <span>
+                        Gratis
+                    </span>
+
+                </div>
+
+
+                <div class="divider"></div>
+
+
+                <div class="total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span>
+                        ${{ "{:,.0f}".format(total) }}
+                    </span>
+
+                </div>
+
+
+                {% if items %}
+
+
+                    <a
+                        href="{{ url_for('checkout') }}"
+                        style="text-decoration:none;"
+                    >
+
+                        <button
+                            class="btn-confirm"
+                            type="button"
+                        >
+
+                            Finalizar Pedido
+
+                        </button>
+
+                    </a>
+
+
+                {% else %}
+
+
+                    <button
+                        class="btn-confirm"
+                        type="button"
+                        disabled
+                        style="
+                            opacity:.5;
+                            cursor:not-allowed;
+                        "
+                    >
+
+                        Finalizar Pedido
+
+                    </button>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        </aside>
+
+
+    </div>
+
+
+{% endif %}
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+
+    <div class="footer-content">
+
+
+        <div class="footer-links">
+
+            <a href="#">
+                Compañía
+            </a>
+
+            <a href="#">
+                Soporte
+            </a>
+
+            <a href="#">
+                Legal
+            </a>
+
+        </div>
+
+
+        <div class="social">
+
+            <a href="#">
+                f
+            </a>
+
+            <a href="#">
+                𝕏
+            </a>
+
+            <a href="#">
+                ◎
+            </a>
+
+            <a href="#">
+                in
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   CONFIRMAR ELIMINACIÓN
+===================================================== */
+
+function confirmarEliminacion(){
+
+    return confirm(
+        "¿Estás seguro de que deseas eliminar este producto del carrito?"
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Supervisión de Citas | Natural One Life</title>
+
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:"Segoe UI", Arial, Helvetica, sans-serif;
+    }
+
+
+    body{
+        min-height:100vh;
+        background:#F8F5EF;
+        color:#333;
+    }
+
+
+    /* =====================================================
+       CONTENEDOR
+    ===================================================== */
+
+    .container{
+        width:100%;
+        max-width:1350px;
+        margin:0 auto;
+        padding:40px 30px 60px;
+    }
+
+
+    /* =====================================================
+       ENCABEZADO
+    ===================================================== */
+
+    .header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:20px;
+        margin-bottom:30px;
+    }
+
+
+    .header-info{
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+    }
+
+
+    .header-info h1{
+        color:#2E7D32;
+        font-size:32px;
+        font-weight:700;
+        letter-spacing:-.5px;
+    }
+
+
+    .description{
+        color:#777;
+        font-size:14px;
+        line-height:1.5;
+    }
+
+
+    /* =====================================================
+       BOTÓN DASHBOARD
+    ===================================================== */
+
+    .btn-dashboard{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+
+        min-height:44px;
+
+        padding:0 20px;
+
+        background:#2E7D32;
+        color:white;
+
+        text-decoration:none;
+
+        border-radius:8px;
+
+        font-size:14px;
+        font-weight:600;
+
+        box-shadow:0 3px 8px rgba(46,125,50,.18);
+
+        transition:
+            background .2s ease,
+            transform .2s ease,
+            box-shadow .2s ease;
+
+        white-space:nowrap;
+    }
+
+
+    .btn-dashboard:hover{
+        background:#1B5E20;
+        transform:translateY(-1px);
+        box-shadow:0 5px 12px rgba(46,125,50,.25);
+    }
+
+
+    /* =====================================================
+       TARJETA
+    ===================================================== */
+
+    .card{
+        width:100%;
+        background:white;
+
+        border-radius:14px;
+
+        border:1px solid #ece8df;
+
+        overflow:hidden;
+
+        box-shadow:
+            0 3px 8px rgba(0,0,0,.05),
+            0 8px 24px rgba(0,0,0,.06);
+    }
+
+
+    /* =====================================================
+       CABECERA DE LA TARJETA
+    ===================================================== */
+
+    .card-header{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        padding:22px 25px;
+
+        border-bottom:1px solid #eee;
+    }
+
+
+    .card-title{
+        display:flex;
+        align-items:center;
+        gap:12px;
+    }
+
+
+    .calendar-icon{
+        width:40px;
+        height:40px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:#E8F5E9;
+        color:#2E7D32;
+
+        border-radius:9px;
+
+        font-size:19px;
+    }
+
+
+    .card-title h2{
+        font-size:19px;
+        color:#222;
+        font-weight:700;
+    }
+
+
+    .card-title p{
+        color:#888;
+        font-size:12px;
+        margin-top:3px;
+    }
+
+
+    /* =====================================================
+       TABLA
+    ===================================================== */
+
+    .table-container{
+        width:100%;
+        overflow-x:auto;
+    }
+
+
+    table{
+        width:100%;
+        min-width:1050px;
+        border-collapse:collapse;
+    }
+
+
+    thead{
+        background:#faf9f6;
+    }
+
+
+    th{
+        padding:16px 20px;
+
+        text-align:left;
+
+        color:#2E7D32;
+
+        font-size:13px;
+        font-weight:700;
+
+        border-bottom:1px solid #e8e8e8;
+
+        white-space:nowrap;
+    }
+
+
+    td{
+        padding:18px 20px;
+
+        text-align:left;
+
+        color:#444;
+
+        font-size:14px;
+
+        border-bottom:1px solid #eeeeee;
+
+        vertical-align:middle;
+    }
+
+
+    tbody tr{
+        transition:background .2s ease;
+    }
+
+
+    tbody tr:hover{
+        background:#fafcf9;
+    }
+
+
+    tbody tr:last-child td{
+        border-bottom:none;
+    }
+
+
+    /* =====================================================
+       FECHA
+    ===================================================== */
+
+    .date{
+        color:#444;
+        font-weight:600;
+        white-space:nowrap;
+    }
+
+
+    /* =====================================================
+       HORA
+    ===================================================== */
+
+    .time{
+        color:#555;
+        font-weight:500;
+        white-space:nowrap;
+    }
+
+
+    /* =====================================================
+       CLIENTE
+    ===================================================== */
+
+    .client{
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        min-width:170px;
+    }
+
+
+    .client-icon{
+        width:36px;
+        height:36px;
+
+        flex-shrink:0;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:#E8F5E9;
+        color:#2E7D32;
+
+        border-radius:50%;
+
+        font-size:15px;
+    }
+
+
+    .client-name{
+        color:#222;
+        font-weight:600;
+        line-height:1.4;
+    }
+
+
+    /* =====================================================
+       PROFESIONAL
+    ===================================================== */
+
+    .professional{
+        color:#555;
+        font-weight:500;
+        white-space:nowrap;
+    }
+
+
+    /* =====================================================
+       MOTIVO
+    ===================================================== */
+
+    .motivo{
+        max-width:270px;
+        min-width:200px;
+
+        color:#666;
+
+        line-height:1.5;
+    }
+
+
+    .no-observations{
+        color:#999;
+        font-style:italic;
+    }
+
+
+    /* =====================================================
+       ESTADOS
+    ===================================================== */
+
+    .badge{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+
+        padding:7px 12px;
+
+        border-radius:20px;
+
+        font-size:12px;
+        font-weight:700;
+
+        white-space:nowrap;
+    }
+
+
+    .badge::before{
+        content:"";
+
+        width:7px;
+        height:7px;
+
+        border-radius:50%;
+    }
+
+
+    /* PENDIENTE */
+
+    .pendiente{
+        background:#FFF3CD;
+        color:#856404;
+    }
+
+
+    .pendiente::before{
+        background:#856404;
+    }
+
+
+    /* CONFIRMADA */
+
+    .confirmada{
+        background:#D4EDDA;
+        color:#1B5E20;
+    }
+
+
+    .confirmada::before{
+        background:#2E7D32;
+    }
+
+
+    /* CANCELADA */
+
+    .cancelada{
+        background:#F8D7DA;
+        color:#A00000;
+    }
+
+
+    .cancelada::before{
+        background:#A00000;
+    }
+
+
+    /* COMPLETADA */
+
+    .completada{
+        background:#E8EAF6;
+        color:#3949AB;
+    }
+
+
+    .completada::before{
+        background:#3949AB;
+    }
+
+
+    /* =====================================================
+       SIN CITAS
+    ===================================================== */
+
+    .vacio{
+        text-align:center;
+
+        padding:55px 20px !important;
+
+        color:#777;
+    }
+
+
+    .empty-icon{
+        width:55px;
+        height:55px;
+
+        margin:0 auto 14px;
+
+        border-radius:50%;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:#F1F8F2;
+        color:#2E7D32;
+
+        font-size:23px;
+    }
+
+
+    .vacio strong{
+        display:block;
+
+        color:#444;
+
+        font-size:15px;
+
+        margin-bottom:5px;
+    }
+
+
+    .vacio span{
+        color:#888;
+        font-size:13px;
+    }
+
+
+    /* =====================================================
+       PIE
+    ===================================================== */
+
+    .card-footer{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        padding:16px 25px;
+
+        background:#faf9f6;
+
+        border-top:1px solid #eeeeee;
+    }
+
+
+    .card-footer p{
+        color:#777;
+        font-size:13px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media(max-width:800px){
+
+        .container{
+            padding:30px 18px 45px;
+        }
+
+
+        .header{
+            flex-direction:column;
+            align-items:flex-start;
+        }
+
+
+        .header-info h1{
+            font-size:28px;
+        }
+
+
+        .btn-dashboard{
+            width:100%;
+        }
+
+
+        .card-header{
+            padding:20px;
+        }
+
+
+        .card-footer{
+            padding:15px 20px;
+        }
+
+    }
+
+
+    @media(max-width:500px){
+
+        .container{
+            padding:22px 12px 35px;
+        }
+
+
+        .header-info h1{
+            font-size:25px;
+        }
+
+
+        .description{
+            font-size:13px;
+        }
+
+
+        .card{
+            border-radius:10px;
+        }
+
+
+        .card-header{
+            align-items:flex-start;
+        }
+
+
+        th,
+        td{
+            padding:14px 16px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- =====================================================
+     ENCABEZADO
+====================================================== -->
+
+<header class="header">
+
+    <div class="header-info">
+
+        <h1>
+            Supervisión de Citas
+        </h1>
+
+        <p class="description">
+            Consulta y supervisa el estado de las citas médicas registradas en el sistema.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="btn-dashboard"
+    >
+
+        <span>←</span>
+
+        Volver al Inicio
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     CONTENIDO
+====================================================== -->
+
+<section class="card">
+
+
+    <div class="card-header">
+
+        <div class="card-title">
+
+            <div class="calendar-icon">
+                📅
+            </div>
+
+            <div>
+
+                <h2>
+                    Citas registradas
+                </h2>
+
+                <p>
+                    Seguimiento general de las citas
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         TABLA
+    ================================================== -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Fecha
+                    </th>
+
+                    <th>
+                        Hora
+                    </th>
+
+                    <th>
+                        Cliente
+                    </th>
+
+                    <th>
+                        Profesional
+                    </th>
+
+                    <th>
+                        Motivo
+                    </th>
+
+                    <th>
+                        Estado
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for cita in citas %}
+
+
+                <tr>
+
+
+                    <!-- FECHA -->
+
+                    <td>
+
+                        <span class="date">
+                            {{ cita.fechaCit }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- HORA -->
+
+                    <td>
+
+                        <span class="time">
+                            {{ cita.horaCit }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- CLIENTE -->
+
+                    <td>
+
+                        <div class="client">
+
+                            <div class="client-icon">
+                                👤
+                            </div>
+
+                            <span class="client-name">
+
+                                {{ cita.nombreUsu }}
+                                {{ cita.apellidoUsu }}
+
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- PROFESIONAL -->
+
+                    <td>
+
+                        <span class="professional">
+
+                            {{ cita.nombreProfe }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- MOTIVO -->
+
+                    <td class="motivo">
+
+                        {% if cita.motivoCit %}
+
+                            {{ cita.motivoCit }}
+
+                        {% else %}
+
+                            <span class="no-observations">
+                                Sin observaciones
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- ESTADO -->
+
+                    <td>
+
+
+                        {% if cita.estadoCit == "Pendiente" %}
+
+                            <span class="badge pendiente">
+                                Pendiente
+                            </span>
+
+
+                        {% elif cita.estadoCit == "Confirmada" %}
+
+                            <span class="badge confirmada">
+                                Confirmada
+                            </span>
+
+
+                        {% elif cita.estadoCit == "Cancelada" %}
+
+                            <span class="badge cancelada">
+                                Cancelada
+                            </span>
+
+
+                        {% elif cita.estadoCit == "Completada" %}
+
+                            <span class="badge completada">
+                                Completada
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="badge pendiente">
+                                {{ cita.estadoCit }}
+                            </span>
+
+                        {% endif %}
+
+
+                    </td>
+
+
+                </tr>
+
+
+                {% else %}
+
+
+                <!-- =================================================
+                     SIN REGISTROS
+                ================================================== -->
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="vacio"
+                    >
+
+                        <div class="empty-icon">
+                            📅
+                        </div>
+
+                        <strong>
+                            No hay citas registradas
+                        </strong>
+
+                        <span>
+                            Las citas aparecerán aquí cuando sean programadas.
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PIE DE TARJETA
+    ================================================== -->
+
+    <div class="card-footer">
+
+        <p>
+            Supervisión administrativa de citas
+        </p>
+
+        <p>
+            Natural One Life
+        </p>
+
+    </div>
+
+
+</section>
+
+</div>
+
+</body>
+
+</html>

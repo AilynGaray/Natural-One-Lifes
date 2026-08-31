@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Natural One Life - Iniciar sesión</title>
+
+<style>
+
+/* =====================================================
+   CONFIGURACIÓN GENERAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px 20px;
+
+    background:
+        linear-gradient(
+            rgba(16, 94, 41, .62),
+            rgba(5, 56, 25, .78)
+        ),
+        url("{{ url_for('static', filename='img/fondo-login.jpeg') }}");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    position: relative;
+}
+
+
+/* =====================================================
+   DECORACIÓN DE FONDO
+===================================================== */
+
+body::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.05);
+
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.04);
+
+    bottom: -100px;
+    right: -80px;
+}
+
+
+/* =====================================================
+   CONTENEDOR LOGIN
+===================================================== */
+
+.login-container {
+
+    width: 100%;
+    max-width: 570px;
+
+    background: rgba(255,255,255,.97);
+
+    padding: 45px 48px;
+
+    border-radius: 22px;
+
+    border: 1px solid rgba(255,255,255,.7);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.30);
+
+    position: relative;
+
+    z-index: 2;
+
+    animation: aparecer .6s ease;
+}
+
+
+/* =====================================================
+   ANIMACIÓN
+===================================================== */
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo-container {
+
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 22px;
+}
+
+.logo {
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 5px solid #ffffff;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.18);
+
+    transition: transform .3s ease;
+}
+
+.logo:hover {
+
+    transform: scale(1.04);
+}
+
+
+/* =====================================================
+   TITULO
+===================================================== */
+
+h1 {
+
+    text-align: center;
+
+    color: #1b5e20;
+
+    font-size: 34px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+
+    letter-spacing: -.5px;
+}
+
+
+/* =====================================================
+   SUBTITULO
+===================================================== */
+
+.subtitle {
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 15px;
+
+    margin-bottom: 32px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   MENSAJE
+===================================================== */
+
+.mensaje {
+
+    display: none;
+
+    margin-bottom: 20px;
+
+    padding: 13px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-align: center;
+}
+
+.mensaje.error {
+
+    display: block;
+
+    background: #fff1f1;
+
+    border: 1px solid #f2b8b8;
+
+    color: #b42318;
+}
+
+.mensaje.exito {
+
+    display: block;
+
+    background: #eef9f0;
+
+    border: 1px solid #b7dfbd;
+
+    color: #246b2c;
+}
+
+
+/* =====================================================
+   GRUPOS DEL FORMULARIO
+===================================================== */
+
+.form-group {
+
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   LABEL
+===================================================== */
+
+label {
+
+    display: block;
+
+    color: #26352b;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+
+/* =====================================================
+   CONTENEDOR INPUT
+===================================================== */
+
+.input-container {
+
+    position: relative;
+
+    width: 100%;
+}
+
+
+/* =====================================================
+   ICONO INPUT
+===================================================== */
+
+.input-icon {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 17px;
+
+    color: #2e7d32;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+input {
+
+    width: 100%;
+
+    height: 52px;
+
+    border: 1px solid #d6ddd7;
+
+    border-radius: 10px;
+
+    padding: 0 15px 0 45px;
+
+    font-size: 14px;
+
+    color: #26352b;
+
+    background: #ffffff;
+
+    outline: none;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+input::placeholder {
+
+    color: #9ca3af;
+}
+
+input:hover {
+
+    border-color: #a8b9ad;
+}
+
+input:focus {
+
+    border-color: #2e7d32;
+
+    background: #fbfffc;
+
+    box-shadow:
+        0 0 0 4px rgba(46,125,50,.10);
+}
+
+
+/* =====================================================
+   ERROR INPUT
+===================================================== */
+
+.input-error {
+
+    border: 2px solid #d93025 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(217,48,37,.10) !important;
+}
+
+
+/* =====================================================
+   BOTÓN LOGIN
+===================================================== */
+
+button {
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #087f23,
+            #2e7d32
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(46,125,50,.22);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+button:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #076d1e,
+            #1b5e20
+        );
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(46,125,50,.28);
+}
+
+button:active {
+
+    transform: translateY(0);
+}
+
+button:disabled {
+
+    opacity: .7;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =====================================================
+   ENLACES
+===================================================== */
+
+.links {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 22px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #edf1ee;
+}
+
+.links a {
+
+    color: #2e7d32;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: color .2s ease;
+}
+
+.links a:hover {
+
+    color: #1b5e20;
+
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   MENSAJE LOGIN
+===================================================== */
+
+#mensajeLogin {
+
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   RESPONSIVE 700 PX
+===================================================== */
+
+@media (max-width: 700px) {
+
+    body {
+
+        padding: 20px 15px;
+    }
+
+    .login-container {
+
+        max-width: 500px;
+
+        padding: 38px 32px;
+
+        border-radius: 18px;
+    }
+
+    .logo {
+
+        width: 105px;
+        height: 105px;
+    }
+
+    h1 {
+
+        font-size: 29px;
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE 480 PX
+===================================================== */
+
+@media (max-width: 480px) {
+
+    body {
+
+        padding: 15px 12px;
+    }
+
+    .login-container {
+
+        padding: 30px 22px;
+
+        border-radius: 16px;
+    }
+
+    .logo {
+
+        width: 90px;
+        height: 90px;
+
+        border-width: 4px;
+    }
+
+    h1 {
+
+        font-size: 25px;
+
+        line-height: 1.25;
+    }
+
+    .subtitle {
+
+        font-size: 14px;
+
+        margin-bottom: 27px;
+    }
+
+    label {
+
+        font-size: 13px;
+    }
+
+    input {
+
+        height: 49px;
+
+        font-size: 13px;
+    }
+
+    button {
+
+        height: 49px;
+
+        font-size: 14px;
+    }
+
+    .links {
+
+        flex-direction: column;
+
+        gap: 13px;
+
+        text-align: center;
+
+        padding-top: 18px;
+    }
+
+    .links a {
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE 360 PX
+===================================================== */
+
+@media (max-width: 360px) {
+
+    .login-container {
+
+        padding: 25px 18px;
+    }
+
+    .logo {
+
+        width: 80px;
+        height: 80px;
+    }
+
+    h1 {
+
+        font-size: 22px;
+    }
+
+    .subtitle {
+
+        font-size: 13px;
+    }
+
+    input {
+
+        height: 47px;
+
+        padding-left: 42px;
+    }
+
+    button {
+
+        height: 47px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div class="login-container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo-container">
+
+        <img
+            src="{{ url_for('static', filename='img/logo-natural.jpeg') }}"
+            alt="Natural One Life"
+            class="logo"
+        >
+
+    </div>
+
+
+    <!-- TITULO -->
+
+    <h1>
+        Bienvenido a Natural One Life
+    </h1>
+
+
+    <!-- SUBTITULO -->
+
+    <p class="subtitle">
+        Ingresa a tu cuenta para continuar
+    </p>
+
+
+    <!-- MENSAJE LOGIN -->
+
+    <div
+        id="mensajeLogin"
+        role="alert"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- MENSAJE -->
+
+    <div
+        id="mensaje"
+        class="mensaje"
+        role="alert"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- FORMULARIO -->
+
+    <form
+        id="loginForm"
+        novalidate
+    >
+
+
+        <!-- CORREO -->
+
+        <div class="form-group">
+
+            <label for="correo">
+                Correo electrónico o usuario
+            </label>
+
+            <div class="input-container">
+
+                <span class="input-icon">
+                    ✉
+                </span>
+
+                <input
+                    type="text"
+                    id="correo"
+                    placeholder="tu.correo@ejemplo.com"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTRASEÑA -->
+
+        <div class="form-group">
+
+            <label for="password">
+                Contraseña
+            </label>
+
+            <div class="input-container">
+
+                <span class="input-icon">
+                    🔒
+                </span>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Ingresa tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTÓN -->
+
+        <button
+            type="submit"
+            id="btnLogin"
+        >
+            Iniciar sesión
+        </button>
+
+
+        <!-- ENLACES -->
+
+        <div class="links">
+
+            <a href="/recuperar">
+                ¿Olvidaste tu contraseña?
+            </a>
+
+            <a href="/registro">
+                Crear una cuenta
+            </a>
+
+        </div>
+
+
+    </form>
+
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+
+</body>
+
+</html>

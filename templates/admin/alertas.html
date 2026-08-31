@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Alertas</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    background:#F8F5EF;
+    color:#333;
+    padding:30px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.back{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:42px;
+    height:42px;
+    background:#2E7D32;
+    color:white;
+    text-decoration:none;
+    border-radius:9px;
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+}
+
+h1{
+    color:#2E7D32;
+    margin-bottom:10px;
+}
+
+.description{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.alerta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:18px;
+    margin-bottom:15px;
+    border-radius:10px;
+    background:#fff3cd;
+    border-left:5px solid #f0ad00;
+}
+
+.alerta-info{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.alerta-titulo{
+    font-weight:bold;
+    color:#856404;
+}
+
+.producto{
+    font-size:16px;
+    font-weight:600;
+}
+
+.stock{
+    font-size:14px;
+    color:#666;
+}
+
+.estado{
+    background:#d32f2f;
+    color:white;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.sin-alertas{
+    text-align:center;
+    padding:35px;
+    color:#2E7D32;
+    background:#E8F5E9;
+    border-radius:10px;
+    font-weight:600;
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:20px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .alerta{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="{{ url_for('dashboard') }}" class="back">
+    ←
+</a>
+
+<div class="card">
+
+<h1>
+    Alertas del sistema
+</h1>
+
+<p class="description">
+    Revisa las alertas que requieren atención administrativa.
+</p>
+
+{% if alertas %}
+
+```
+{% for alerta in alertas %}
+
+    <div class="alerta">
+
+        <div class="alerta-info">
+
+            <span class="alerta-titulo">
+                {{ alerta.mensaje }}
+            </span>
+
+            <span class="producto">
+                {{ alerta.producto }}
+            </span>
+
+            <span class="stock">
+                Stock actual: {{ alerta.stock }}
+                |
+                Stock mínimo: {{ alerta.minimo }}
+            </span>
+
+        </div>
+
+        <span class="estado">
+            ATENCIÓN
+        </span>
+
+    </div>
+
+{% endfor %}
+
+{% else %}
+
+
+<div class="sin-alertas">
+    No hay alertas pendientes.
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</body>
+
+</html>

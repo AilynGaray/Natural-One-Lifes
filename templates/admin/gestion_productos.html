@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestión de Productos</title>
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+>
+
+<style>
+
+/* =====================================================
+   CONFIGURACIÓN GENERAL
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, sans-serif;
+}
+
+body{
+    background:#F8F5EF;
+    color:#333;
+    min-height:100vh;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    width:100%;
+    height:70px;
+    background:#2E7D32;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    box-shadow:0 3px 15px rgba(0,0,0,.12);
+}
+
+.logo{
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:.3px;
+}
+
+.profile-link{
+    text-decoration:none;
+}
+
+.avatar{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid white;
+    background:#e0e0e0;
+    transition:.2s ease;
+}
+
+.avatar:hover{
+    transform:scale(1.05);
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.page{
+    width:92%;
+    max-width:1250px;
+    margin:0 auto;
+    padding:40px 0 60px;
+}
+
+
+/* =====================================================
+   CABECERA DE PÁGINA
+===================================================== */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.title-container h1{
+    color:#2E7D32;
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.title-container p{
+    color:#777;
+    font-size:14px;
+}
+
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+.mensaje{
+    padding:14px 18px;
+    margin-bottom:22px;
+    background:#E8F5E9;
+    color:#1B5E20;
+    border-radius:10px;
+    border:1px solid #A5D6A7;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+
+/* =====================================================
+   BOTÓN NUEVO PRODUCTO
+===================================================== */
+
+.btn-create{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    background:#2E7D32;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    transition:.2s ease;
+    box-shadow:0 3px 8px rgba(46,125,50,.20);
+}
+
+.btn-create:hover{
+    background:#1B5E20;
+    transform:translateY(-1px);
+    box-shadow:0 5px 12px rgba(46,125,50,.25);
+}
+
+
+/* =====================================================
+   PANEL DE FILTROS
+===================================================== */
+
+.filters-card{
+    background:white;
+    border:1px solid #eeeeee;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+
+.filters-title{
+    color:#555;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:12px;
+    align-items:center;
+}
+
+
+/* =====================================================
+   BUSCADOR
+===================================================== */
+
+.search-container{
+    position:relative;
+}
+
+.search-container i{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#888;
+    pointer-events:none;
+}
+
+.search{
+    width:100%;
+    height:44px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    background:white;
+    padding:0 15px 0 40px;
+    font-size:14px;
+    outline:none;
+    transition:.2s ease;
+}
+
+.search:focus{
+    border-color:#2E7D32;
+    box-shadow:0 0 0 3px rgba(46,125,50,.10);
+}
+
+
+/* =====================================================
+   SELECT
+===================================================== */
+
+.select{
+    width:100%;
+    height:44px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    background:white;
+    padding:0 13px;
+    font-size:14px;
+    color:#444;
+    outline:none;
+    cursor:pointer;
+}
+
+.select:focus{
+    border-color:#2E7D32;
+    box-shadow:0 0 0 3px rgba(46,125,50,.10);
+}
+
+
+/* =====================================================
+   LIMPIAR
+===================================================== */
+
+.btn-clear{
+    height:44px;
+    padding:0 18px;
+    border-radius:9px;
+    border:1px solid #ddd;
+    background:white;
+    color:#555;
+    cursor:pointer;
+    font-weight:600;
+    font-size:13px;
+    transition:.2s ease;
+    white-space:nowrap;
+}
+
+.btn-clear:hover{
+    background:#F8F5EF;
+    border-color:#ccc;
+    color:#2E7D32;
+}
+
+
+/* =====================================================
+   INFORMACIÓN DE RESULTADOS
+===================================================== */
+
+.results-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    color:#777;
+    font-size:13px;
+}
+
+.results-info strong{
+    color:#2E7D32;
+}
+
+
+/* =====================================================
+   TABLA
+===================================================== */
+
+.table-card{
+    background:white;
+    border-radius:14px;
+    border:1px solid #eeeeee;
+    box-shadow:0 4px 15px rgba(0,0,0,.07);
+    overflow:hidden;
+}
+
+.table-container{
+    width:100%;
+    overflow-x:auto;
+}
+
+.products-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+.products-table th{
+    background:#E8F5E9;
+    color:#2E7D32;
+    padding:16px 18px;
+    text-align:left;
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    border-bottom:1px solid #dcebdd;
+}
+
+.products-table td{
+    padding:16px 18px;
+    border-bottom:1px solid #eeeeee;
+    font-size:14px;
+    vertical-align:middle;
+}
+
+.products-table tbody tr{
+    transition:.15s ease;
+}
+
+.products-table tbody tr:hover{
+    background:#fafcf9;
+}
+
+.products-table tbody tr:last-child td{
+    border-bottom:none;
+}
+
+
+/* =====================================================
+   IMAGEN PRODUCTO
+===================================================== */
+
+.product-image{
+    width:58px;
+    height:58px;
+    border-radius:10px;
+    object-fit:cover;
+    border:1px solid #eee;
+    background:#F8F5EF;
+}
+
+
+/* =====================================================
+   NOMBRE
+===================================================== */
+
+.product-name{
+    font-weight:600;
+    color:#333;
+}
+
+
+/* =====================================================
+   PRECIO
+===================================================== */
+
+.price{
+    font-weight:700;
+    color:#2E7D32;
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   STOCK
+===================================================== */
+
+.stock{
+    font-weight:600;
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.stock-ok{
+    background:#C8E6C9;
+    color:#1B5E20;
+}
+
+.stock-out{
+    background:#FFCDD2;
+    color:#B71C1C;
+}
+
+
+/* =====================================================
+   ACCIONES
+===================================================== */
+
+.actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.action-btn{
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    text-decoration:none;
+    transition:.2s ease;
+}
+
+.editar{
+    color:#2E7D32;
+    background:#E8F5E9;
+}
+
+.editar:hover{
+    background:#C8E6C9;
+    transform:translateY(-1px);
+}
+
+.eliminar{
+    color:#D32F2F;
+    background:#FFEBEE;
+}
+
+.eliminar:hover{
+    background:#FFCDD2;
+    transform:translateY(-1px);
+}
+
+
+/* =====================================================
+   SIN RESULTADOS
+===================================================== */
+
+.no-results{
+    display:none;
+    text-align:center;
+    padding:45px 20px;
+    color:#777;
+}
+
+.no-results i{
+    font-size:38px;
+    color:#2E7D32;
+    margin-bottom:15px;
+}
+
+.no-results h3{
+    color:#555;
+    margin-bottom:7px;
+}
+
+.no-results p{
+    font-size:14px;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.50);
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:9999;
+    backdrop-filter:blur(3px);
+}
+
+.modal-content{
+    width:620px;
+    max-width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    animation:modalEntrada .2s ease;
+}
+
+@keyframes modalEntrada{
+
+    from{
+        opacity:0;
+        transform:translateY(-15px) scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    padding-bottom:15px;
+    border-bottom:1px solid #eeeeee;
+}
+
+.modal-header h2{
+    color:#2E7D32;
+    font-size:22px;
+}
+
+.cerrar{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    cursor:pointer;
+    color:#666;
+    font-size:22px;
+    transition:.2s ease;
+}
+
+.cerrar:hover{
+    background:#F8F5EF;
+    color:#2E7D32;
+}
+
+
+/* =====================================================
+   FORMULARIO
+===================================================== */
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    color:#555;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select{
+
+    width:100%;
+    padding:12px 13px;
+    border:1px solid #d8d8d8;
+    border-radius:9px;
+    background:white;
+    color:#333;
+    font-size:14px;
+    outline:none;
+    transition:.2s ease;
+
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus{
+
+    border-color:#2E7D32;
+    box-shadow:0 0 0 3px rgba(46,125,50,.10);
+
+}
+
+.modal-content textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.fila{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+
+/* =====================================================
+   ARCHIVO
+===================================================== */
+
+.modal-content input[type="file"]{
+    padding:9px;
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   BOTÓN GUARDAR
+===================================================== */
+
+.guardar{
+    width:100%;
+    padding:13px;
+    margin-top:5px;
+    background:#2E7D32;
+    color:white;
+    border:none;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.guardar:hover{
+    background:#1B5E20;
+    transform:translateY(-1px);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:950px){
+
+    .filters{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .search-container{
+        grid-column:1 / -1;
+    }
+
+    .btn-clear{
+        width:100%;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .header{
+        height:65px;
+        padding:0 20px;
+    }
+
+    .logo{
+        font-size:19px;
+    }
+
+    .avatar{
+        width:40px;
+        height:40px;
+    }
+
+    .page{
+        width:94%;
+        padding:28px 0 45px;
+    }
+
+    .page-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .title-container h1{
+        font-size:27px;
+    }
+
+    .btn-create{
+        width:100%;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .search-container{
+        grid-column:auto;
+    }
+
+    .results-info{
+        align-items:flex-start;
+        gap:5px;
+        flex-direction:column;
+    }
+
+    .modal-content{
+        padding:22px;
+    }
+
+    .fila{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+}
+
+@media(max-width:400px){
+
+    .page{
+        width:95%;
+    }
+
+    .title-container h1{
+        font-size:24px;
+    }
+
+    .modal-content{
+        padding:18px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+        Natural One Life
+    </div>
+
+    <a
+        href="{{ url_for('perfil_admin') }}"
+        class="profile-link"
+    >
+
+        <div class="avatar">
+
+            {% if usuario.fotoUsu %}
+
+                <img
+                    src="{{ url_for('static', filename='img/perfiles/' + usuario.fotoUsu) }}"
+                    alt="Foto del administrador"
+                >
+
+            {% else %}
+
+                <span
+                    style="
+                        width:100%;
+                        height:100%;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:20px;
+                    "
+                >
+                    👤
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </a>
+
+</header>
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<main class="page">
+
+<!-- =================================================
+     BOTÓN VOLVER AL INICIO
+================================================== -->
+
+<div style="
+    margin-bottom:20px;
+">
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        style="
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            background:#2E7D32;
+            color:white;
+            text-decoration:none;
+            padding:10px 17px;
+            border-radius:9px;
+            font-size:14px;
+            font-weight:600;
+            box-shadow:0 3px 8px rgba(46,125,50,.18);
+            transition:.2s ease;
+        "
+        onmouseover="this.style.background='#1B5E20'; this.style.transform='translateY(-1px)'"
+        onmouseout="this.style.background='#2E7D32'; this.style.transform='translateY(0)'"
+    >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Volver al inicio
+
+    </a>
+
+</div>
+
+
+    <div class="page-header">
+
+        <div class="title-container">
+
+            <h1>
+                Gestión de Productos
+            </h1>
+
+            <p>
+                Administra el catálogo, precios y disponibilidad de tus productos.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="btn-create"
+            id="abrirModal"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Nuevo Producto
+
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         MENSAJES FLASK
+    ================================================== -->
+
+    {% with mensajes = get_flashed_messages() %}
+
+        {% if mensajes %}
+
+            <div class="mensaje">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                {{ mensajes[0] }}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- =================================================
+         FILTROS
+    ================================================== -->
+
+    <div class="filters-card">
+
+        <div class="filters-title">
+
+            <i class="fa-solid fa-filter"></i>
+
+            Buscar y filtrar productos
+
+        </div>
+
+
+        <div class="filters">
+
+
+            <!-- BUSCADOR -->
+
+            <div class="search-container">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="buscar"
+                    class="search"
+                    placeholder="Buscar por nombre, categoría o precio..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- CATEGORÍA -->
+
+            <select
+                id="filtroCategoria"
+                class="select"
+            >
+
+                <option value="">
+                    Todas las categorías
+                </option>
+
+                {% for categoria in categorias %}
+
+                    <option value="{{ categoria.nombreCat|lower }}">
+                        {{ categoria.nombreCat }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <!-- PRECIO -->
+
+            <select
+                id="filtroPrecio"
+                class="select"
+            >
+
+                <option value="">
+                    Ordenar por precio
+                </option>
+
+                <option value="menor">
+                    Menor a mayor
+                </option>
+
+                <option value="mayor">
+                    Mayor a menor
+                </option>
+
+            </select>
+
+
+            <!-- LIMPIAR -->
+
+            <button
+                type="button"
+                class="btn-clear"
+                id="limpiarFiltros"
+            >
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Limpiar
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         RESULTADOS
+    ================================================== -->
+
+    <div class="results-info">
+
+        <span>
+            Productos encontrados:
+            <strong id="contadorProductos">
+                0
+            </strong>
+        </span>
+
+        <span>
+            Catálogo de productos
+        </span>
+
+    </div>
+
+
+    <!-- =================================================
+         TABLA
+    ================================================== -->
+
+    <div class="table-card">
+
+        <div class="table-container">
+
+            <table class="products-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Imagen</th>
+
+                        <th>Producto</th>
+
+                        <th>Categoría</th>
+
+                        <th>Precio</th>
+
+                        <th>Stock</th>
+
+                        <th>Estado</th>
+
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="productosBody">
+
+
+                {% for producto in productos %}
+
+                    <tr
+                        class="producto-fila"
+                        data-nombre="{{ producto.nombrePro|lower }}"
+                        data-categoria="{{ producto.nombreCat|lower }}"
+                        data-precio="{{ producto.precioPro }}"
+                    >
+
+
+                        <!-- IMAGEN -->
+
+                        <td>
+
+                            <img
+                                class="product-image"
+                                src="{{ url_for('static', filename='img/productos/' ~ producto.imagenesPro) }}"
+                                alt="{{ producto.nombrePro }}"
+                                onerror="this.style.display='none';"
+                            >
+
+                        </td>
+
+
+                        <!-- NOMBRE -->
+
+                        <td>
+
+                            <span class="product-name">
+
+                                {{ producto.nombrePro }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- CATEGORÍA -->
+
+                        <td>
+
+                            {{ producto.nombreCat }}
+
+                        </td>
+
+
+                        <!-- PRECIO -->
+
+                        <td class="price">
+
+                            ${{ "{:,.0f}".format(producto.precioPro) }}
+
+                        </td>
+
+
+                        <!-- STOCK -->
+
+                        <td class="stock">
+
+                            {{ producto.stockPro }}
+
+                        </td>
+
+
+                        <!-- ESTADO -->
+
+                        <td>
+
+                            {% if producto.disponiblePro %}
+
+                                <span class="badge stock-ok">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    Disponible
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge stock-out">
+
+                                    <i class="fa-solid fa-circle-xmark"></i>
+
+                                    Agotado
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACCIONES -->
+
+                        <td>
+
+                            <div class="actions">
+
+
+                                <a
+                                    class="action-btn editar"
+                                    href="/editar-producto/{{ producto.idPro }}"
+                                    title="Editar producto"
+                                >
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </a>
+
+
+                                <a
+                                    class="action-btn eliminar"
+                                    href="/eliminar-producto/{{ producto.idPro }}"
+                                    title="Eliminar producto"
+                                    onclick="return confirmarEliminar('{{ producto.nombrePro }}')"
+                                >
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </a>
+
+
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- SIN RESULTADOS -->
+
+            <div
+                id="noResults"
+                class="no-results"
+            >
+
+                <i class="fa-solid fa-box-open"></i>
+
+                <h3>
+                    No se encontraron productos
+                </h3>
+
+                <p>
+                    Intenta cambiar el texto de búsqueda o los filtros.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     MODAL NUEVO PRODUCTO
+===================================================== -->
+
+<div
+    id="modalProducto"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Registrar Producto
+            </h2>
+
+            <span
+                class="cerrar"
+                id="cerrarModal"
+                title="Cerrar"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </span>
+
+        </div>
+
+
+        <form
+            action="/guardar-producto"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+
+            <!-- NOMBRE -->
+
+            <div class="form-group">
+
+                <label for="nombre">
+                    Nombre del producto
+                </label>
+
+                <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    placeholder="Ej: Vitamina C"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESCRIPCIÓN -->
+
+            <div class="form-group">
+
+                <label for="descripcion">
+                    Descripción
+                </label>
+
+                <textarea
+                    id="descripcion"
+                    name="descripcion"
+                    placeholder="Describe las características del producto..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- PRECIO / STOCK -->
+
+            <div class="fila">
+
+
+                <div class="form-group">
+
+                    <label for="precio">
+                        Precio
+                    </label>
+
+                    <input
+                        type="number"
+                        id="precio"
+                        step="0.01"
+                        min="0"
+                        name="precio"
+                        placeholder="0.00"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="stock">
+                        Stock
+                    </label>
+
+                    <input
+                        type="number"
+                        id="stock"
+                        min="0"
+                        name="stock"
+                        placeholder="0"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <!-- CATEGORÍA -->
+
+            <div class="form-group">
+
+                <label for="categoria">
+                    Categoría
+                </label>
+
+                <select
+                    name="categoria"
+                    id="categoria"
+                    required
+                >
+
+                    <option value="">
+                        Seleccionar categoría
+                    </option>
+
+                    {% for categoria in categorias %}
+
+                        <option value="{{ categoria.idCat }}">
+
+                            {{ categoria.nombreCat }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- IMAGEN -->
+
+            <div class="form-group">
+
+                <label for="imagen">
+                    Imagen del producto
+                </label>
+
+                <input
+                    type="file"
+                    id="imagen"
+                    name="imagen"
+                    accept="image/*"
+                    required
+                >
+
+            </div>
+
+
+            <!-- GUARDAR -->
+
+            <button
+                type="submit"
+                class="guardar"
+            >
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Guardar Producto
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const buscar = document.getElementById("buscar");
+const filtroCategoria = document.getElementById("filtroCategoria");
+const filtroPrecio = document.getElementById("filtroPrecio");
+const limpiarFiltros = document.getElementById("limpiarFiltros");
+
+const filas = Array.from(
+    document.querySelectorAll(".producto-fila")
+);
+
+const contadorProductos =
+    document.getElementById("contadorProductos");
+
+const noResults =
+    document.getElementById("noResults");
+
+
+/* =====================================================
+   BUSCADOR Y FILTROS
+===================================================== */
+
+function filtrarProductos(){
+
+    const texto =
+        buscar.value
+        .trim()
+        .toLowerCase();
+
+    const categoria =
+        filtroCategoria.value
+        .trim()
+        .toLowerCase();
+
+    let visibles = [];
+
+
+    filas.forEach(function(fila){
+
+        const nombre =
+            fila.dataset.nombre || "";
+
+        const categoriaProducto =
+            fila.dataset.categoria || "";
+
+        const precio =
+            fila.dataset.precio || "";
+
+
+        const coincideTexto =
+            nombre.includes(texto) ||
+            categoriaProducto.includes(texto) ||
+            precio.includes(texto);
+
+
+        const coincideCategoria =
+            categoria === "" ||
+            categoriaProducto === categoria;
+
+
+        if(
+            coincideTexto &&
+            coincideCategoria
+        ){
+
+            fila.style.display = "";
+            visibles.push(fila);
+
+        }else{
+
+            fila.style.display = "none";
+
+        }
+
+    });
+
+
+    /* =================================================
+       ORDENAR POR PRECIO
+    ================================================= */
+
+    if(filtroPrecio.value !== ""){
+
+        const tbody =
+            document.getElementById("productosBody");
+
+        visibles.sort(function(a,b){
+
+            const precioA =
+                parseFloat(a.dataset.precio) || 0;
+
+            const precioB =
+                parseFloat(b.dataset.precio) || 0;
+
+
+            if(filtroPrecio.value === "menor"){
+
+                return precioA - precioB;
+
+            }
+
+            if(filtroPrecio.value === "mayor"){
+
+                return precioB - precioA;
+
+            }
+
+        });
+
+
+        visibles.forEach(function(fila){
+
+            tbody.appendChild(fila);
+
+        });
+
+    }
+
+
+    /* =================================================
+       CONTADOR
+    ================================================= */
+
+    contadorProductos.textContent =
+        visibles.length;
+
+
+    /* =================================================
+       SIN RESULTADOS
+    ================================================= */
+
+    if(visibles.length === 0){
+
+        noResults.style.display = "block";
+
+    }else{
+
+        noResults.style.display = "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   EVENTOS
+===================================================== */
+
+buscar.addEventListener(
+    "input",
+    filtrarProductos
+);
+
+filtroCategoria.addEventListener(
+    "change",
+    filtrarProductos
+);
+
+filtroPrecio.addEventListener(
+    "change",
+    filtrarProductos
+);
+
+
+/* =====================================================
+   LIMPIAR FILTROS
+===================================================== */
+
+limpiarFiltros.addEventListener(
+    "click",
+    function(){
+
+        buscar.value = "";
+        filtroCategoria.value = "";
+        filtroPrecio.value = "";
+
+        filtrarProductos();
+
+    }
+);
+
+
+/* =====================================================
+   CONFIRMAR ELIMINACIÓN
+===================================================== */
+
+function confirmarEliminar(nombre){
+
+    return confirm(
+        "¿Desea eliminar el producto \"" +
+        nombre +
+        "\"?"
+    );
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+const modal =
+    document.getElementById("modalProducto");
+
+const abrirModal =
+    document.getElementById("abrirModal");
+
+const cerrarModal =
+    document.getElementById("cerrarModal");
+
+
+abrirModal.addEventListener(
+    "click",
+    function(){
+
+        modal.style.display = "flex";
+
+        document.body.style.overflow = "hidden";
+
+    }
+);
+
+
+cerrarModal.addEventListener(
+    "click",
+    function(){
+
+        cerrarVentana();
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR AL HACER CLICK FUERA
+===================================================== */
+
+modal.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === modal){
+
+            cerrarVentana();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR CON ESC
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape" &&
+            modal.style.display === "flex"
+        ){
+
+            cerrarVentana();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FUNCIÓN CERRAR MODAL
+===================================================== */
+
+function cerrarVentana(){
+
+    modal.style.display = "none";
+
+    document.body.style.overflow = "";
+
+}
+
+
+/* =====================================================
+   INICIAR CONTADOR
+===================================================== */
+
+filtrarProductos();
+
+</script>
+
+
+</body>
+</html>

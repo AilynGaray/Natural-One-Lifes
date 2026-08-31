@@ -1,0 +1,1125 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel Profesional</title>
+
+    <style>
+
+        /* =====================================================
+           CONFIGURACIÓN GENERAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --verde: #2E7D32;
+            --fondo: #F8F5EF;
+            --blanco: #FFFFFF;
+            --texto: #333333;
+            --gris: #666666;
+            --gris-claro: #E8E5DF;
+            --verde-suave: #EAF4EA;
+            --sombra: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --sombra-hover: 0 14px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--fondo);
+            color: var(--texto);
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            width: 100%;
+            min-height: 76px;
+            background: var(--verde);
+            color: white;
+
+            padding: 0 5%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-icon {
+            width: 42px;
+            height: 42px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .header h1 {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .logout {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: white;
+            text-decoration: none;
+
+            padding: 10px 15px;
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: 500;
+
+            transition: all 0.25s ease;
+        }
+
+        .logout:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.45);
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           CONTENEDOR
+        ===================================================== */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 38px auto 50px;
+        }
+
+
+        /* =====================================================
+           BIENVENIDA
+        ===================================================== */
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            background: var(--verde-suave);
+            color: var(--verde);
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            margin-bottom: 13px;
+        }
+
+        .welcome-label span {
+            width: 7px;
+            height: 7px;
+
+            background: var(--verde);
+
+            border-radius: 50%;
+        }
+
+        .welcome h2 {
+            color: var(--verde);
+
+            font-size: 30px;
+            font-weight: 700;
+
+            line-height: 1.25;
+
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: var(--gris);
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           INFORMACIÓN PROFESIONAL
+        ===================================================== */
+
+        .profile-card {
+            background: var(--blanco);
+
+            padding: 25px 28px;
+
+            border-radius: 16px;
+
+            border: 1px solid var(--gris-claro);
+
+            box-shadow: var(--sombra);
+
+            margin-bottom: 25px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 3px;
+
+            background: var(--verde);
+        }
+
+        .profile-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            margin-bottom: 20px;
+        }
+
+        .profile-title-icon {
+            width: 36px;
+            height: 36px;
+
+            background: var(--verde-suave);
+
+            color: var(--verde);
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+        .profile-card h3 {
+            color: var(--texto);
+
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .profile-info {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+        .info {
+            background: var(--fondo);
+
+            border: 1px solid #ECE9E3;
+
+            padding: 16px 18px;
+
+            border-radius: 11px;
+
+            transition: border-color 0.2s ease;
+        }
+
+        .info:hover {
+            border-color: #D4D1CB;
+        }
+
+        .info strong {
+            display: block;
+
+            color: #777777;
+
+            font-size: 11px;
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+
+            margin-bottom: 7px;
+        }
+
+        .info span {
+            display: block;
+
+            color: var(--texto);
+
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           ESTADÍSTICAS
+        ===================================================== */
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+        .section-heading h3 {
+            color: var(--texto);
+
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .section-heading span {
+            color: var(--gris);
+
+            font-size: 12px;
+        }
+
+        .statistics {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 17px;
+
+            margin-bottom: 30px;
+        }
+
+        .stat {
+            background: var(--blanco);
+
+            padding: 21px;
+
+            border-radius: 15px;
+
+            border: 1px solid var(--gris-claro);
+
+            box-shadow: var(--sombra);
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: all 0.25s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        .stat::after {
+            content: "";
+
+            position: absolute;
+
+            right: -18px;
+            top: -18px;
+
+            width: 65px;
+            height: 65px;
+
+            border-radius: 50%;
+
+            background: var(--verde-suave);
+        }
+
+        .stat-icon {
+            width: 34px;
+            height: 34px;
+
+            background: var(--verde-suave);
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 14px;
+
+            font-size: 16px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat h3 {
+            color: var(--verde);
+
+            font-size: 29px;
+            font-weight: 700;
+
+            line-height: 1;
+
+            margin-bottom: 7px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat p {
+            color: var(--gris);
+
+            font-size: 12px;
+            font-weight: 500;
+
+            position: relative;
+            z-index: 1;
+        }
+
+
+        /* =====================================================
+           ACCIONES
+        ===================================================== */
+
+        .actions {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .action {
+            background: var(--blanco);
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            border: 1px solid var(--gris-claro);
+
+            box-shadow: var(--sombra);
+
+            text-decoration: none;
+
+            color: var(--texto);
+
+            display: block;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: all 0.25s ease;
+        }
+
+        .action:hover {
+            transform: translateY(-4px);
+
+            box-shadow: var(--sombra-hover);
+
+            border-color: #D2DED3;
+        }
+
+        .action::after {
+            content: "→";
+
+            position: absolute;
+
+            right: 24px;
+            top: 24px;
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 50%;
+
+            background: var(--verde-suave);
+
+            color: var(--verde);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+
+            opacity: 0;
+
+            transform: translateX(-5px);
+
+            transition: all 0.25s ease;
+        }
+
+        .action:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+
+            background: var(--verde-suave);
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+            margin-bottom: 17px;
+        }
+
+        .action h3 {
+            color: var(--verde);
+
+            font-size: 17px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .action p {
+            color: var(--gris);
+
+            font-size: 13px;
+
+            line-height: 1.65;
+
+            max-width: 500px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 0 auto 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #DEDAD3;
+
+            color: #888888;
+
+            font-size: 11px;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            .header {
+                padding: 0 4%;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .statistics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* =====================================================
+           TABLET PEQUEÑA
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .header {
+                min-height: 70px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .header-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+
+            .logout {
+                padding: 9px 11px;
+                font-size: 12px;
+            }
+
+            .logout span {
+                display: none;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 28px;
+            }
+
+            .welcome h2 {
+                font-size: 25px;
+            }
+
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        /* =====================================================
+           MÓVIL
+        ===================================================== */
+
+        @media (max-width: 500px) {
+
+            .header {
+                padding: 0 16px;
+            }
+
+            .header-left {
+                gap: 9px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .header-icon {
+                width: 34px;
+                height: 34px;
+
+                border-radius: 9px;
+
+                font-size: 16px;
+            }
+
+            .logout {
+                border: none;
+                padding: 8px;
+            }
+
+            .container {
+                width: 92%;
+
+                margin: 23px auto 35px;
+            }
+
+            .welcome {
+                margin-bottom: 22px;
+            }
+
+            .welcome-label {
+                font-size: 10px;
+                padding: 6px 10px;
+            }
+
+            .welcome h2 {
+                font-size: 22px;
+            }
+
+            .welcome p {
+                font-size: 13px;
+            }
+
+            .profile-card {
+                padding: 20px;
+
+                border-radius: 13px;
+
+                margin-bottom: 22px;
+            }
+
+            .profile-card h3 {
+                font-size: 15px;
+            }
+
+            .info {
+                padding: 14px;
+            }
+
+            .info span {
+                font-size: 14px;
+            }
+
+            .statistics {
+                grid-template-columns: repeat(2, 1fr);
+
+                gap: 11px;
+
+                margin-bottom: 25px;
+            }
+
+            .stat {
+                padding: 17px;
+
+                border-radius: 13px;
+            }
+
+            .stat-icon {
+                width: 30px;
+                height: 30px;
+
+                font-size: 14px;
+
+                margin-bottom: 11px;
+            }
+
+            .stat h3 {
+                font-size: 24px;
+            }
+
+            .stat p {
+                font-size: 11px;
+            }
+
+            .action {
+                padding: 20px;
+
+                border-radius: 13px;
+            }
+
+            .action-icon {
+                width: 43px;
+                height: 43px;
+
+                font-size: 19px;
+            }
+
+            .action h3 {
+                font-size: 15px;
+            }
+
+            .action p {
+                font-size: 12px;
+            }
+
+            .footer {
+                width: 92%;
+            }
+
+        }
+
+
+        /* =====================================================
+           MÓVILES MUY PEQUEÑOS
+        ===================================================== */
+
+        @media (max-width: 360px) {
+
+            .header h1 {
+                font-size: 14px;
+            }
+
+            .welcome h2 {
+                font-size: 20px;
+            }
+
+            .statistics {
+                gap: 8px;
+            }
+
+            .stat {
+                padding: 14px;
+            }
+
+            .stat h3 {
+                font-size: 21px;
+            }
+
+            .stat p {
+                font-size: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="header-left">
+
+        <div class="header-icon">
+            🩺
+        </div>
+
+        <h1>
+            Panel del Profesional
+        </h1>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('logout') }}"
+        class="logout"
+    >
+
+        <span>
+            Cerrar sesión
+        </span>
+
+        🚪
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         BIENVENIDA
+    ================================================== -->
+
+    <section class="welcome">
+
+        <div class="welcome-label">
+
+            <span></span>
+
+            Sesión activa
+
+        </div>
+
+
+        <h2>
+            Bienvenido, {{ profesional.nombreProfe }}
+        </h2>
+
+
+        <p>
+            Gestiona tus citas y disponibilidad de atención
+            desde tu panel profesional.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         INFORMACIÓN PROFESIONAL
+    ================================================== -->
+
+    <section class="profile-card">
+
+
+        <div class="profile-title">
+
+            <div class="profile-title-icon">
+                👤
+            </div>
+
+            <h3>
+                Información profesional
+            </h3>
+
+        </div>
+
+
+        <div class="profile-info">
+
+
+            <div class="info">
+
+                <strong>
+                    Nombre completo
+                </strong>
+
+                <span>
+                    {{ profesional.nombreProfe }}
+                </span>
+
+            </div>
+
+
+            <div class="info">
+
+                <strong>
+                    Especialidad
+                </strong>
+
+                <span>
+                    {{ profesional.especialidadProfe }}
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         TÍTULO ESTADÍSTICAS
+    ================================================== -->
+
+    <div class="section-heading">
+
+        <h3>
+            Resumen de actividad
+        </h3>
+
+        <span>
+            Estado actual
+        </span>
+
+    </div>
+
+
+
+    <!-- =================================================
+         ESTADÍSTICAS
+    ================================================== -->
+
+    <section class="statistics">
+
+
+        <!-- TOTAL -->
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📋
+            </div>
+
+            <h3>
+                {{ total_citas }}
+            </h3>
+
+            <p>
+                Total de citas
+            </p>
+
+        </div>
+
+
+        <!-- PENDIENTES -->
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⏳
+            </div>
+
+            <h3>
+                {{ citas_pendientes }}
+            </h3>
+
+            <p>
+                Citas pendientes
+            </p>
+
+        </div>
+
+
+        <!-- CONFIRMADAS -->
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <h3>
+                {{ citas_confirmadas }}
+            </h3>
+
+            <p>
+                Citas confirmadas
+            </p>
+
+        </div>
+
+
+        <!-- COMPLETADAS -->
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <h3>
+                {{ citas_completadas }}
+            </h3>
+
+            <p>
+                Citas completadas
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ACCIONES
+    ================================================== -->
+
+    <div class="section-heading">
+
+        <h3>
+            Acciones rápidas
+        </h3>
+
+        <span>
+            Gestiona tu agenda
+        </span>
+
+    </div>
+
+
+    <section class="actions">
+
+
+        <!-- CITAS -->
+
+        <a
+            href="{{ url_for('profesional_citas') }}"
+            class="action"
+        >
+
+            <div class="action-icon">
+                📅
+            </div>
+
+            <h3>
+                Mis Citas
+            </h3>
+
+            <p>
+                Consulta las citas de tus pacientes y gestiona
+                las confirmaciones, cancelaciones y citas
+                completadas.
+            </p>
+
+        </a>
+
+
+
+        <!-- DISPONIBILIDAD -->
+
+        <a
+            href="{{ url_for('profesional_disponibilidad') }}"
+            class="action"
+        >
+
+            <div class="action-icon">
+                🕐
+            </div>
+
+            <h3>
+                Mi Disponibilidad
+            </h3>
+
+            <p>
+                Consulta y administra los días y horarios
+                disponibles para la atención de tus pacientes.
+            </p>
+
+        </a>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    Panel Profesional · Gestión de atención
+
+</footer>
+
+
+</body>
+
+</html>

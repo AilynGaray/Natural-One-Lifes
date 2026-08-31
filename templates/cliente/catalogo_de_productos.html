@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+    <title>Catálogo de Productos | Natural One Life</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7f5;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            min-height: 76px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087f23,
+                    #0b9b35
+                );
+
+            display: flex;
+            align-items: center;
+
+            padding: 10px 42px;
+
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, .12);
+
+            position: relative;
+            z-index: 100;
+        }
+
+
+        .navbar {
+            width: 100%;
+            max-width: 1250px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu a {
+    color: rgba(255, 255, 255, 0.82);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    padding: 12px 17px;
+
+    border-radius: 10px;
+
+    transition: all 0.25s ease;
+
+    white-space: nowrap;
+}
+
+.menu a:hover {
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    transform: translateY(-1px);
+}
+
+.menu a.active {
+    color: #087f23;
+
+    background: #ffffff;
+
+    font-weight: 700;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   PARTE DERECHA
+===================================================== */
+
+.header-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    flex-shrink: 0;
+
+    margin-left: auto;
+}
+        /* =====================================================
+           BUSCADOR
+        ===================================================== */
+
+        .search {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 11px;
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+}
+.search input {
+    width: 235px;
+    height: 38px;
+    border: none;
+    outline: none;
+    padding: 0 13px;
+    background: transparent;
+    color: #333;
+    font-size: 13px;
+}
+.search input::placeholder {
+    color: #9ca3af;
+}
+.search button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 8px;
+    background: #eaf7ed;
+    color: #087f23;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+.search button:hover {
+    background: #d5f0dc;
+    transform: scale(1.04);
+}
+
+
+        /* =====================================================
+           PERFIL
+        ===================================================== */
+
+        .profile-link {
+            text-decoration: none;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .profile,
+        .foto-default {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            border: 2px solid rgba(255, 255, 255, .85);
+
+            flex-shrink: 0;
+        }
+
+
+        .profile {
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .foto-default {
+            background: white;
+
+            color: #087f23;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+
+        /* =====================================================
+           CONTENEDOR PRINCIPAL
+        ===================================================== */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 34px auto 50px;
+
+            display: flex;
+            align-items: flex-start;
+
+            gap: 28px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 220px;
+
+            flex: 0 0 220px;
+        }
+
+
+        .filter-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            border: 1px solid #e8eee9;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, .07);
+        }
+
+
+        .filter-card h2 {
+            color: #183b25;
+
+            font-size: 18px;
+
+            margin-bottom: 21px;
+        }
+
+
+        .filter-card h3 {
+            color: #374151;
+
+            font-size: 13px;
+
+            margin: 18px 0 10px;
+
+            font-weight: 700;
+        }
+
+
+        .filter-card label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            font-size: 12px;
+
+            color: #59635c;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+
+        .filter-card label:hover {
+            color: #087f23;
+        }
+
+
+        .filter-card input[type="radio"] {
+            accent-color: #087f23;
+
+            margin-right: 6px;
+
+            cursor: pointer;
+        }
+
+
+        .filter-card input[type="text"] {
+            width: 100%;
+            height: 37px;
+
+            border: 1px solid #d4ddd6;
+
+            border-radius: 9px;
+
+            padding: 0 10px;
+
+            outline: none;
+
+            font-size: 12px;
+
+            color: #374151;
+
+            transition: .2s;
+        }
+
+
+        .filter-card input[type="text"]:focus {
+            border-color: #0b8f2d;
+
+            box-shadow:
+                0 0 0 3px rgba(11, 143, 45, .10);
+        }
+
+
+        /* =====================================================
+           PRECIO
+        ===================================================== */
+
+        .range {
+            width: 100%;
+
+            accent-color: #087f23;
+
+            cursor: pointer;
+        }
+
+
+        .price {
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 10px;
+
+            color: #66716a;
+
+            margin-top: 7px;
+        }
+
+
+        .current-price {
+            text-align: center;
+
+            margin-top: 8px;
+
+            color: #087f23;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           BOTÓN FILTRO
+        ===================================================== */
+
+        .btn-filter {
+            width: 100%;
+
+            min-height: 42px;
+
+            margin-top: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087f23,
+                    #0b9b35
+                );
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            transition: .25s ease;
+        }
+
+
+        .btn-filter:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 13px rgba(8, 127, 35, .20);
+        }
+
+
+        .btn-filter:active {
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           PRODUCTOS
+        ===================================================== */
+
+        .products {
+            flex: 1;
+
+            min-width: 0;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+
+        /* =====================================================
+           TARJETA PRODUCTO
+        ===================================================== */
+
+        .product-card {
+            background: white;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            border: 1px solid #e8eee9;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, .07);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+
+            min-width: 0;
+        }
+
+
+        .product-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 27px rgba(0, 0, 0, .11);
+        }
+
+
+        /* =====================================================
+           IMAGEN
+        ===================================================== */
+
+        .product-img {
+            width: 100%;
+            height: 190px;
+
+            object-fit: contain;
+
+            display: block;
+
+            padding: 14px;
+
+            background: #fbfdfb;
+        }
+
+
+        /* =====================================================
+           CUERPO
+        ===================================================== */
+
+        .product-body {
+            padding: 17px;
+        }
+
+
+        .product-title {
+            color: #183b25;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            line-height: 1.4;
+
+            min-height: 42px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .product-note {
+            display: none;
+        }
+
+
+        /* =====================================================
+           PRECIO
+        ===================================================== */
+
+        .product-price {
+            margin-top: 6px;
+
+            color: #087f23;
+
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           BADGES
+        ===================================================== */
+
+        .badge {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin: 10px 0;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .stock {
+            background: #e4f6e8;
+
+            color: #17652b;
+
+            border: 1px solid #8bd39a;
+        }
+
+
+        .low {
+            background: #fff5df;
+
+            color: #a26308;
+
+            border: 1px solid #e5bd70;
+        }
+
+
+        .out {
+            background: #fff0f0;
+
+            color: #a12828;
+
+            border: 1px solid #efa0a0;
+        }
+
+
+        /* =====================================================
+           BOTONES
+        ===================================================== */
+
+        .actions {
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 4px;
+        }
+
+
+        .btn-cart,
+        .btn-details {
+            flex: 1;
+
+            min-height: 40px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: .25s ease;
+        }
+
+
+        .btn-cart {
+            background:
+                linear-gradient(
+                    135deg,
+                    #087f23,
+                    #0b9b35
+                );
+
+            color: white;
+
+            border: none;
+        }
+
+
+        .btn-cart:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 4px 10px rgba(8, 127, 35, .20);
+        }
+
+
+        .btn-cart.disabled {
+            background: #d1d5db;
+
+            color: #6b7280;
+
+            cursor: not-allowed;
+
+            pointer-events: none;
+        }
+
+
+        .btn-details {
+            background: white;
+
+            color: #087f23;
+
+            border: 1px solid #b9cbbd;
+        }
+
+
+        .btn-details:hover {
+            background: #087f23;
+
+            color: white;
+
+            border-color: #087f23;
+        }
+
+
+        /* =====================================================
+           FORMULARIO CARRITO
+        ===================================================== */
+
+        .cart-form {
+            flex: 1;
+        }
+
+
+        .cart-form .btn-cart {
+            width: 100%;
+        }
+
+
+        /* =====================================================
+           SIN RESULTADOS
+        ===================================================== */
+
+        .no-products {
+            grid-column: 1 / -1;
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 55px 20px;
+
+            text-align: center;
+
+            color: #6b7280;
+
+            border: 1px solid #e8eee9;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, .05);
+
+            display: none;
+        }
+
+
+        .no-products-icon {
+            font-size: 35px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .no-products strong {
+            display: block;
+
+            color: #183b25;
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .no-products span {
+            font-size: 13px;
+        }
+
+
+/* =====================================================
+   RESPONSIVE HEADER
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    header {
+        padding: 0 20px;
+    }
+
+    .menu {
+        gap: 8px;
+    }
+
+    .menu a {
+        padding: 12px 14px;
+
+        font-size: 14px;
+    }
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 800px) {
+
+    header {
+        padding: 0 15px;
+    }
+
+    .menu {
+        gap: 5px;
+    }
+
+    .menu a {
+        padding: 9px 10px;
+
+        font-size: 13px;
+    }
+
+}
+
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media (max-width: 650px) {
+
+    header {
+        padding: 10px;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .header-left {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .menu {
+        justify-content: center;
+
+        width: 100%;
+
+        flex-wrap: wrap;
+
+        gap: 4px;
+    }
+
+    .header-right {
+        width: 100%;
+
+        justify-content: center;
+
+        margin-left: 0;
+    }
+
+}
+
+
+/* =====================================================
+   CELULAR PEQUEÑO
+===================================================== */
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 9px 8px;
+    }
+
+    .menu {
+        gap: 2px;
+    }
+
+    .menu a {
+        font-size: 10px;
+
+        padding: 8px 7px;
+
+        border-radius: 8px;
+    }
+
+    .header-right {
+        gap: 7px;
+    }
+
+    .profile,
+    .foto-default {
+        width: 35px;
+
+        height: 35px;
+    }
+
+}
+
+
+/* =====================================================
+   CELULAR MUY PEQUEÑO
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .menu {
+        gap: 1px;
+    }
+
+    .menu a {
+        font-size: 10px;
+
+        padding: 7px 6px;
+    }
+
+    .profile,
+    .foto-default {
+        width: 33px;
+
+        height: 33px;
+    }
+
+}
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="navbar">
+
+
+        <div class="header-left">
+
+            <nav class="menu">
+
+                <a href="{{ url_for('inicio') }}">
+                    <i class="fa-solid fa-house"></i>
+                    Inicio
+                </a>
+
+                <a
+                    href="{{ url_for('catalogo') }}"
+                    class="active"
+                >
+                <i class="fa-solid fa-box-open"></i>
+                    Catálogo
+                </a>
+
+                <a href="{{ url_for('gestion_citas') }}">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Citas
+                </a>
+
+                <a href="{{ url_for('carrito') }}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Carrito
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div class="header-right">
+
+
+            <!-- BUSCADOR -->
+
+            <div class="search">
+
+                <input
+                    type="text"
+                    id="buscador"
+                    name="buscar"
+                    value="{{ buscar|default('') }}"
+                    placeholder="Buscar productos..."
+                    autocomplete="off"
+                >
+
+                <button
+                    type="button"
+                    onclick="buscarDesdeHeader()"
+                    aria-label="Buscar"
+                >
+                    🔍
+                </button>
+
+            </div>
+
+            <a
+                href="{{ url_for('perfil') }}"
+                class="profile-link"
+            >
+
+                {% if usuario and usuario.fotoUsu %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/perfiles/' + usuario.fotoUsu
+                        ) }}"
+                        alt="Foto de perfil"
+                        class="profile"
+                    >
+
+                {% else %}
+
+                    <div class="foto-default">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                {% endif %}
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <div class="filter-card">
+
+            <h2>
+                Filtrar Productos
+            </h2>
+
+
+            <!-- CATEGORÍAS -->
+
+            <h3>
+                Categorías
+            </h3>
+
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="cat"
+                    value="all"
+
+                    {% if not categoria_id %}
+                        checked
+                    {% endif %}
+                >
+
+                Todas
+
+            </label>
+
+
+            {% for categoria in categorias %}
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="cat"
+                        value="{{ categoria.idCat }}"
+
+                        {% if categoria_id == categoria.idCat %}
+                            checked
+                        {% endif %}
+                    >
+
+                    {{ categoria.nombreCat }}
+
+                </label>
+
+            {% endfor %}
+
+
+
+            <!-- BUSCAR -->
+
+            <h3>
+                Buscar por Nombre
+            </h3>
+
+
+            <input
+                id="searchProduct"
+                type="text"
+                placeholder="Buscar..."
+                autocomplete="off"
+            >
+
+
+
+            <!-- PRECIO -->
+
+            <h3>
+                Filtrar por Precio
+            </h3>
+
+
+            <input
+                id="priceRange"
+                type="range"
+                min="0"
+                max="50000"
+                value="50000"
+                step="1000"
+                class="range"
+            >
+
+
+            <div class="current-price">
+
+                Hasta:
+
+                $
+                <span id="priceValue">
+                    50.000
+                </span>
+
+            </div>
+
+
+            <div class="price">
+
+                <span>
+                    $0
+                </span>
+
+                <span>
+                    $50.000
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-filter"
+                onclick="filterProducts()"
+            >
+                Aplicar Filtros
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         PRODUCTOS
+    ================================================= -->
+
+    <main
+        class="products"
+        id="products"
+    >
+
+
+        {% for producto in productos %}
+
+            <article
+                class="product-card"
+
+                data-price="{{ producto.precioPro }}"
+
+                data-category="{{ producto.idCategoriaPro }}"
+            >
+
+
+                <!-- IMAGEN -->
+
+                <img
+                    class="product-img"
+
+                    src="{{ url_for(
+                        'static',
+                        filename='img/productos/' ~ producto.imagenesPro
+                    ) }}"
+
+                    alt="{{ producto.nombrePro }}"
+
+                    loading="lazy"
+                >
+
+
+                <!-- INFORMACIÓN -->
+
+                <div class="product-body">
+
+
+                    <h3 class="product-title">
+                        {{ producto.nombrePro }}
+                    </h3>
+
+
+                    <p class="product-note">
+                        {{ producto.descripcionPro }}
+                    </p>
+
+
+                    <!-- PRECIO -->
+
+                    <div class="product-price">
+
+                        ${{ "{:,.0f}".format(
+                            producto.precioPro
+                        ) }}
+
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    {% if producto.stockPro > 10 %}
+
+                        <span class="badge stock">
+                            En Stock
+                        </span>
+
+                    {% elif producto.stockPro > 0 %}
+
+                        <span class="badge low">
+                            Pocas unidades
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge out">
+                            Agotado
+                        </span>
+
+                    {% endif %}
+
+
+
+                    <!-- ACCIONES -->
+
+                    <div class="actions">
+
+
+                        <a
+                            href="{{ url_for(
+                                'producto',
+                                id=producto.idPro
+                            ) }}"
+
+                            class="btn-details"
+                        >
+                            Ver detalles
+                        </a>
+
+
+                        {% if producto.stockPro > 0 %}
+
+                            <form
+                                method="POST"
+
+                                action="{{ url_for(
+                                    'agregar_carrito',
+                                    id=producto.idPro
+                                ) }}"
+
+                                class="cart-form"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="btn-cart"
+                                >
+                                    🛒 Añadir
+                                </button>
+
+                            </form>
+
+                        {% else %}
+
+                            <span class="btn-cart disabled">
+                                Agotado
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+
+
+        <!-- SIN RESULTADOS -->
+
+        <div
+            id="noProducts"
+            class="no-products"
+        >
+
+            <div class="no-products-icon">
+                🔎
+            </div>
+
+            <strong>
+                No se encontraron productos
+            </strong>
+
+            <span>
+                Intenta cambiar los filtros de búsqueda.
+            </span>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       ELEMENTOS
+    ===================================================== */
+
+    const searchProduct =
+        document.getElementById("searchProduct");
+
+    const headerSearch =
+        document.getElementById("buscador");
+
+    const priceRange =
+        document.getElementById("priceRange");
+
+    const priceValue =
+        document.getElementById("priceValue");
+
+    const noProducts =
+        document.getElementById("noProducts");
+
+
+    /* =====================================================
+       FORMATEAR PRECIO
+    ===================================================== */
+
+    function formatPrice(number) {
+
+        return Number(number).toLocaleString(
+            "es-CO"
+        );
+
+    }
+
+
+    /* =====================================================
+       ACTUALIZAR PRECIO
+    ===================================================== */
+
+    priceRange.addEventListener(
+        "input",
+        function () {
+
+            priceValue.textContent =
+                formatPrice(this.value);
+
+            filterProducts();
+
+        }
+    );
+
+
+    /* =====================================================
+       FILTRAR PRODUCTOS
+    ===================================================== */
+
+    function filterProducts() {
+
+        const search =
+            searchProduct.value
+                .trim()
+                .toLowerCase();
+
+
+        const maxPrice =
+            Number(priceRange.value);
+
+
+        const selectedCategory =
+            document.querySelector(
+                'input[name="cat"]:checked'
+            );
+
+
+        const category =
+            selectedCategory
+                ? String(selectedCategory.value).trim()
+                : "all";
+
+
+        const productCards =
+            document.querySelectorAll(
+                ".product-card"
+            );
+
+
+        let visibleProducts = 0;
+
+
+        productCards.forEach(
+            product => {
+
+
+                const titleElement =
+                    product.querySelector(
+                        ".product-title"
+                    );
+
+
+                const name =
+                    titleElement
+                        ? titleElement.textContent
+                            .trim()
+                            .toLowerCase()
+                        : "";
+
+
+                const price =
+                    Number(
+                        product.dataset.price
+                    );
+
+
+                const productCategory =
+                    String(
+                        product.dataset.category
+                    ).trim();
+
+
+                const matchesName =
+                    name.includes(search);
+
+
+                const matchesPrice =
+                    price <= maxPrice;
+
+
+                const matchesCategory =
+                    category === "all" ||
+                    productCategory === category;
+
+
+                const visible =
+                    matchesName &&
+                    matchesPrice &&
+                    matchesCategory;
+
+
+                if (visible) {
+
+                    product.style.display = "";
+
+                    visibleProducts++;
+
+                } else {
+
+                    product.style.display = "none";
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           MOSTRAR / OCULTAR MENSAJE
+        ================================================= */
+
+        if (visibleProducts === 0) {
+
+            noProducts.style.display = "block";
+
+        } else {
+
+            noProducts.style.display = "none";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       BUSCADOR DEL HEADER
+    ===================================================== */
+
+    function buscarDesdeHeader() {
+
+        const texto =
+            headerSearch.value.trim();
+
+
+        searchProduct.value =
+            texto;
+
+
+        filterProducts();
+
+
+        if (texto !== "") {
+
+            document
+                .getElementById("products")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ENTER EN BUSCADOR HEADER
+    ===================================================== */
+
+    headerSearch.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                buscarDesdeHeader();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       ENTER EN BUSCADOR LATERAL
+    ===================================================== */
+
+    searchProduct.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                filterProducts();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       BUSCAR MIENTRAS ESCRIBE
+    ===================================================== */
+
+    searchProduct.addEventListener(
+        "input",
+        function () {
+
+            filterProducts();
+
+        }
+    );
+
+
+    /* =====================================================
+       CATEGORÍAS
+    ===================================================== */
+
+    document
+        .querySelectorAll(
+            'input[name="cat"]'
+        )
+        .forEach(
+            radio => {
+
+                radio.addEventListener(
+                    "change",
+                    function () {
+
+                        filterProducts();
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       INICIALIZAR
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            filterProducts();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  font-family:'Inter';
+  background:#f9fafb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.card{
+  background:white;
+  padding:40px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.circle{
+  width:140px;height:140px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto;
+}
+
+.success{background:#22c55e;}
+.error{background:#ef4444;}
+
+svg{
+  width:70px;height:70px;
+  stroke:white;
+  stroke-width:3;
+  fill:none;
+}
+
+.btn{
+  margin:10px;
+  padding:10px 18px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<div class="circle success">
+<svg viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7"/>
+</svg>
+</div>
+<h2>Agregado al carrito</h2>
+<a href="inicio.html">
+<button class="btn">Inicio</button>
+</a>
+<a href="carrito.html">
+ <button class="btn">Carrito</button> 
+</a>
+
+</div>
+
+</body>
+</html>

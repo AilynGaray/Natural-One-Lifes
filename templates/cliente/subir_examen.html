@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Subir Examen</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:#eeeeee;
+    color:#333;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    height:70px;
+    display:flex;
+    align-items:center;
+    padding:0 30px;
+}
+
+.back{
+    width:40px;
+    height:40px;
+    background:#0b7d0b;
+    border-radius:8px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#fff;
+    font-size:20px;
+
+    text-decoration:none;
+
+    transition:0.2s;
+}
+
+.back:hover{
+    background:#096909;
+    transform:scale(1.05);
+}
+
+/* =====================================================
+   CONTENIDO
+===================================================== */
+
+.main{
+    width:80%;
+    max-width:1200px;
+
+    margin:30px auto;
+
+    display:flex;
+    gap:40px;
+
+    align-items:flex-start;
+}
+
+.left{
+    width:50%;
+}
+
+.right{
+    width:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* =====================================================
+   TARJETA
+===================================================== */
+
+.card{
+    background:#f5f7fb;
+
+    border-radius:14px;
+
+    padding:28px;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,0.15);
+}
+
+.card h2{
+    font-size:26px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+/* =====================================================
+   FORMULARIO
+===================================================== */
+
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    font-size:14px;
+
+    margin-bottom:6px;
+
+    display:block;
+
+    font-weight:500;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+
+    padding:10px;
+
+    border-radius:6px;
+
+    border:1px solid #bcd9bc;
+
+    font-size:14px;
+
+    outline:none;
+
+    background:#fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border:1px solid #0b7d0b;
+
+    box-shadow:
+        0 0 0 2px rgba(11,125,11,0.10);
+}
+
+textarea{
+    height:90px;
+    resize:none;
+}
+
+/* =====================================================
+   SUBIR ARCHIVO
+===================================================== */
+
+.upload-box{
+    border:2px dashed #0b7d0b;
+
+    border-radius:10px;
+
+    padding:30px;
+
+    text-align:center;
+
+    margin-top:10px;
+
+    background:#f9fbff;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.upload-box:hover{
+    background:#eef8ee;
+}
+
+.upload-icon{
+    font-size:30px;
+
+    color:#0b7d0b;
+
+    margin-bottom:10px;
+}
+
+.upload-box p{
+    font-size:13px;
+
+    color:#666;
+
+    margin-bottom:5px;
+}
+
+.file-btn{
+    margin-top:10px;
+
+    background:#0b7d0b;
+
+    color:#fff;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    box-shadow:
+        0 3px 6px rgba(0,0,0,0.2);
+}
+
+.file-btn:hover{
+    background:#096909;
+}
+
+/* =====================================================
+   NOMBRE ARCHIVO
+===================================================== */
+
+.file-name{
+    margin-top:10px;
+
+    font-size:13px;
+
+    color:#0b7d0b;
+
+    font-weight:600;
+
+    word-break:break-word;
+}
+
+/* =====================================================
+   FORMATOS
+===================================================== */
+
+.formats{
+    margin-top:15px;
+
+    font-size:13px;
+
+    color:#666;
+}
+
+.formats span{
+    margin-right:15px;
+
+    font-weight:600;
+
+    color:#333;
+}
+
+/* =====================================================
+   BOTÓN GUARDAR
+===================================================== */
+
+.submit-btn{
+    width:100%;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    background:#0b7d0b;
+
+    color:white;
+
+    border:none;
+
+    border-radius:7px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.submit-btn:hover{
+    background:#096909;
+}
+
+.submit-btn:disabled{
+    background:#999;
+
+    cursor:not-allowed;
+}
+
+/* =====================================================
+   VISTA PREVIA
+===================================================== */
+
+.preview-card{
+    width:90%;
+
+    min-height:420px;
+
+    background:#fff;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,0.15);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+}
+
+.preview-img{
+    width:70%;
+
+    height:200px;
+
+    background:#e5e5e5;
+
+    border-radius:10px;
+
+    margin-bottom:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#999;
+
+    font-size:14px;
+
+    overflow:hidden;
+}
+
+.preview-img img{
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+}
+
+.preview-text{
+    color:#0b7d0b;
+
+    font-weight:600;
+
+    font-size:16px;
+
+    text-align:center;
+}
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+.mensaje{
+    width:80%;
+
+    max-width:1200px;
+
+    margin:10px auto;
+
+    padding:12px 15px;
+
+    border-radius:7px;
+
+    font-size:14px;
+}
+
+.mensaje.exito{
+    background:#d4edda;
+
+    color:#155724;
+
+    border:1px solid #c3e6cb;
+}
+
+.mensaje.error{
+    background:#f8d7da;
+
+    color:#721c24;
+
+    border:1px solid #f5c6cb;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:800px){
+
+    .main{
+        width:94%;
+
+        flex-direction:column;
+
+        gap:20px;
+    }
+
+    .left,
+    .right{
+        width:100%;
+    }
+
+    .preview-card{
+        width:100%;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .header{
+        padding:0 15px;
+    }
+
+    .main{
+        margin:15px auto;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .card h2{
+        font-size:21px;
+    }
+
+    .preview-card{
+        min-height:300px;
+    }
+
+    .preview-img{
+        width:90%;
+        height:150px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <a
+        href="{{ url_for('gestion_citas') }}"
+        class="back"
+        title="Regresar a citas"
+    >
+        ↩
+    </a>
+
+</header>
+
+
+<!-- =====================================================
+     MENSAJES FLASK
+===================================================== -->
+
+{% with mensajes = get_flashed_messages(with_categories=true) %}
+
+    {% if mensajes %}
+
+        {% for categoria, mensaje in mensajes %}
+
+            <div class="mensaje {{ categoria }}">
+                {{ mensaje }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- =================================================
+         FORMULARIO
+    ================================================== -->
+
+    <div class="left">
+
+        <div class="card">
+
+            <h2>
+                Subir Examen Cuántico
+            </h2>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('guardar_examen') }}"
+                enctype="multipart/form-data"
+                id="formExamen"
+            >
+
+
+                <!-- TÍTULO -->
+
+                <div class="form-group">
+
+                    <label for="titulo">
+                        Título del Examen
+                    </label>
+
+                    <input
+                        type="text"
+                        id="titulo"
+                        name="titulo"
+                        placeholder="Introduce el título de tu examen"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPCIÓN -->
+
+                <div class="form-group">
+
+                    <label for="descripcion">
+                        Descripción Breve
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        placeholder="Una breve descripción sobre el contenido o el objetivo del examen..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- MATERIA -->
+
+                <div class="form-group">
+
+                    <label for="materia">
+                        Materia o Área Cuántica
+                    </label>
+
+                    <select
+                        id="materia"
+                        name="materia"
+                        required
+                    >
+
+                        <option value="">
+                            Selecciona una materia
+                        </option>
+
+                        <option value="Nutrición">
+                            Nutrición
+                        </option>
+
+                        <option value="Vitaminas">
+                            Vitaminas
+                        </option>
+
+                        <option value="Minerales">
+                            Minerales
+                        </option>
+
+                        <option value="Bienestar">
+                            Bienestar
+                        </option>
+
+                        <option value="Salud">
+                            Salud
+                        </option>
+
+                        <option value="Medicina natural">
+                            Medicina natural
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ARCHIVO -->
+
+                <div class="form-group">
+
+                    <label>
+                        Subir Archivo
+                    </label>
+
+
+                    <div
+                        class="upload-box"
+                        id="uploadBox"
+                    >
+
+                        <div class="upload-icon">
+                            ⤴
+                        </div>
+
+                        <p>
+                            Arrastra y suelta tu archivo aquí,
+                            o haz clic para seleccionar.
+                        </p>
+
+                        <p id="textoArchivo">
+                            Ningún archivo seleccionado
+                        </p>
+
+
+                        <input
+                            type="file"
+                            id="archivo"
+                            name="archivo"
+                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.svg"
+                            hidden
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="file-btn"
+                            id="seleccionarArchivo"
+                        >
+                            Seleccionar Archivo
+                        </button>
+
+
+                        <div
+                            class="file-name"
+                            id="nombreArchivo"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="formats">
+
+                        Formatos permitidos:
+
+                        <br><br>
+
+                        <span>PDF</span>
+                        <span>Word</span>
+                        <span>JPG</span>
+                        <span>PNG</span>
+                        <span>SVG</span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTÓN -->
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    id="btnEnviar"
+                >
+                    SUBIR EXAMEN
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         VISTA PREVIA
+    ================================================== -->
+
+    <div class="right">
+
+        <div class="preview-card">
+
+            <div
+                class="preview-img"
+                id="preview"
+            >
+                Vista previa
+            </div>
+
+            <div class="preview-text">
+
+                Impulsa tu aprendizaje cuántico
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const archivo =
+    document.getElementById("archivo");
+
+const seleccionarArchivo =
+    document.getElementById("seleccionarArchivo");
+
+const uploadBox =
+    document.getElementById("uploadBox");
+
+const nombreArchivo =
+    document.getElementById("nombreArchivo");
+
+const textoArchivo =
+    document.getElementById("textoArchivo");
+
+const preview =
+    document.getElementById("preview");
+
+
+/* =====================================================
+   ABRIR SELECTOR
+===================================================== */
+
+seleccionarArchivo.addEventListener(
+    "click",
+    function(){
+
+        archivo.click();
+
+    }
+);
+
+
+/* =====================================================
+   HACER CLIC EN EL RECUADRO
+===================================================== */
+
+uploadBox.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target !== seleccionarArchivo
+        ){
+
+            archivo.click();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ARCHIVO SELECCIONADO
+===================================================== */
+
+archivo.addEventListener(
+    "change",
+    function(){
+
+        if(!archivo.files.length){
+
+            textoArchivo.textContent =
+                "Ningún archivo seleccionado";
+
+            nombreArchivo.textContent = "";
+
+            preview.textContent =
+                "Vista previa";
+
+            return;
+
+        }
+
+
+        const file =
+            archivo.files[0];
+
+
+        textoArchivo.textContent =
+            "Archivo seleccionado:";
+
+
+        nombreArchivo.textContent =
+            file.name;
+
+
+        /* =============================================
+           VISTA PREVIA DE IMÁGENES
+        ============================================= */
+
+        if(
+            file.type.startsWith("image/")
+        ){
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(e){
+
+                    preview.innerHTML = `
+                        <img
+                            src="${e.target.result}"
+                            alt="Vista previa"
+                        >
+                    `;
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+        /* =============================================
+           VISTA PREVIA PDF
+        ============================================= */
+
+        else if(
+            file.type === "application/pdf"
+        ){
+
+            preview.innerHTML = `
+                <div style="
+                    text-align:center;
+                    color:#d32f2f;
+                    font-size:50px;
+                ">
+                    📄
+
+                    <div style="
+                        font-size:14px;
+                        color:#555;
+                        margin-top:10px;
+                    ">
+                        Archivo PDF
+                    </div>
+                </div>
+            `;
+
+        }
+
+
+        /* =============================================
+           WORD
+        ============================================= */
+
+        else{
+
+            preview.innerHTML = `
+                <div style="
+                    text-align:center;
+                    font-size:50px;
+                ">
+                    📄
+
+                    <div style="
+                        font-size:14px;
+                        color:#555;
+                        margin-top:10px;
+                    ">
+                        Documento seleccionado
+                    </div>
+                </div>
+            `;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   DRAG AND DROP
+===================================================== */
+
+uploadBox.addEventListener(
+    "dragover",
+    function(event){
+
+        event.preventDefault();
+
+        uploadBox.style.background =
+            "#e8f5e9";
+
+    }
+);
+
+
+uploadBox.addEventListener(
+    "dragleave",
+    function(){
+
+        uploadBox.style.background =
+            "#f9fbff";
+
+    }
+);
+
+
+uploadBox.addEventListener(
+    "drop",
+    function(event){
+
+        event.preventDefault();
+
+        uploadBox.style.background =
+            "#f9fbff";
+
+
+        const archivos =
+            event.dataTransfer.files;
+
+
+        if(archivos.length){
+
+            archivo.files =
+                archivos;
+
+
+            archivo.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   VALIDACIÓN DEL FORMULARIO
+===================================================== */
+
+document.getElementById("formExamen")
+.addEventListener(
+    "submit",
+    function(event){
+
+        if(!archivo.files.length){
+
+            event.preventDefault();
+
+            alert(
+                "Debes seleccionar un archivo."
+            );
+
+            return;
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ producto.nombrePro }} | Natural One Life</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #111;
+        }
+
+       /* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    width: 100%;
+    min-height: 76px;
+
+    background: linear-gradient(
+        135deg,
+        #087f23,
+        #0b9b35
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 42px;
+
+    gap: 20px;
+
+    box-shadow: 0 4px 18px rgba(0,0,0,.12);
+}
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu a {
+    color: rgba(255,255,255,.82);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    padding: 12px 17px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    white-space: nowrap;
+
+    transition: all .25s ease;
+}
+
+.menu a:hover {
+    color: #fff;
+    background: rgba(255,255,255,.12);
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   PARTE DERECHA
+===================================================== */
+
+.right-nav {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+}
+
+/* =====================================================
+   BUSCADOR
+===================================================== */
+
+.search {
+    display: flex;
+    align-items: center;
+
+    background: white;
+
+    border-radius: 11px;
+
+    padding: 4px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+}
+
+.search input {
+    width: 235px;
+    height: 38px;
+
+    border: none;
+    outline: none;
+
+    padding: 0 13px;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 13px;
+}
+
+.search input::placeholder {
+    color: #9ca3af;
+}
+
+.search button {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #eaf7ed;
+
+    color: #087f23;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: all .2s ease;
+}
+
+.search button:hover {
+    background: #d5f0dc;
+    transform: scale(1.04);
+}
+
+/* =====================================================
+   PERFIL
+===================================================== */
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+.avatar,
+.foto-default {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255,255,255,.85);
+
+    flex-shrink: 0;
+}
+
+.avatar {
+    object-fit: cover;
+}
+
+.foto-default {
+    background: white;
+
+    color: #087f23;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+        /* =====================================================
+           PRODUCTO
+        ===================================================== */
+
+        .product-section {
+            width: 92%;
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 30px 35px;
+            background: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        /* IZQUIERDA */
+
+        .product-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            max-width: 330px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .no-image {
+            width: 280px;
+            height: 280px;
+            background: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777;
+            border-radius: 8px;
+        }
+
+        .category {
+            display: inline-block;
+            width: fit-content;
+            background: #e7f6e7;
+            color: #008000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .product-info h1 {
+            font-size: 30px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #008000;
+        }
+
+        .stock {
+            margin-bottom: 18px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .available {
+            color: #008000;
+            font-weight: bold;
+        }
+
+        .unavailable {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        /* CANTIDAD */
+
+        .quantity-label {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity button {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity button:hover {
+            background: #f0f0f0;
+        }
+
+        .quantity input {
+            width: 55px;
+            height: 36px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+
+        /* BOTONES */
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cart,
+        .btn-buy {
+            padding: 11px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: .2s;
+        }
+
+        .btn-cart {
+            background: #008000;
+            color: white;
+            border: none;
+        }
+
+        .btn-cart:hover {
+            background: #006600;
+        }
+
+        .btn-buy {
+            background: white;
+            border: 1px solid #008000;
+            color: #008000;
+        }
+
+        .btn-buy:hover {
+            background: #008000;
+            color: white;
+        }
+
+        /* =====================================================
+           DERECHA - DESCRIPCIÓN
+        ===================================================== */
+
+        .description-section {
+            padding: 10px 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .description-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #111;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .quantity-label {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.quantity input {
+    width: 55px;
+    height: 36px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+/* BOTONES A LA DERECHA */
+
+.actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-cart,
+.btn-buy {
+    padding: 11px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-cart {
+    background: #008000;
+    color: white;
+    border: none;
+}
+
+.btn-buy {
+    background: white;
+    border: 1px solid #008000;
+    color: #008000;
+}
+
+        /* =====================================================
+           RESEÑAS
+        ===================================================== */
+
+        .review-container {
+            width: 92%;
+            max-width: 1150px;
+            margin: 30px auto 45px;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.07);
+        }
+
+        .review-title {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .rating i {
+            color: #2fbf5b;
+            font-size: 18px;
+        }
+
+        .rating span {
+            font-size: 20px;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .review {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 18px;
+            border-radius: 6px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .review-header h3 {
+            font-size: 16px;
+        }
+
+        .review-date {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .review-text {
+            line-height: 1.6;
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            margin-top: 40px;
+            background: white;
+            border-top: 1px solid #ddd;
+            padding: 35px;
+        }
+
+        .footer-grid {
+            max-width: 1150px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 25px;
+        }
+
+        .footer-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .copy {
+            max-width: 1150px;
+            margin: 25px auto 0;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+            color: #666;
+            font-size: 13px;
+        }
+
+@media (max-width:1000px){
+
+    .navbar{
+        padding:10px 20px;
+    }
+
+    .menu{
+        gap:8px;
+    }
+
+    .menu a{
+        padding:12px 14px;
+        font-size:14px;
+    }
+
+}
+
+@media (max-width:800px){
+
+    .navbar{
+        padding:10px 15px;
+    }
+
+    .menu{
+        gap:5px;
+    }
+
+    .menu a{
+        padding:9px 10px;
+        font-size:13px;
+    }
+
+}
+
+@media (max-width:650px){
+
+    .navbar{
+        flex-wrap:wrap;
+        padding:10px;
+    }
+
+    .menu{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:4px;
+    }
+
+    .right-nav{
+        width:100%;
+        justify-content:center;
+        margin-left:0;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .navbar{
+        padding:9px 8px;
+    }
+
+    .menu{
+        gap:2px;
+    }
+
+    .menu a{
+        font-size:10px;
+        padding:8px 7px;
+        border-radius:8px;
+    }
+
+    .right-nav{
+        gap:7px;
+    }
+
+    .avatar,
+    .foto-default{
+        width:35px;
+        height:35px;
+    }
+
+}
+
+@media (max-width:380px){
+
+    .menu{
+        gap:1px;
+    }
+
+    .menu a{
+        font-size:10px;
+        padding:7px 6px;
+    }
+
+    .avatar,
+    .foto-default{
+        width:33px;
+        height:33px;
+    }
+
+}
+/* =====================================================
+   VALORACIONES
+===================================================== */
+
+.stars,
+.review-stars {
+    color: #2fbf5b;
+    display: flex;
+    gap: 3px;
+}
+
+.stars i {
+    font-size: 19px;
+}
+
+
+/* =====================================================
+   FORMULARIO DE VALORACIÓN
+===================================================== */
+
+.review-form {
+
+    margin: 25px 0 30px;
+
+    padding: 22px;
+
+    background: #f8faf8;
+
+    border: 1px solid #dce9df;
+
+    border-radius: 10px;
+
+}
+
+.review-form h3 {
+
+    margin-bottom: 15px;
+
+    font-size: 18px;
+
+}
+
+
+/* =====================================================
+   SELECTOR DE ESTRELLAS
+===================================================== */
+
+.star-selector {
+
+    display: flex;
+
+    flex-direction: row-reverse;
+
+    justify-content: flex-end;
+
+    width: fit-content;
+
+    margin-bottom: 15px;
+
+}
+
+.star-selector input {
+
+    display: none;
+
+}
+
+.star-selector label {
+
+    font-size: 30px;
+
+    color: #ccc;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+.star-selector label:hover,
+.star-selector label:hover ~ label,
+.star-selector input:checked ~ label {
+
+    color: #f5b301;
+
+}
+
+
+/* =====================================================
+   TEXTAREA
+===================================================== */
+
+.review-form textarea {
+
+    width: 100%;
+
+    min-height: 110px;
+
+    resize: vertical;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    margin-bottom: 12px;
+
+}
+
+.review-form textarea:focus {
+
+    border-color: #2fbf5b;
+
+    box-shadow: 0 0 0 2px rgba(47,191,91,.10);
+
+}
+
+
+/* =====================================================
+   BOTÓN
+===================================================== */
+
+.btn-review {
+
+    background: #008000;
+
+    color: white;
+
+    border: none;
+
+    padding: 11px 18px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    transition: .2s;
+
+}
+
+.btn-review:hover {
+
+    background: #006600;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =====================================================
+   USUARIO
+===================================================== */
+
+.review-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.review-avatar {
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 1px solid #ddd;
+
+}
+
+.default-avatar {
+
+    background: #e8f5eb;
+
+    color: #008000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+/* =====================================================
+   ESTRELLAS DE COMENTARIO
+===================================================== */
+
+.review-stars {
+
+    font-size: 14px;
+
+    white-space: nowrap;
+
+}
+
+
+/* =====================================================
+   SIN VALORACIONES
+===================================================== */
+
+.no-reviews {
+
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 40px 20px;
+
+    border: 1px dashed #ccc;
+
+    border-radius: 8px;
+
+    color: #777;
+
+}
+
+.no-reviews i {
+
+    font-size: 35px;
+
+    margin-bottom: 12px;
+
+    color: #2fbf5b;
+
+}
+
+.no-reviews h3 {
+
+    margin-bottom: 7px;
+
+    color: #333;
+
+}
+
+.no-reviews p {
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .review-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .review-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+    .review-stars {
+
+        margin-left: 48px;
+
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .review-container {
+
+        width: 94%;
+
+        padding: 20px 15px;
+
+    }
+
+    .review-form {
+
+        padding: 16px;
+
+    }
+
+    .review-title {
+
+        font-size: 22px;
+
+    }
+
+    .rating {
+
+        flex-wrap: wrap;
+
+    }
+
+}
+    </style>
+
+</head>
+
+
+<body>
+
+<nav class="navbar">
+
+
+    <div class="menu">
+
+        <a href="{{ url_for('inicio') }}">
+            <i class="fa-solid fa-house"></i>
+            Inicio
+        </a>
+
+        <a href="/catalogo">
+            <i class="fa-solid fa-box-open"></i>
+            Catalogo 
+        </a>
+
+        <a href="/gestion-citas">
+            <i class="fa-solid fa-calendar-check"></i>
+            Citas
+        </a>
+
+        <a href="{{ url_for('ver_carrito') }}">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Carrito
+        </a>
+
+    </div>
+
+
+    <!-- BUSCADOR + PERFIL -->
+
+    <div class="right-nav">
+
+
+        <!-- BUSCAR PRODUCTOS PRIMERO -->
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="buscarProducto"
+                placeholder="Buscar productos..."
+                onkeypress="if(event.key === 'Enter') buscarProducto()"
+            >
+
+            <button
+                type="button"
+                onclick="buscarProducto()"
+            >
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- PERFIL -->
+
+        <a href="/perfil" class="profile-link">
+
+            {% if usuario.fotoUsu %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='img/perfiles/' + usuario.fotoUsu
+                    ) }}"
+                    alt="Foto de perfil"
+                    class="avatar"
+                >
+
+            {% else %}
+
+                <div class="foto-default">
+                    👤
+                </div>
+
+            {% endif %}
+
+        </a>
+
+
+    </div>
+
+
+</nav>
+
+
+<!-- ======================================================
+     PRODUCTO
+====================================================== -->
+<section class="product-section">
+
+    <!-- ==================================================
+         IZQUIERDA
+    ================================================== -->
+
+    <div class="product-left">
+
+        <!-- FOTO -->
+
+        <div class="product-image">
+
+            {% if producto.imagenesPro %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='img/productos/' ~ producto.imagenesPro
+                    ) }}"
+                    alt="{{ producto.nombrePro }}"
+                    onerror="mostrarImagenError(this)"
+                >
+
+            {% else %}
+
+                <div class="no-image">
+
+                    <i class="fa-solid fa-image"></i>
+
+                    &nbsp;
+
+                    Sin imagen
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- INFORMACIÓN -->
+
+        <div class="product-info">
+
+            {% if producto.nombreCat %}
+
+                <span class="category">
+
+                    {{ producto.nombreCat }}
+
+                </span>
+
+            {% endif %}
+
+
+            <h1>
+
+                {{ producto.nombrePro }}
+
+            </h1>
+
+
+            <div class="price">
+
+                ${{ "{:,.0f}".format(
+                    producto.precioPro|float
+                ).replace(",", ".") }}
+
+            </div>
+
+
+            <div class="stock">
+
+                {% if producto.stockPro > 0 and producto.disponiblePro == 1 %}
+
+                    <span class="available">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        Disponible
+
+                    </span>
+
+                    <br>
+
+                    {{ producto.stockPro }} unidades disponibles
+
+                {% else %}
+
+                    <span class="unavailable">
+
+                        <i class="fa-solid fa-circle-xmark"></i>
+
+                        Producto agotado
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         DERECHA
+    ================================================== -->
+
+    <div class="description-section">
+
+        <h2 class="description-title">
+
+            Descripción
+
+        </h2>
+
+
+        <p class="description">
+
+            {{ producto.descripcionPro or
+               "Producto natural de calidad para tu bienestar." }}
+
+        </p>
+
+
+        {% if producto.stockPro > 0 and producto.disponiblePro == 1 %}
+
+        <form
+            action="{{ url_for(
+                'agregar_carrito',
+                id=producto.idPro
+            ) }}"
+            method="POST"
+            id="formCarrito"
+        >
+
+            <!-- CANTIDAD -->
+
+            <div class="quantity-label">
+
+                Cantidad:
+
+            </div>
+
+
+            <div class="quantity">
+
+                <button
+                    type="button"
+                    onclick="disminuirCantidad()"
+                >
+
+                    −
+
+                </button>
+
+
+                <input
+                    type="number"
+                    id="cantidad"
+                    name="cantidad"
+                    value="1"
+                    min="1"
+                    max="{{ producto.stockPro }}"
+                    readonly
+                >
+
+
+                <button
+                    type="button"
+                    onclick="aumentarCantidad()"
+                >
+
+                    +
+
+                </button>
+
+            </div>
+
+
+            <!-- BOTONES -->
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="btn-cart"
+                >
+
+                    <i class="fa-solid fa-cart-plus"></i>
+
+                    Añadir al carrito
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn-buy"
+                    onclick="comprarAhora()"
+                >
+
+                    <i class="fa-solid fa-bag-shopping"></i>
+
+                    Comprar ahora
+
+                </button>
+
+            </div>
+
+        </form>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+     RESEÑAS Y VALORACIONES
+====================================================== -->
+
+<section class="review-container">
+
+    <h2 class="review-title">
+        Valoraciones de Usuarios
+    </h2>
+
+
+    <!-- ==================================================
+         RESUMEN DE VALORACIONES
+    ================================================== -->
+
+    <div class="rating">
+
+        <div class="stars">
+
+            {% for i in range(1, 6) %}
+
+                {% if promedio >= i %}
+
+                    <i class="fa-solid fa-star"></i>
+
+                {% elif promedio >= i - 0.5 %}
+
+                    <i class="fa-solid fa-star-half-stroke"></i>
+
+                {% else %}
+
+                    <i class="fa-regular fa-star"></i>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+
+        <span>
+            {{ "%.1f"|format(promedio) }}
+        </span>
+
+
+        <span style="color:gray">
+
+            ({{ total_valoraciones }}
+            {% if total_valoraciones == 1 %}
+                opinión
+            {% else %}
+                opiniones
+            {% endif %})
+
+        </span>
+
+    </div>
+
+
+    <!-- ==================================================
+         FORMULARIO PARA VALORAR
+    ================================================== -->
+
+    {% if session.get("idUsu") %}
+
+    <div class="review-form">
+
+        <h3>
+
+            {% if mi_valoracion %}
+                Actualiza tu valoración
+            {% else %}
+                Deja tu valoración
+            {% endif %}
+
+        </h3>
+
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'valorar_producto',
+                id=producto.idPro
+            ) }}"
+        >
+
+            <!-- ESTRELLAS -->
+
+            <div class="star-selector">
+
+                <input
+                    type="radio"
+                    id="estrella5"
+                    name="calificacion"
+                    value="5"
+                    {% if mi_valoracion and mi_valoracion.calificacionVal == 5 %}
+                        checked
+                    {% endif %}
+                    required
+                >
+
+                <label for="estrella5">★</label>
+
+
+                <input
+                    type="radio"
+                    id="estrella4"
+                    name="calificacion"
+                    value="4"
+                    {% if mi_valoracion and mi_valoracion.calificacionVal == 4 %}
+                        checked
+                    {% endif %}
+                >
+
+                <label for="estrella4">★</label>
+
+
+                <input
+                    type="radio"
+                    id="estrella3"
+                    name="calificacion"
+                    value="3"
+                    {% if mi_valoracion and mi_valoracion.calificacionVal == 3 %}
+                        checked
+                    {% endif %}
+                >
+
+                <label for="estrella3">★</label>
+
+
+                <input
+                    type="radio"
+                    id="estrella2"
+                    name="calificacion"
+                    value="2"
+                    {% if mi_valoracion and mi_valoracion.calificacionVal == 2 %}
+                        checked
+                    {% endif %}
+                >
+
+                <label for="estrella2">★</label>
+
+
+                <input
+                    type="radio"
+                    id="estrella1"
+                    name="calificacion"
+                    value="1"
+                    {% if mi_valoracion and mi_valoracion.calificacionVal == 1 %}
+                        checked
+                    {% endif %}
+                >
+
+                <label for="estrella1">★</label>
+
+            </div>
+
+
+            <!-- COMENTARIO -->
+
+            <textarea
+                name="comentario"
+                placeholder="Escribe tu opinión sobre este producto..."
+                maxlength="500"
+                required
+            >{% if mi_valoracion %}{{ mi_valoracion.comentarioVal }}{% endif %}</textarea>
+
+
+            <button
+                type="submit"
+                class="btn-review"
+            >
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+                {% if mi_valoracion %}
+                    Actualizar valoración
+                {% else %}
+                    Publicar valoración
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ==================================================
+         LISTA DE VALORACIONES
+    ================================================== -->
+
+    <div class="review-grid">
+
+        {% if valoraciones %}
+
+            {% for valoracion in valoraciones %}
+
+                <div class="review">
+
+                    <div class="review-header">
+
+                        <div class="review-user">
+
+                            {% if valoracion.fotoUsu %}
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename='img/perfiles/' ~ valoracion.fotoUsu
+                                    ) }}"
+                                    class="review-avatar"
+                                    alt="Foto de usuario"
+                                >
+
+                            {% else %}
+
+                                <div class="review-avatar default-avatar">
+
+                                    <i class="fa-solid fa-user"></i>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <h3>
+
+                                {{ valoracion.nombreUsu }}
+
+                                {{ valoracion.apellidoUsu or "" }}
+
+                            </h3>
+
+                        </div>
+
+
+                        <!-- ESTRELLAS -->
+
+                        <div class="review-stars">
+
+                            {% for i in range(1, 6) %}
+
+                                {% if i <= valoracion.calificacionVal %}
+
+                                    <i class="fa-solid fa-star"></i>
+
+                                {% else %}
+
+                                    <i class="fa-regular fa-star"></i>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FECHA -->
+
+                    <div class="review-date">
+
+                        {% if valoracion.fechaVal %}
+
+                            {{ valoracion.fechaVal.strftime("%d/%m/%Y") }}
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- COMENTARIO -->
+
+                    <div class="review-text">
+
+                        {{ valoracion.comentarioVal }}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-reviews">
+
+                <i class="fa-regular fa-comment-dots"></i>
+
+                <h3>
+                    Aún no hay valoraciones
+                </h3>
+
+                <p>
+                    Sé el primero en compartir tu opinión sobre este producto.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+
+    <div class="footer-grid">
+
+
+        <div>
+
+            <p>
+
+                Transformando la experiencia de bienestar
+                con productos de calidad.
+
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <div class="footer-title">
+                Recursos
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#">
+                    Guías
+                </a>
+
+                <a href="#">
+                    Soporte
+                </a>
+
+                <a href="#">
+                    Preguntas Frecuentes
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="footer-title">
+                Empresa
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#">
+                    Sobre Nosotros
+                </a>
+
+                <a href="#">
+                    Noticias
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="footer-title">
+                Legal
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#">
+                    Política de Privacidad
+                </a>
+
+                <a href="#">
+                    Términos
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="footer-title">
+                Contacto
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#">
+                    Email
+                </a>
+
+                <a href="#">
+                    Teléfono
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="copy">
+
+        © 2026 Natural One Life.
+        Todos los derechos reservados.
+
+    </div>
+
+
+</footer>
+
+
+<script>
+
+
+    const stockDisponible =
+        Number(
+            "{{ producto.stockPro }}"
+        );
+
+
+    function aumentarCantidad() {
+
+        const input =
+            document.getElementById("cantidad");
+
+        let cantidad =
+            Number(input.value);
+
+        if (cantidad < stockDisponible) {
+
+            cantidad++;
+
+            input.value = cantidad;
+
+        }
+
+    }
+
+
+    function disminuirCantidad() {
+
+        const input =
+            document.getElementById("cantidad");
+
+        let cantidad =
+            Number(input.value);
+
+        if (cantidad > 1) {
+
+            cantidad--;
+
+            input.value = cantidad;
+
+        }
+
+    }
+
+
+    function comprarAhora() {
+
+        const formulario =
+            document.getElementById("formCarrito");
+
+        formulario.action =
+            "{{ url_for('comprar_ahora',id=producto.idPro) }}";
+
+        formulario.submit();
+
+    }
+
+
+    function mostrarImagenError(imagen) {
+
+        const contenedor =
+            imagen.parentElement;
+
+        imagen.style.display = "none";
+
+        const mensaje =
+            document.createElement("div");
+
+        mensaje.className =
+            "no-image";
+
+        mensaje.innerHTML =
+            '<i class="fa-solid fa-image"></i>&nbsp; Sin imagen';
+
+        contenedor.appendChild(mensaje);
+
+    }
+
+
+    function buscarProducto() {
+
+        const texto =
+            document
+                .getElementById("buscarProducto")
+                .value
+                .trim();
+
+        if (texto === "") {
+
+            return;
+
+        }
+
+        window.location.href =
+            "/catalogo?buscar=" +
+            encodeURIComponent(texto);
+
+    }
+
+
+</script>
+<script>
+
+/* =====================================================
+   ESTRELLAS INTERACTIVAS
+===================================================== */
+
+const starButtons =
+    document.querySelectorAll(".star-button");
+
+const ratingInput =
+    document.getElementById("calificacion");
+
+const ratingHelp =
+    document.getElementById("ratingHelp");
+
+
+let ratingActual =
+    ratingInput
+        ? Number(ratingInput.value || 0)
+        : 0;
+
+
+function actualizarEstrellas(rating) {
+
+    starButtons.forEach(
+        (button, index) => {
+
+            const star =
+                button.querySelector("i");
+
+            const numero =
+                index + 1;
+
+            if (numero <= rating) {
+
+                star.className =
+                    "fa-solid fa-star";
+
+            } else {
+
+                star.className =
+                    "fa-regular fa-star";
+
+            }
+
+        }
+    );
+
+
+    if (ratingHelp) {
+
+        if (rating === 1) {
+
+            ratingHelp.textContent =
+                "1 estrella";
+
+        } else if (rating > 1) {
+
+            ratingHelp.textContent =
+                rating + " estrellas";
+
+        } else {
+
+            ratingHelp.textContent =
+                "Selecciona una calificación";
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   CLICK EN ESTRELLA
+===================================================== */
+
+starButtons.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                const rating =
+                    Number(
+                        this.dataset.rating
+                    );
+
+                ratingActual =
+                    rating;
+
+                if (ratingInput) {
+
+                    ratingInput.value =
+                        rating;
+
+                }
+
+                actualizarEstrellas(
+                    rating
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CARGAR VALORACIÓN EXISTENTE
+===================================================== */
+
+if (ratingActual > 0) {
+
+    actualizarEstrellas(
+        ratingActual
+    );
+
+}
+
+
+/* =====================================================
+   CONTADOR DE CARACTERES
+===================================================== */
+
+const comentario =
+    document.getElementById(
+        "comentario"
+    );
+
+const characterCount =
+    document.getElementById(
+        "characterCount"
+    );
+
+
+function actualizarContador(){
+
+    if (
+        comentario &&
+        characterCount
+    ){
+
+        characterCount.textContent =
+            comentario.value.length;
+
+    }
+
+}
+
+
+if (comentario) {
+
+    comentario.addEventListener(
+        "input",
+        actualizarContador
+    );
+
+    actualizarContador();
+
+}
+
+
+/* =====================================================
+   VALIDAR FORMULARIO
+===================================================== */
+
+const reviewForm =
+    document.getElementById(
+        "reviewForm"
+    );
+
+
+if (reviewForm) {
+
+    reviewForm.addEventListener(
+        "submit",
+        function(event){
+
+            const rating =
+                Number(
+                    ratingInput.value
+                );
+
+            const texto =
+                comentario.value.trim();
+
+
+            if (
+                !rating ||
+                rating < 1 ||
+                rating > 5
+            ){
+
+                event.preventDefault();
+
+                alert(
+                    "Por favor selecciona una calificación de 1 a 5 estrellas."
+                );
+
+                return;
+
+            }
+
+
+            if (texto.length < 5) {
+
+                event.preventDefault();
+
+                alert(
+                    "El comentario debe tener al menos 5 caracteres."
+                );
+
+                return;
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificación</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+width:700px;
+background:#fff;
+padding:50px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+h1{
+font-size:50px;
+margin-bottom:30px;
+color:#222;
+}
+
+p{
+font-size:22px;
+line-height:1.6;
+color:#555;
+margin-bottom:40px;
+}
+
+.code{
+display:flex;
+justify-content:space-between;
+margin-bottom:35px;
+}
+
+.code input{
+width:70px;
+height:70px;
+border:1px solid #ccc;
+border-radius:8px;
+text-align:center;
+font-size:28px;
+}
+
+.resend{
+display:inline-block;
+margin-bottom:25px;
+text-decoration:none;
+color:#356db6;
+font-size:22px;
+font-weight:bold;
+}
+
+button{
+width:100%;
+height:65px;
+background:#008a00;
+color:white;
+border:none;
+border-radius:8px;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<h1>Verificación de Código</h1>
+
+<p>
+Hemos enviado un código de 6 dígitos a su dirección de correo electrónico.
+Por favor, ingréselo a continuación para confirmar su identidad y proteger su cuenta.
+</p>
+
+<div class="code">
+<input maxlength="1">
+<input maxlength="1">
+<input maxlength="1">
+<input maxlength="1">
+<input maxlength="1">
+<input maxlength="1">
+</div>
+
+<a href="#" class="resend">Reenviar código</a>
+
+<button>Confirmar</button>
+
+</div>
+
+</body>
+</html>

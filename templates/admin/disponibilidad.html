@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Disponibilidad | Natural One Life</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #F8F5EF;
+            color: #333;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #2E7D32;
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .back:hover {
+            background: #1B5E20;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.10);
+        }
+
+        h1 {
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            color: #666;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .available {
+            background: #D4EDDA;
+            color: #1B5E20;
+        }
+
+        .unavailable {
+            background: #F8D7DA;
+            color: #A00000;
+        }
+
+        @media(max-width:700px) {
+
+            body {
+                padding: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="{{ url_for('dashboard') }}" class="back">
+        ←
+    </a>
+
+    <div class="card">
+
+        <h1>
+            Disponibilidad
+        </h1>
+
+        <p class="description">
+            Supervisión de los horarios disponibles de los profesionales.
+        </p>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Profesional</th>
+                        <th>Fecha</th>
+                        <th>Día</th>
+                        <th>Horario</th>
+                        <th>Estado</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for dia in disponibilidad %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ dia.nombreProfe }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ dia.fechaDisp }}
+                        </td>
+
+                        <td>
+                            {{ dia.diaDisp }}
+                        </td>
+
+                        <td>
+                            {{ dia.horaInicioDisp }}
+                            -
+                            {{ dia.horaFinDisp }}
+                        </td>
+
+                        <td>
+
+                            {% if dia.estadoDisp == 1 %}
+
+                                <span class="badge available">
+                                    Disponible
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge unavailable">
+                                    No disponible
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="5">
+                            No hay disponibilidad registrada.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

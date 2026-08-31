@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mis Citas | Panel Profesional</title>
+
+<style>
+
+/* =====================================================
+   CONFIGURACIÓN GENERAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #F8F5EF;
+    color: #333;
+    min-height: 100vh;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+    width: 100%;
+    min-height: 76px;
+    background: #2E7D32;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 5%;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.14);
+
+    position: relative;
+    z-index: 10;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1250px;
+    margin: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.20);
+
+    border-radius: 12px;
+
+    font-size: 20px;
+}
+
+.header strong {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+}
+
+
+/* =====================================================
+   NAVEGACIÓN PROFESIONAL
+===================================================== */
+
+.nav-profesional {
+    width: 100%;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 5%;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+
+    position: relative;
+    z-index: 5;
+}
+
+.nav-inner {
+    width: 100%;
+    max-width: 1250px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-profesional a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+
+    color: #2E7D32;
+
+    padding: 11px 17px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: all .25s ease;
+}
+
+.nav-profesional a:hover {
+    background: #F8F5EF;
+    transform: translateY(-1px);
+}
+
+.nav-profesional a.activo {
+    background: #2E7D32;
+    color: white;
+
+    box-shadow: 0 4px 10px rgba(46,125,50,.20);
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.container {
+    width: 92%;
+    max-width: 1250px;
+
+    margin: 38px auto 50px;
+}
+
+
+/* =====================================================
+   ENCABEZADO DE LA PÁGINA
+===================================================== */
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 28px;
+}
+
+.top-left {
+    position: relative;
+    padding-left: 17px;
+}
+
+.top-left::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 2px;
+
+    width: 5px;
+    height: 55px;
+
+    background: #2E7D32;
+
+    border-radius: 5px;
+}
+
+.top h2 {
+    color: #2E7D32;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+    letter-spacing: -.5px;
+}
+
+.top p {
+    color: #666;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   BOTÓN VOLVER
+===================================================== */
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    background: white;
+    color: #2E7D32;
+
+    text-decoration: none;
+
+    padding: 11px 17px;
+
+    border-radius: 9px;
+
+    border: 1px solid #dce5dc;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,.06);
+
+    transition: all .25s ease;
+}
+
+.back:hover {
+    background: #2E7D32;
+    color: white;
+
+    border-color: #2E7D32;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 14px rgba(46,125,50,.20);
+}
+
+
+/* =====================================================
+   TARJETA DE CITA
+===================================================== */
+
+.card {
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 23px;
+
+    margin-bottom: 17px;
+
+    border: 1px solid #e8e8e8;
+
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+
+    transition: all .25s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 9px 24px rgba(0,0,0,.10);
+
+    border-color: #dce5dc;
+}
+
+
+/* =====================================================
+   INFORMACIÓN DE LA CITA
+===================================================== */
+
+.appointment {
+    display: grid;
+
+    grid-template-columns:
+        minmax(230px, 1.3fr)
+        minmax(180px, 1fr)
+        minmax(190px, 1fr)
+        135px;
+
+    gap: 25px;
+
+    align-items: center;
+}
+
+
+/* =====================================================
+   PACIENTE
+===================================================== */
+
+.patient {
+    min-width: 0;
+}
+
+.patient h3 {
+    color: #2E7D32;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    margin-top: 8px;
+    margin-bottom: 9px;
+
+    word-break: break-word;
+}
+
+.patient p {
+    color: #666;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   FECHA
+===================================================== */
+
+.date {
+    padding-left: 18px;
+
+    border-left: 1px solid #e6e6e6;
+}
+
+.date p {
+    color: #555;
+
+    font-size: 14px;
+
+    margin-top: 9px;
+}
+
+
+/* =====================================================
+   MOTIVO
+===================================================== */
+
+.reason {
+    padding-left: 18px;
+
+    border-left: 1px solid #e6e6e6;
+}
+
+.reason p {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 7px;
+    min-height: 20px;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* =====================================================
+   ETIQUETAS
+===================================================== */
+
+.label {
+    display: block;
+
+    color: #888;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: .6px;
+}
+
+
+/* =====================================================
+   ESTADOS
+===================================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    margin-top: 7px;
+
+    min-width: 90px;
+}
+
+.pending {
+    background: #eeeeee;
+    color: #333;
+}
+
+.confirmed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.completed {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+
+/* =====================================================
+   ACCIONES
+===================================================== */
+
+.actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    width: 100%;
+}
+
+.btn {
+    width: 100%;
+
+    border: none;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    transition: all .25s ease;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow: 0 4px 10px rgba(0,0,0,.13);
+}
+
+
+/* CONFIRMAR */
+
+.confirm {
+    background: #2E7D32;
+}
+
+.confirm:hover {
+    background: #1B5E20;
+}
+
+
+/* CANCELAR */
+
+.cancel {
+    background: #C62828;
+}
+
+.cancel:hover {
+    background: #8E0000;
+}
+
+
+/* COMPLETAR */
+
+.complete {
+    background: #1565C0;
+}
+
+.complete:hover {
+    background: #0D47A1;
+}
+
+
+/* =====================================================
+   SIN ACCIONES
+===================================================== */
+
+.no-actions {
+    color: #999;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    padding: 10px 5px;
+
+    background: #f7f7f7;
+
+    border-radius: 8px;
+}
+
+
+/* =====================================================
+   CARRITO / CITAS VACÍAS
+===================================================== */
+
+.empty {
+    text-align: center;
+
+    color: #777;
+
+    padding: 55px 25px;
+}
+
+.empty-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #F8F5EF;
+
+    border-radius: 50%;
+
+    font-size: 28px;
+}
+
+.empty h3 {
+    color: #2E7D32;
+
+    font-size: 18px;
+
+    margin-bottom: 8px;
+}
+
+.empty p {
+    font-size: 13px;
+    color: #777;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+    width: 100%;
+
+    background: #2E7D32;
+
+    color: white;
+
+    padding: 22px 5%;
+
+    margin-top: 20px;
+}
+
+.footer-inner {
+    max-width: 1250px;
+
+    margin: auto;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.footer p {
+    font-size: 12px;
+
+    color: rgba(255,255,255,.85);
+}
+
+.footer-links {
+    display: flex;
+
+    gap: 18px;
+}
+
+.footer-links a {
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    opacity: .85;
+
+    transition: .2s;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1050px) {
+
+    .appointment {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .date,
+    .reason {
+        border-left: none;
+
+        padding-left: 0;
+
+        border-top: 1px solid #eeeeee;
+
+        padding-top: 18px;
+    }
+
+    .actions {
+        flex-direction: row;
+
+        grid-column: 1 / -1;
+
+        justify-content: flex-start;
+    }
+
+    .actions .btn {
+        width: auto;
+
+        min-width: 130px;
+    }
+
+}
+
+
+/* =====================================================
+   TABLET PEQUEÑA
+===================================================== */
+
+@media (max-width: 750px) {
+
+    .header {
+        min-height: 68px;
+
+        padding: 0 20px;
+    }
+
+    .header strong {
+        font-size: 18px;
+    }
+
+    .header-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .nav-profesional {
+        padding: 10px 20px;
+    }
+
+    .nav-inner {
+        overflow-x: auto;
+
+        scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-profesional a {
+        white-space: nowrap;
+
+        font-size: 13px;
+
+        padding: 10px 13px;
+    }
+
+    .container {
+        width: 94%;
+
+        margin: 28px auto 40px;
+    }
+
+    .top {
+        align-items: flex-start;
+    }
+
+    .top h2 {
+        font-size: 24px;
+    }
+
+    .top-left::before {
+        height: 49px;
+    }
+
+    .appointment {
+        grid-template-columns: 1fr;
+    }
+
+    .date,
+    .reason {
+        border-top: 1px solid #eeeeee;
+
+        padding-top: 17px;
+    }
+
+    .actions {
+        grid-column: auto;
+
+        flex-direction: row;
+
+        flex-wrap: wrap;
+    }
+
+    .actions .btn {
+        flex: 1;
+
+        min-width: 120px;
+    }
+
+}
+
+
+/* =====================================================
+   MÓVIL
+===================================================== */
+
+@media (max-width: 520px) {
+
+    .header {
+        padding: 13px 16px;
+    }
+
+    .header-content {
+        gap: 10px;
+    }
+
+    .header strong {
+        font-size: 16px;
+    }
+
+    .header-icon {
+        width: 35px;
+        height: 35px;
+
+        font-size: 17px;
+    }
+
+    .nav-profesional {
+        padding: 9px 12px;
+    }
+
+    .nav-profesional a {
+        font-size: 12px;
+
+        padding: 9px 11px;
+    }
+
+    .container {
+        width: 94%;
+
+        margin: 22px auto 35px;
+    }
+
+    .top {
+        flex-direction: column;
+
+        gap: 16px;
+
+        margin-bottom: 22px;
+    }
+
+    .top-left {
+        width: 100%;
+    }
+
+    .top h2 {
+        font-size: 22px;
+    }
+
+    .top p {
+        font-size: 12px;
+    }
+
+    .back {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .card {
+        padding: 17px;
+
+        border-radius: 13px;
+    }
+
+    .patient h3 {
+        font-size: 16px;
+    }
+
+    .patient p,
+    .date p {
+        font-size: 12px;
+    }
+
+    .reason p {
+        font-size: 12px;
+    }
+
+    .actions {
+        flex-direction: column;
+
+        gap: 7px;
+    }
+
+    .actions .btn {
+        width: 100%;
+    }
+
+    .empty {
+        padding: 40px 15px;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+}
+
+
+/* =====================================================
+   MÓVIL PEQUEÑO
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .header strong {
+        font-size: 14px;
+    }
+
+    .nav-profesional a {
+        font-size: 11px;
+
+        padding: 8px 9px;
+    }
+
+    .top h2 {
+        font-size: 20px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .patient h3 {
+        font-size: 15px;
+    }
+
+    .badge {
+        font-size: 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="header-content">
+
+        <div class="header-title">
+
+            <div class="header-icon">
+                👨‍⚕️
+            </div>
+
+            <strong>
+                Panel Profesional
+            </strong>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MENÚ PROFESIONAL
+===================================================== -->
+
+<nav class="nav-profesional">
+
+    <div class="nav-inner">
+
+        <a href="{{ url_for('profesional') }}">
+            🏠
+            Inicio
+        </a>
+
+        <a
+            href="{{ url_for('profesional_citas') }}"
+            class="activo"
+        >
+            📅
+            Mis Citas
+        </a>
+
+        <a href="{{ url_for('profesional_disponibilidad') }}">
+            🕐
+            Mi Disponibilidad
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         ENCABEZADO
+    ================================================== -->
+
+    <div class="top">
+
+        <div class="top-left">
+
+            <h2>
+                Mis Citas
+            </h2>
+
+            <p>
+                {{ profesional.nombreProfe }}
+                ·
+                {{ profesional.especialidadProfe }}
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('profesional') }}"
+            class="back"
+        >
+            ←
+            Volver al inicio
+        </a>
+
+    </div>
+
+
+    <!-- =================================================
+         LISTA DE CITAS
+    ================================================== -->
+
+    {% for cita in citas %}
+
+
+    <div class="card">
+
+        <div class="appointment">
+
+
+            <!-- =========================================
+                 PACIENTE
+            ========================================== -->
+
+            <div class="patient">
+
+                <span class="label">
+                    Paciente
+                </span>
+
+                <h3>
+                    {{ cita.nombreUsu }}
+                    {{ cita.apellidoUsu }}
+                </h3>
+
+                {% if cita.telefonoUsu %}
+
+                <p>
+                    📞
+                    {{ cita.telefonoUsu }}
+                </p>
+
+                {% endif %}
+
+
+                {% if cita.emailUsu %}
+
+                <p>
+                    ✉
+                    {{ cita.emailUsu }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =========================================
+                 FECHA Y HORA
+            ========================================== -->
+
+            <div class="date">
+
+                <span class="label">
+                    Fecha y hora
+                </span>
+
+                <p>
+                    📅
+                    {{ cita.fechaCit }}
+                </p>
+
+                <p>
+                    ⏰
+                    {{ cita.horaCit }}
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 MOTIVO Y ESTADO
+            ========================================== -->
+
+            <div class="reason">
+
+                <span class="label">
+                    Motivo
+                </span>
+
+                <p>
+                    {{ cita.motivoCit or "Sin información" }}
+                </p>
+
+
+                <span
+                    class="label"
+                    style="margin-top:14px;"
+                >
+                    Estado
+                </span>
+
+
+                {% if cita.estadoCit == "Pendiente" %}
+
+                    <span class="badge pending">
+                        ● Pendiente
+                    </span>
+
+
+                {% elif cita.estadoCit == "Confirmada" %}
+
+                    <span class="badge confirmed">
+                        ● Confirmada
+                    </span>
+
+
+                {% elif cita.estadoCit == "Cancelada" %}
+
+                    <span class="badge cancelled">
+                        ● Cancelada
+                    </span>
+
+
+                {% elif cita.estadoCit == "Completada" %}
+
+                    <span class="badge completed">
+                        ● Completada
+                    </span>
+
+
+                {% else %}
+
+                    <span class="badge pending">
+                        ● {{ cita.estadoCit }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =========================================
+                 ACCIONES
+            ========================================== -->
+
+            <div class="actions">
+
+
+                {% if cita.estadoCit == "Pendiente" %}
+
+
+                    <!-- CONFIRMAR -->
+
+                    <a
+                        href="{{ url_for(
+                            'profesional_confirmar_cita',
+                            id=cita.idCit
+                        ) }}"
+                        class="btn confirm"
+                        onclick="return confirm(
+                            '¿Deseas confirmar esta cita?'
+                        )"
+                    >
+                        ✔ Confirmar
+                    </a>
+
+
+                    <!-- CANCELAR -->
+
+                    <a
+                        href="{{ url_for(
+                            'profesional_cancelar_cita',
+                            id=cita.idCit
+                        ) }}"
+                        class="btn cancel"
+                        onclick="return confirm(
+                            '¿Deseas cancelar esta cita?'
+                        )"
+                    >
+                        ✖ Cancelar
+                    </a>
+
+
+                {% elif cita.estadoCit == "Confirmada" %}
+
+
+                    <!-- COMPLETAR -->
+
+                    <a
+                        href="{{ url_for(
+                            'profesional_completar_cita',
+                            id=cita.idCit
+                        ) }}"
+                        class="btn complete"
+                        onclick="return confirm(
+                            '¿Deseas marcar esta cita como completada?'
+                        )"
+                    >
+                        ✔ Completar
+                    </a>
+
+
+                {% else %}
+
+                    <span class="no-actions">
+                        Sin acciones
+                    </span>
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- =================================================
+         SIN CITAS
+    ================================================== -->
+
+    <div class="card">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📅
+            </div>
+
+            <h3>
+                No tienes citas registradas
+            </h3>
+
+            <p>
+                Cuando un cliente solicite una cita aparecerá aquí.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% endfor %}
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-inner">
+
+        <p>
+            Panel Profesional · Gestión de citas
+        </p>
+
+        <div class="footer-links">
+
+            <a href="{{ url_for('profesional') }}">
+                Inicio
+            </a>
+
+            <a href="{{ url_for('profesional_disponibilidad') }}">
+                Disponibilidad
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     ACTUALIZACIÓN AUTOMÁTICA
+===================================================== -->
+
+<script>
+
+setInterval(function () {
+
+    window.location.reload();
+
+}, 60000);
+
+</script>
+
+
+</body>
+
+</html>

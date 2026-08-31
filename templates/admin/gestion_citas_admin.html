@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Filtro de Citas</title>
+
+<style>
+
+/* =====================================================
+   CONFIGURACIÓN GENERAL
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f3f3f3;
+    color:#333;
+    min-height:100vh;
+    padding:35px 25px 50px;
+}
+
+
+/* =====================================================
+   BOTÓN VOLVER
+===================================================== */
+
+.back-button{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    background:#0a8d14;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s ease;
+    box-shadow:0 3px 9px rgba(10,141,20,.20);
+}
+
+.back-button:hover{
+    background:#087510;
+    transform:translateX(-2px);
+    box-shadow:0 5px 13px rgba(10,141,20,.25);
+}
+
+body > a{
+    display:inline-block;
+    text-decoration:none;
+    margin-bottom:25px;
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+}
+
+
+/* =====================================================
+   TARJETAS
+===================================================== */
+
+.card{
+    background:white;
+    border-radius:14px;
+    border:1px solid #e6e6e6;
+    box-shadow:0 5px 18px rgba(0,0,0,.07);
+    padding:30px;
+}
+
+.card + .card{
+    margin-top:22px;
+}
+
+
+/* =====================================================
+   TÍTULO FILTROS
+===================================================== */
+
+.title{
+    font-size:22px;
+    font-weight:700;
+    color:#222;
+    margin-bottom:26px;
+    padding-bottom:17px;
+    border-bottom:1px solid #eeeeee;
+}
+
+.title::before{
+    content:"";
+    display:inline-block;
+    width:4px;
+    height:22px;
+    background:#0a8d14;
+    border-radius:4px;
+    margin-right:10px;
+    vertical-align:-3px;
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+.filters{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+    color:#444;
+}
+
+
+/* =====================================================
+   INPUTS Y SELECTS
+===================================================== */
+
+.input,
+.select{
+    width:100%;
+    height:44px;
+    border:1px solid #d8d8d8;
+    border-radius:9px;
+    padding:0 13px;
+    font-size:14px;
+    color:#555;
+    background:white;
+    outline:none;
+    transition:.2s ease;
+}
+
+.input:hover,
+.select:hover{
+    border-color:#bdbdbd;
+}
+
+.input:focus,
+.select:focus{
+    border-color:#0a8d14;
+    box-shadow:0 0 0 3px rgba(10,141,20,.10);
+}
+
+.select{
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   ACCIONES DE FILTRO
+===================================================== */
+
+.bottom-actions{
+    margin-top:22px;
+    padding-top:20px;
+    border-top:1px solid #eeeeee;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+
+/* =====================================================
+   DISPONIBILIDAD
+===================================================== */
+
+.available{
+    background:#eef2f5;
+    border:1px solid #e0e5e8;
+    border-radius:9px;
+    padding:10px 16px;
+    font-size:13px;
+    font-weight:600;
+    color:#333;
+}
+
+
+/* =====================================================
+   BOTÓN FILTRAR
+===================================================== */
+
+.filter-btn{
+    min-width:150px;
+    height:42px;
+    border:none;
+    border-radius:9px;
+    background:#0a8d14;
+    color:white;
+    padding:0 20px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s ease;
+    box-shadow:0 3px 8px rgba(10,141,20,.18);
+}
+
+.filter-btn:hover{
+    background:#087510;
+    transform:translateY(-1px);
+    box-shadow:0 5px 12px rgba(10,141,20,.24);
+}
+
+
+/* =====================================================
+   RESULTADOS
+===================================================== */
+
+.results-title{
+    font-size:20px;
+    font-weight:700;
+    color:#222;
+    margin-bottom:22px;
+}
+
+
+/* =====================================================
+   TABLA
+===================================================== */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+    border:1px solid #eeeeee;
+    border-radius:10px;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+    background:white;
+}
+
+.table thead th{
+    text-align:left;
+    padding:15px 17px;
+    background:#eef2f5;
+    border-bottom:1px solid #dfe3e6;
+    color:#555;
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.table tbody td{
+    padding:16px 17px;
+    border-bottom:1px solid #eeeeee;
+    font-size:14px;
+    color:#444;
+}
+
+.table tbody tr{
+    transition:.15s ease;
+}
+
+.table tbody tr:hover{
+    background:#f8faf8;
+}
+
+.table tbody tr:last-child td{
+    border-bottom:none;
+}
+
+
+/* =====================================================
+   PACIENTE
+===================================================== */
+
+.patient{
+    font-weight:600;
+    color:#222 !important;
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:90px;
+    min-height:29px;
+    padding:5px 13px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.confirmed{
+    background:#0d6cc8;
+    color:white;
+}
+
+.cancelled{
+    background:#d90000;
+    color:white;
+}
+
+.pending{
+    background:#f1f1f1;
+    color:#333;
+    border:1px solid #dedede;
+}
+
+
+/* =====================================================
+   ESTADOS VISUALES DE FILAS
+===================================================== */
+
+.table tbody tr:has(.cancelled){
+    background:#fffafa;
+}
+
+.table tbody tr:has(.confirmed){
+    background:#fbfdff;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:850px){
+
+    body{
+        padding:25px 18px 40px;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .bottom-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .available{
+        text-align:center;
+    }
+
+    .filter-btn{
+        width:100%;
+    }
+
+    .card{
+        padding:23px;
+    }
+
+}
+
+
+/* =====================================================
+   MÓVIL
+===================================================== */
+
+@media(max-width:600px){
+
+    body{
+        padding:20px 13px 35px;
+    }
+
+    body > a{
+        margin-bottom:20px;
+    }
+
+    .back-button{
+        width:40px;
+        height:40px;
+    }
+
+    .card{
+        padding:19px;
+        border-radius:12px;
+    }
+
+    .title{
+        font-size:19px;
+        margin-bottom:22px;
+    }
+
+    .title::before{
+        height:19px;
+        width:3px;
+    }
+
+    .results-title{
+        font-size:18px;
+    }
+
+    .table{
+        min-width:780px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     VOLVER
+===================================================== -->
+
+<a href="perfil-admin.html">
+
+    <div class="back-button">
+        ←
+    </div>
+
+</a>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     FILTROS
+===================================================== -->
+
+<div class="card">
+
+    <div class="title">
+        Filtro de Citas
+    </div>
+
+
+    <div class="filters">
+
+
+        <div class="form-group">
+
+            <label for="fecha">
+                Fecha
+            </label>
+
+            <input
+                class="input"
+                id="fecha"
+                type="date"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="departamento">
+                Departamento
+            </label>
+
+            <select
+                class="select"
+                id="departamento"
+            >
+
+                <option value="">
+                    Seleccionar departamento
+                </option>
+
+                <option value="Antioquia">
+                    Antioquia
+                </option>
+
+                <option value="Amazonas">
+                    Amazonas
+                </option>
+
+                <option value="Boyacá">
+                    Boyacá
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="municipio">
+                Municipio
+            </label>
+
+            <select
+                class="select"
+                id="municipio"
+            >
+
+                <option value="">
+                    Seleccionar municipio
+                </option>
+
+                <option value="Medellín">
+                    Medellín
+                </option>
+
+                <option value="Envigado">
+                    Envigado
+                </option>
+
+                <option value="Tunja">
+                    Tunja
+                </option>
+
+                <option value="Duitama">
+                    Duitama
+                </option>
+
+                <option value="Sogamoso">
+                    Sogamoso
+                </option>
+
+                <option value="Leticia">
+                    Leticia
+                </option>
+
+                <option value="Puerto Nariño">
+                    Puerto Nariño
+                </option>
+
+                <option value="Rionegro">
+                    Rionegro
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="bottom-actions">
+
+        <div class="available" id="contador">
+
+            🗓 10 Citas Disponibles
+
+        </div>
+
+
+        <button
+            type="button"
+            class="filter-btn"
+            onclick="filtrarCitas()"
+        >
+
+            Aplicar filtro
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RESULTADOS
+===================================================== -->
+
+<div class="card">
+
+    <div class="results-title">
+        Resultados de Citas
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Hora</th>
+
+                    <th>Paciente</th>
+
+                    <th>Departamento</th>
+
+                    <th>Municipio</th>
+
+                    <th>Estado</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="citasBody">
+
+
+                <tr
+                    data-departamento="Antioquia"
+                    data-municipio="Medellín"
+                >
+
+                    <td>09:00 AM</td>
+
+                    <td class="patient">
+                        Ana García
+                    </td>
+
+                    <td>
+                        Antioquia
+                    </td>
+
+                    <td>
+                        Medellín
+                    </td>
+
+                    <td>
+
+                        <span class="badge confirmed">
+                            Confirmada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Boyacá"
+                    data-municipio="Tunja"
+                >
+
+                    <td>10:30 AM</td>
+
+                    <td class="patient">
+                        Carlos López
+                    </td>
+
+                    <td>
+                        Boyacá
+                    </td>
+
+                    <td>
+                        Tunja
+                    </td>
+
+                    <td>
+
+                        <span class="badge pending">
+                            Pendiente
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Amazonas"
+                    data-municipio="Leticia"
+                >
+
+                    <td>11:00 AM</td>
+
+                    <td class="patient">
+                        María Rodríguez
+                    </td>
+
+                    <td>
+                        Amazonas
+                    </td>
+
+                    <td>
+                        Leticia
+                    </td>
+
+                    <td>
+
+                        <span class="badge confirmed">
+                            Confirmada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Antioquia"
+                    data-municipio="Envigado"
+                >
+
+                    <td>02:00 PM</td>
+
+                    <td class="patient">
+                        Pedro Gómez
+                    </td>
+
+                    <td>
+                        Antioquia
+                    </td>
+
+                    <td>
+                        Envigado
+                    </td>
+
+                    <td>
+
+                        <span class="badge cancelled">
+                            Cancelada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Boyacá"
+                    data-municipio="Sogamoso"
+                >
+
+                    <td>03:45 PM</td>
+
+                    <td class="patient">
+                        Laura Martínez
+                    </td>
+
+                    <td>
+                        Boyacá
+                    </td>
+
+                    <td>
+                        Sogamoso
+                    </td>
+
+                    <td>
+
+                        <span class="badge confirmed">
+                            Confirmada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Amazonas"
+                    data-municipio="Puerto Nariño"
+                >
+
+                    <td>04:00 PM</td>
+
+                    <td class="patient">
+                        Miguel Torres
+                    </td>
+
+                    <td>
+                        Amazonas
+                    </td>
+
+                    <td>
+                        Puerto Nariño
+                    </td>
+
+                    <td>
+
+                        <span class="badge pending">
+                            Pendiente
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Antioquia"
+                    data-municipio="Medellín"
+                >
+
+                    <td>09:30 AM</td>
+
+                    <td class="patient">
+                        Sofía Hernández
+                    </td>
+
+                    <td>
+                        Antioquia
+                    </td>
+
+                    <td>
+                        Medellín
+                    </td>
+
+                    <td>
+
+                        <span class="badge confirmed">
+                            Confirmada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Boyacá"
+                    data-municipio="Duitama"
+                >
+
+                    <td>01:00 PM</td>
+
+                    <td class="patient">
+                        Diego Vargas
+                    </td>
+
+                    <td>
+                        Boyacá
+                    </td>
+
+                    <td>
+                        Duitama
+                    </td>
+
+                    <td>
+
+                        <span class="badge cancelled">
+                            Cancelada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Antioquia"
+                    data-municipio="Rionegro"
+                >
+
+                    <td>03:00 PM</td>
+
+                    <td class="patient">
+                        Elena Morales
+                    </td>
+
+                    <td>
+                        Antioquia
+                    </td>
+
+                    <td>
+                        Rionegro
+                    </td>
+
+                    <td>
+
+                        <span class="badge pending">
+                            Pendiente
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    data-departamento="Amazonas"
+                    data-municipio="Leticia"
+                >
+
+                    <td>04:30 PM</td>
+
+                    <td class="patient">
+                        Fernando Ruiz
+                    </td>
+
+                    <td>
+                        Amazonas
+                    </td>
+
+                    <td>
+                        Leticia
+                    </td>
+
+                    <td>
+
+                        <span class="badge confirmed">
+                            Confirmada
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   FILTRO DE CITAS
+===================================================== */
+
+function filtrarCitas(){
+
+    const departamento =
+        document.getElementById("departamento").value;
+
+    const municipio =
+        document.getElementById("municipio").value;
+
+    const filas =
+        document.querySelectorAll("#citasBody tr");
+
+    let disponibles = 0;
+
+
+    filas.forEach(function(fila){
+
+        const dep =
+            fila.dataset.departamento;
+
+        const mun =
+            fila.dataset.municipio;
+
+
+        const coincideDepartamento =
+            departamento === "" ||
+            dep === departamento;
+
+
+        const coincideMunicipio =
+            municipio === "" ||
+            mun === municipio;
+
+
+        if(
+            coincideDepartamento &&
+            coincideMunicipio
+        ){
+
+            fila.style.display = "";
+            disponibles++;
+
+        }else{
+
+            fila.style.display = "none";
+
+        }
+
+    });
+
+
+    document.getElementById("contador").textContent =
+        "🗓 " + disponibles + " Citas Disponibles";
+
+}
+
+
+/* =====================================================
+   MUNICIPIOS SEGÚN DEPARTAMENTO
+===================================================== */
+
+const municipios = {
+
+    "Antioquia": [
+        "Medellín",
+        "Envigado",
+        "Rionegro"
+    ],
+
+    "Boyacá": [
+        "Tunja",
+        "Duitama",
+        "Sogamoso"
+    ],
+
+    "Amazonas": [
+        "Leticia",
+        "Puerto Nariño"
+    ]
+
+};
+
+
+document.getElementById("departamento")
+.addEventListener("change", function(){
+
+    const departamento = this.value;
+
+    const municipio =
+        document.getElementById("municipio");
+
+
+    municipio.innerHTML =
+        '<option value="">Seleccionar municipio</option>';
+
+
+    if(municipios[departamento]){
+
+        municipios[departamento].forEach(function(nombre){
+
+            const option =
+                document.createElement("option");
+
+            option.value = nombre;
+            option.textContent = nombre;
+
+            municipio.appendChild(option);
+
+        });
+
+    }
+
+});
+
+
+/* =====================================================
+   FILTRAR AL CAMBIAR MUNICIPIO
+===================================================== */
+
+document.getElementById("municipio")
+.addEventListener("change", function(){
+
+    filtrarCitas();
+
+});
+
+</script>
+
+
+</body>
+</html>

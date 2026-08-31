@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Recuperar contraseña | Natural One Life</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:30px 20px;
+
+    background:
+        linear-gradient(
+            rgba(20,85,40,.78),
+            rgba(8,55,25,.82)
+        ),
+        url("{{ url_for('static', filename='img/fondo-login.jpeg') }}")
+        center/cover no-repeat;
+}
+
+.container{
+
+    width:100%;
+    max-width:500px;
+
+    background:rgba(255,255,255,.97);
+
+    padding:42px 48px;
+
+    border-radius:22px;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.28);
+}
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+}
+
+.logo{
+
+    color:#2e7d32;
+
+    font-size:32px;
+
+    font-weight:800;
+
+    margin-bottom:8px;
+}
+
+.header p{
+
+    color:#777;
+
+    font-size:15px;
+
+    line-height:1.5;
+}
+
+.field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    margin-bottom:20px;
+}
+
+label{
+
+    margin-bottom:8px;
+
+    color:#315f37;
+
+    font-size:14px;
+
+    font-weight:700;
+}
+
+input{
+
+    width:100%;
+
+    height:52px;
+
+    padding:0 15px;
+
+    border:1px solid #d5ddd5;
+
+    border-radius:10px;
+
+    background:#fbfdfb;
+
+    color:#333;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.25s;
+}
+
+input:focus{
+
+    border-color:#43a047;
+
+    box-shadow:
+        0 0 0 3px rgba(67,160,71,.12);
+
+    background:#fff;
+}
+
+button{
+
+    width:100%;
+
+    height:52px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#2e7d32;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+button:hover{
+
+    background:#1b5e20;
+
+    transform:translateY(-1px);
+}
+
+button:disabled{
+
+    opacity:.7;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+.mensaje{
+
+    display:none;
+
+    margin-bottom:20px;
+
+    padding:13px 16px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    text-align:center;
+}
+
+.mensaje.error{
+
+    display:block;
+
+    background:#fff1f1;
+
+    border:1px solid #f2b8b8;
+
+    color:#b42318;
+}
+
+.mensaje.exito{
+
+    display:block;
+
+    background:#eef9f0;
+
+    border:1px solid #b7dfbd;
+
+    color:#246b2c;
+}
+
+.footer{
+
+    text-align:center;
+
+    margin-top:22px;
+
+    font-size:14px;
+
+    color:#777;
+}
+
+.footer a{
+
+    color:#2e7d32;
+
+    text-decoration:none;
+
+    font-weight:700;
+}
+
+.footer a:hover{
+
+    text-decoration:underline;
+}
+
+@media(max-width:420px){
+
+    .container{
+
+        padding:30px 22px;
+
+        border-radius:18px;
+    }
+
+    .logo{
+
+        font-size:27px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">
+            Natural One Life
+        </div>
+
+        <p>
+            Recupera el acceso a tu cuenta
+        </p>
+
+    </div>
+
+
+    <div
+        id="mensaje"
+        class="mensaje"
+        role="alert"
+        aria-live="polite"
+    ></div>
+
+
+    <form
+        id="recuperarForm"
+        novalidate
+    >
+
+        <div class="field">
+
+            <label for="email">
+                Correo electrónico
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu.correo@ejemplo.com"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            id="btnRecuperar"
+        >
+            Enviar enlace de recuperación
+        </button>
+
+    </form>
+
+
+    <div class="footer">
+
+        <a href="/">
+            ← Volver al inicio de sesión
+        </a>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/recuperar.js') }}"></script>
+
+</body>
+
+</html>

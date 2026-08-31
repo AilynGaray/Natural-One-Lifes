@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Pedidos | Natural One Life</title>
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+    background:#F8F5EF;
+    color:#222;
+    min-height:100vh;
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar{
+
+    width:100%;
+    min-height:68px;
+
+    background:#008800;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 34px;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.15);
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo{
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    font-style:italic;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+
+/* =====================================================
+   BOTÓN VOLVER
+===================================================== */
+
+.dashboard-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 17px;
+
+    background:white;
+
+    color:#008800;
+
+    text-decoration:none;
+
+    border-radius:8px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    border:1px solid rgba(255,255,255,.8);
+
+    transition:.2s ease;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,.12);
+}
+
+
+.dashboard-btn:hover{
+
+    background:#f2f2f2;
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.16);
+}
+
+
+.dashboard-icon{
+
+    font-size:16px;
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.container{
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:0 auto;
+
+    padding:38px 34px;
+}
+
+
+/* =====================================================
+   ENCABEZADO
+===================================================== */
+
+.page-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+    gap:20px;
+}
+
+
+.title-container{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+
+.title-line{
+
+    width:5px;
+
+    height:28px;
+
+    background:#008800;
+
+    border-radius:5px;
+}
+
+
+h1{
+
+    font-size:27px;
+
+    font-weight:700;
+
+    color:#222;
+}
+
+
+.subtitle{
+
+    color:#777;
+
+    font-size:13px;
+
+    margin-top:4px;
+}
+
+
+/* =====================================================
+   TARJETA
+===================================================== */
+
+.orders-card{
+
+    background:white;
+
+    border-radius:16px;
+
+    border:1px solid #e6e1d9;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.07),
+        0 12px 30px rgba(0,0,0,.06);
+
+    overflow:hidden;
+}
+
+
+/* =====================================================
+   ENCABEZADO TABLA
+===================================================== */
+
+.table-header{
+
+    padding:20px 24px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid #eeeeee;
+
+    background:#fff;
+}
+
+
+.table-title{
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:#333;
+}
+
+
+.order-count{
+
+    background:#f1f1f1;
+
+    color:#555;
+
+    border-radius:20px;
+
+    padding:5px 12px;
+
+    font-size:12px;
+
+    font-weight:700;
+}
+
+
+/* =====================================================
+   TABLA
+===================================================== */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:950px;
+}
+
+
+thead{
+
+    background:#fafafa;
+}
+
+
+th{
+
+    text-align:left;
+
+    padding:15px 20px;
+
+    color:#666;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    border-bottom:1px solid #e6e6e6;
+
+    white-space:nowrap;
+}
+
+
+td{
+
+    padding:17px 20px;
+
+    border-bottom:1px solid #eeeeee;
+
+    color:#444;
+
+    font-size:14px;
+
+    vertical-align:middle;
+}
+
+
+tbody tr{
+
+    transition:.2s ease;
+}
+
+
+tbody tr:hover{
+
+    background:#fafdf9;
+}
+
+
+tbody tr:last-child td{
+
+    border-bottom:none;
+}
+
+
+/* =====================================================
+   ID PEDIDO
+===================================================== */
+
+.order-id{
+
+    font-weight:700;
+
+    color:#008800;
+}
+
+
+/* =====================================================
+   TOTAL
+===================================================== */
+
+.total{
+
+    font-weight:700;
+
+    color:#222;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   CONTENEDOR ESTADO
+===================================================== */
+
+.status-container{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    min-width:250px;
+}
+
+
+/* =====================================================
+   SELECT ESTADO
+===================================================== */
+
+.status-select{
+
+    min-width:150px;
+
+    padding:9px 12px;
+
+    border-radius:8px;
+
+    border:1px solid #d9d9d9;
+
+    background:white;
+
+    color:#444;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    outline:none;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+}
+
+
+.status-select:hover{
+
+    border-color:#008800;
+}
+
+
+.status-select:focus{
+
+    border-color:#008800;
+
+    box-shadow:
+        0 0 0 3px rgba(0,136,0,.10);
+}
+
+
+/* =====================================================
+   BOTÓN ACTUALIZAR
+===================================================== */
+
+.update-btn{
+
+    border:none;
+
+    background:#008800;
+
+    color:white;
+
+    padding:9px 13px;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+    white-space:nowrap;
+}
+
+
+.update-btn:hover{
+
+    background:#006f00;
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.15);
+}
+
+
+.update-btn:active{
+
+    transform:translateY(0);
+}
+
+
+/* =====================================================
+   INDICADOR VISUAL DEL ESTADO
+===================================================== */
+
+.estado-actual{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:7px;
+
+    font-size:11px;
+
+    color:#777;
+}
+
+
+.estado-actual::before{
+
+    content:"";
+
+    width:6px;
+
+    height:6px;
+
+    border-radius:50%;
+
+    background:#777;
+}
+
+
+/* =====================================================
+   COLORES DE ESTADO
+===================================================== */
+
+.estado-pendiente{
+
+    color:#946b17;
+}
+
+
+.estado-pendiente::before{
+
+    background:#d49b22;
+}
+
+
+.estado-proceso{
+
+    color:#3f73c9;
+}
+
+
+.estado-proceso::before{
+
+    background:#3f73c9;
+}
+
+
+.estado-enviado{
+
+    color:#7b4bb7;
+}
+
+
+.estado-enviado::before{
+
+    background:#7b4bb7;
+}
+
+
+.estado-completado{
+
+    color:#247332;
+}
+
+
+.estado-completado::before{
+
+    background:#2E7D32;
+}
+
+
+.estado-cancelado{
+
+    color:#a83232;
+}
+
+
+.estado-cancelado::before{
+
+    background:#d50000;
+}
+
+
+/* =====================================================
+   MENSAJES FLASH
+===================================================== */
+
+.flash-container{
+
+    margin-bottom:20px;
+}
+
+
+.flash{
+
+    padding:13px 17px;
+
+    border-radius:9px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    border:1px solid transparent;
+}
+
+
+.flash.success{
+
+    background:#eaf6ec;
+
+    color:#247332;
+
+    border-color:#c9e8ce;
+}
+
+
+.flash.error{
+
+    background:#fbeaea;
+
+    color:#a83232;
+
+    border-color:#efcaca;
+}
+
+
+/* =====================================================
+   MENSAJE SIN PEDIDOS
+===================================================== */
+
+.empty{
+
+    text-align:center;
+
+    padding:50px 20px;
+
+    color:#777;
+
+    font-size:14px;
+}
+
+
+.empty-icon{
+
+    font-size:40px;
+
+    margin-bottom:12px;
+
+    opacity:.5;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.table-footer{
+
+    padding:16px 24px;
+
+    border-top:1px solid #eeeeee;
+
+    background:#fafafa;
+
+    color:#777;
+
+    font-size:12px;
+}
+
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.table-wrapper::-webkit-scrollbar{
+
+    height:7px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-track{
+
+    background:#f1f1f1;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb{
+
+    background:#c7c7c7;
+
+    border-radius:10px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb:hover{
+
+    background:#999;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:700px){
+
+    .topbar{
+
+        min-height:64px;
+
+        padding:12px 18px;
+
+        gap:12px;
+    }
+
+
+    .logo{
+
+        font-size:19px;
+    }
+
+
+    .dashboard-btn{
+
+        padding:8px 11px;
+
+        font-size:12px;
+    }
+
+
+    .dashboard-icon{
+
+        font-size:14px;
+    }
+
+
+    .container{
+
+        padding:25px 14px;
+    }
+
+
+    .page-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+        margin-bottom:20px;
+    }
+
+
+    h1{
+
+        font-size:23px;
+    }
+
+
+    .orders-card{
+
+        border-radius:12px;
+    }
+
+
+    .table-header{
+
+        padding:17px;
+    }
+
+
+    th{
+
+        padding:13px 15px;
+    }
+
+
+    td{
+
+        padding:15px;
+    }
+
+
+    .status-container{
+
+        min-width:230px;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+
+    .status-select{
+
+        width:100%;
+    }
+
+
+    .update-btn{
+
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BARRA SUPERIOR
+===================================================== -->
+
+<header class="topbar">
+
+    <div class="logo">
+        Natural One Life
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="dashboard-btn"
+    >
+
+        <span class="dashboard-icon">
+            ←
+        </span>
+
+        Volver al Inicio
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- ENCABEZADO -->
+
+    <div class="page-header">
+
+        <div>
+
+            <div class="title-container">
+
+                <span class="title-line"></span>
+
+                <h1>
+                    Pedidos
+                </h1>
+
+            </div>
+
+
+            <p class="subtitle">
+                Consulta y seguimiento de los pedidos registrados
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MENSAJES FLASH
+    ================================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =================================================
+         TARJETA DE PEDIDOS
+    ================================================== -->
+
+    <section class="orders-card">
+
+
+        <!-- ENCABEZADO -->
+
+        <div class="table-header">
+
+            <div class="table-title">
+
+                Listado de pedidos
+
+            </div>
+
+
+            <div class="order-count">
+
+                {{ pedidos|length }} pedidos
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TABLA
+        ================================================== -->
+
+        <div class="table-wrapper">
+
+            {% if pedidos %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Usuario
+                        </th>
+
+                        <th>
+                            Fecha
+                        </th>
+
+                        <th>
+                            Estado
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+                    {% for pedido in pedidos %}
+
+                    <tr>
+
+
+                        <!-- ID -->
+
+                        <td>
+
+                            <span class="order-id">
+
+                                #{{ pedido.idPed }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- USUARIO -->
+
+                        <td>
+
+                            Usuario #{{ pedido.idUsuarioPed }}
+
+                        </td>
+
+
+
+                        <!-- FECHA -->
+
+                        <td>
+
+                            {{ pedido.fechaPed }}
+
+                        </td>
+
+
+
+                        <!-- ESTADO -->
+
+                        <td>
+
+                            <div class="status-container">
+
+
+                                <form
+                                    method="POST"
+                                    action="{{
+                                        url_for(
+                                            'actualizar_estado_pedido',
+                                            id_pedido=pedido.idPed
+                                        )
+                                    }}"
+                                >
+
+
+                                    <select
+                                        name="estado"
+                                        class="status-select"
+                                        required
+                                    >
+
+                                        <option
+                                            value="Pendiente"
+                                            {% if pedido.estadoPed == "Pendiente" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Pendiente
+                                        </option>
+
+
+                                        <option
+                                            value="En proceso"
+                                            {% if pedido.estadoPed == "En proceso" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            En proceso
+                                        </option>
+
+
+                                        <option
+                                            value="Enviado"
+                                            {% if pedido.estadoPed == "Enviado" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Enviado
+                                        </option>
+
+
+                                        <option
+                                            value="Completado"
+                                            {% if pedido.estadoPed == "Completado" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Completado
+                                        </option>
+
+
+                                        <option
+                                            value="Cancelado"
+                                            {% if pedido.estadoPed == "Cancelado" %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            Cancelado
+                                        </option>
+
+                                    </select>
+
+
+                                    <button
+                                        type="submit"
+                                        class="update-btn"
+                                    >
+
+                                        Actualizar
+
+                                    </button>
+
+
+                                </form>
+
+
+                                <!-- ESTADO ACTUAL -->
+
+                                {% set estado = pedido.estadoPed|lower %}
+
+
+                                <span
+                                    class="estado-actual
+                                    {% if estado == 'pendiente' %}
+                                        estado-pendiente
+                                    {% elif estado == 'en proceso' %}
+                                        estado-proceso
+                                    {% elif estado == 'enviado' %}
+                                        estado-enviado
+                                    {% elif estado == 'completado' %}
+                                        estado-completado
+                                    {% elif estado == 'cancelado' %}
+                                        estado-cancelado
+                                    {% endif %}
+                                    "
+                                >
+
+                                    Estado actual:
+                                    {{ pedido.estadoPed }}
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- TOTAL -->
+
+                        <td>
+
+                            <span class="total">
+
+                                ${{ "{:,.0f}".format(
+                                    pedido.totalPed|float
+                                ) }}
+
+                            </span>
+
+                        </td>
+
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            {% else %}
+
+
+            <!-- SIN PEDIDOS -->
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
+                No hay pedidos registrados actualmente.
+
+            </div>
+
+
+            {% endif %}
+
+        </div>
+
+
+
+        {% if pedidos %}
+
+        <div class="table-footer">
+
+            Mostrando todos los pedidos registrados en el sistema.
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+</main>
+
+
+</body>
+
+</html>

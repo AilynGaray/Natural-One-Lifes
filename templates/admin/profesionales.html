@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Profesionales | Natural One Life</title>
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:"Segoe UI", Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        min-height:100vh;
+        background:#F8F5EF;
+        color:#333;
+    }
+
+
+    /* =====================================================
+       CONTENEDOR PRINCIPAL
+    ===================================================== */
+
+    .container{
+        width:100%;
+        max-width:1250px;
+        margin:0 auto;
+        padding:40px 30px 60px;
+    }
+
+
+    /* =====================================================
+       ENCABEZADO
+    ===================================================== */
+
+    .header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:30px;
+        gap:20px;
+    }
+
+    .header-info{
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+    }
+
+    .header-info h1{
+        color:#2E7D32;
+        font-size:32px;
+        font-weight:700;
+        letter-spacing:-.5px;
+    }
+
+    .header-info p{
+        color:#777;
+        font-size:14px;
+    }
+
+
+    /* =====================================================
+       BOTÓN DASHBOARD
+    ===================================================== */
+
+    .btn-dashboard{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+
+        background:#2E7D32;
+        color:white;
+
+        text-decoration:none;
+
+        min-height:44px;
+        padding:0 20px;
+
+        border-radius:8px;
+
+        font-size:14px;
+        font-weight:600;
+
+        box-shadow:0 3px 8px rgba(46,125,50,.18);
+
+        transition:
+            background .2s ease,
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .btn-dashboard:hover{
+        background:#256b29;
+        transform:translateY(-1px);
+        box-shadow:0 5px 12px rgba(46,125,50,.25);
+    }
+
+
+    /* =====================================================
+       TARJETA PRINCIPAL
+    ===================================================== */
+
+    .table-container{
+        width:100%;
+        background:white;
+
+        border-radius:14px;
+
+        padding:0;
+
+        overflow:hidden;
+
+        border:1px solid #ece8df;
+
+        box-shadow:
+            0 3px 8px rgba(0,0,0,.05),
+            0 8px 24px rgba(0,0,0,.06);
+    }
+
+
+    /* =====================================================
+       CABECERA DE LA TABLA
+    ===================================================== */
+
+    .table-header{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        padding:22px 25px;
+
+        border-bottom:1px solid #eee;
+    }
+
+    .table-header h2{
+        font-size:19px;
+        color:#222;
+        font-weight:700;
+    }
+
+    .table-header span{
+        color:#777;
+        font-size:13px;
+    }
+
+
+    /* =====================================================
+       TABLA
+    ===================================================== */
+
+    .table-wrapper{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    table{
+        width:100%;
+        min-width:900px;
+        border-collapse:collapse;
+    }
+
+
+    thead{
+        background:#faf9f6;
+    }
+
+    th{
+        padding:16px 20px;
+
+        text-align:left;
+
+        color:#2E7D32;
+
+        font-size:13px;
+        font-weight:700;
+
+        border-bottom:1px solid #e8e8e8;
+
+        white-space:nowrap;
+    }
+
+    td{
+        padding:18px 20px;
+
+        text-align:left;
+
+        color:#444;
+
+        font-size:14px;
+
+        border-bottom:1px solid #eeeeee;
+
+        vertical-align:middle;
+    }
+
+
+    /* =====================================================
+       FILAS
+    ===================================================== */
+
+    tbody tr{
+        transition:
+            background .2s ease;
+    }
+
+    tbody tr:hover{
+        background:#fafcf9;
+    }
+
+    tbody tr:last-child td{
+        border-bottom:none;
+    }
+
+
+    /* =====================================================
+       NOMBRE DEL PROFESIONAL
+    ===================================================== */
+
+    .professional-name{
+        display:flex;
+        align-items:center;
+        gap:12px;
+
+        font-weight:600;
+        color:#222;
+    }
+
+    .professional-icon{
+        width:38px;
+        height:38px;
+
+        border-radius:50%;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:#E8F5E9;
+        color:#2E7D32;
+
+        font-size:16px;
+        font-weight:700;
+
+        flex-shrink:0;
+    }
+
+
+    /* =====================================================
+       USUARIO
+    ===================================================== */
+
+    .username{
+        color:#555;
+        font-weight:500;
+    }
+
+
+    /* =====================================================
+       CORREO
+    ===================================================== */
+
+    .email{
+        color:#555;
+    }
+
+
+    /* =====================================================
+       ESPECIALIDAD
+    ===================================================== */
+
+    .specialty{
+        display:inline-flex;
+        align-items:center;
+
+        background:#F1F8F2;
+
+        color:#2E7D32;
+
+        padding:6px 11px;
+
+        border-radius:20px;
+
+        font-size:12px;
+        font-weight:600;
+
+        white-space:nowrap;
+    }
+
+
+    /* =====================================================
+       TELÉFONO
+    ===================================================== */
+
+    .phone{
+        color:#555;
+    }
+
+    .not-registered{
+        color:#999;
+        font-style:italic;
+    }
+
+
+    /* =====================================================
+       ESTADOS
+    ===================================================== */
+
+    .status{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+
+        padding:6px 12px;
+
+        border-radius:20px;
+
+        font-size:12px;
+        font-weight:700;
+    }
+
+    .status::before{
+        content:"";
+
+        width:7px;
+        height:7px;
+
+        border-radius:50%;
+    }
+
+
+    .estado-activo{
+        background:#E8F5E9;
+        color:#2E7D32;
+    }
+
+    .estado-activo::before{
+        background:#2E7D32;
+    }
+
+
+    .estado-inactivo{
+        background:#fdecec;
+        color:#b42318;
+    }
+
+    .estado-inactivo::before{
+        background:#b42318;
+    }
+
+
+    /* =====================================================
+       SIN REGISTROS
+    ===================================================== */
+
+    .empty-row{
+        text-align:center;
+        padding:55px 20px !important;
+        color:#777;
+    }
+
+    .empty-icon{
+        width:55px;
+        height:55px;
+
+        margin:0 auto 14px;
+
+        border-radius:50%;
+
+        background:#F1F8F2;
+
+        color:#2E7D32;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:23px;
+    }
+
+    .empty-row strong{
+        display:block;
+        color:#444;
+        font-size:15px;
+        margin-bottom:5px;
+    }
+
+    .empty-row span{
+        font-size:13px;
+        color:#888;
+    }
+
+
+    /* =====================================================
+       PIE DE TABLA
+    ===================================================== */
+
+    .table-footer{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        padding:16px 25px;
+
+        background:#faf9f6;
+
+        border-top:1px solid #eeeeee;
+    }
+
+    .table-footer p{
+        color:#777;
+        font-size:13px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media(max-width:800px){
+
+        .container{
+            padding:30px 18px 45px;
+        }
+
+        .header{
+            flex-direction:column;
+            align-items:flex-start;
+        }
+
+        .header-info h1{
+            font-size:28px;
+        }
+
+        .btn-dashboard{
+            width:100%;
+        }
+
+        .table-header{
+            padding:20px;
+        }
+
+        .table-footer{
+            padding:15px 20px;
+        }
+
+    }
+
+
+    @media(max-width:500px){
+
+        .container{
+            padding:22px 12px 35px;
+        }
+
+        .header-info h1{
+            font-size:25px;
+        }
+
+        .header-info p{
+            font-size:13px;
+        }
+
+        .table-container{
+            border-radius:10px;
+        }
+
+        .table-header{
+            align-items:flex-start;
+            flex-direction:column;
+            gap:5px;
+        }
+
+        th,
+        td{
+            padding:14px 16px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+<!-- =====================================================
+     ENCABEZADO
+====================================================== -->
+
+<header class="header">
+
+    <div class="header-info">
+
+        <h1>
+            Profesionales
+        </h1>
+
+        <p>
+            Consulta y supervisa los profesionales registrados en el sistema.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="btn-dashboard"
+    >
+
+        <span>←</span>
+
+        Volver al Inicio
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     TABLA
+====================================================== -->
+
+<section class="table-container">
+
+
+    <div class="table-header">
+
+        <h2>
+            Profesionales registrados
+        </h2>
+
+        <span>
+            Directorio profesional
+        </span>
+
+    </div>
+
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Profesional
+                    </th>
+
+                    <th>
+                        Usuario
+                    </th>
+
+                    <th>
+                        Correo electrónico
+                    </th>
+
+                    <th>
+                        Especialidad
+                    </th>
+
+                    <th>
+                        Teléfono
+                    </th>
+
+                    <th>
+                        Estado
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            {% for profesional in profesionales %}
+
+
+                <tr>
+
+
+                    <!-- PROFESIONAL -->
+
+                    <td>
+
+                        <div class="professional-name">
+
+                            <div class="professional-icon">
+                                👤
+                            </div>
+
+                            <span>
+                                {{ profesional.nombreProfe }}
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+
+                    <!-- USUARIO -->
+
+                    <td>
+
+                        {% if profesional.usuarioUsu %}
+
+                            <span class="username">
+                                {{ profesional.usuarioUsu }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="not-registered">
+                                Sin usuario
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+
+                    <!-- CORREO -->
+
+                    <td>
+
+                        <span class="email">
+                            {{ profesional.correoProfe }}
+                        </span>
+
+                    </td>
+
+
+
+                    <!-- ESPECIALIDAD -->
+
+                    <td>
+
+                        <span class="specialty">
+                            {{ profesional.especialidadProfe }}
+                        </span>
+
+                    </td>
+
+
+
+                    <!-- TELÉFONO -->
+
+                    <td>
+
+                        {% if profesional.telefonoProfe %}
+
+                            <span class="phone">
+                                {{ profesional.telefonoProfe }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="not-registered">
+                                No registrado
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+
+                    <!-- ESTADO -->
+
+                    <td>
+
+                        {% if profesional.activoProfe == 1 %}
+
+                            <span class="status estado-activo">
+                                Activo
+                            </span>
+
+                        {% else %}
+
+                            <span class="status estado-inactivo">
+                                Inactivo
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                </tr>
+
+
+            {% else %}
+
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty-row"
+                    >
+
+                        <div class="empty-icon">
+                            👤
+                        </div>
+
+                        <strong>
+                            No hay profesionales registrados
+                        </strong>
+
+                        <span>
+                            Los profesionales aparecerán aquí cuando sean registrados.
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PIE
+    ================================================== -->
+
+    <div class="table-footer">
+
+        <p>
+            Información de profesionales del sistema
+        </p>
+
+        <p>
+            Natural One Life
+        </p>
+
+    </div>
+
+
+</section>
+
+</div>
+
+</body>
+
+</html>

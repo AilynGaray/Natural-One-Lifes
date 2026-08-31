@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nuevo Producto</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:#eef5ee;
+}
+
+.header{
+
+width:100%;
+height:70px;
+
+background:#0b7a33;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:0 35px;
+
+}
+
+.logo{
+
+color:white;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.logo span{
+
+color:#c8ffd5;
+
+}
+
+.avatar{
+
+width:50px;
+height:50px;
+
+border-radius:50%;
+
+overflow:hidden;
+
+border:2px solid white;
+
+}
+
+.avatar img{
+
+width:100%;
+height:100%;
+object-fit:cover;
+
+}
+
+.container{
+
+width:900px;
+
+margin:40px auto;
+
+background:white;
+
+padding:40px;
+
+border-radius:12px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+h1{
+
+text-align:center;
+
+margin-bottom:35px;
+
+color:#2d2d2d;
+
+}
+
+.form-group{
+
+margin-bottom:22px;
+
+}
+
+label{
+
+display:block;
+
+font-weight:bold;
+
+margin-bottom:8px;
+
+color:#333;
+
+}
+
+input,
+textarea,
+select{
+
+width:100%;
+
+padding:12px;
+
+border:1px solid #ccc;
+
+border-radius:8px;
+
+font-size:16px;
+
+}
+
+textarea{
+
+resize:none;
+
+height:130px;
+
+}
+
+.row{
+
+display:flex;
+
+gap:20px;
+
+}
+
+.col{
+
+flex:1;
+
+}
+
+input[type=file]{
+
+border:none;
+
+padding:0;
+
+}
+
+.botones{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:35px;
+
+}
+
+.btn{
+
+padding:13px 35px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-size:16px;
+
+font-weight:bold;
+
+}
+
+.guardar{
+
+background:#0b7a33;
+
+color:white;
+
+}
+
+.cancelar{
+
+background:#d9d9d9;
+
+color:#333;
+
+}
+
+.btn:hover{
+
+opacity:.9;
+
+}
+
+.preview{
+
+margin-top:20px;
+
+text-align:center;
+
+}
+
+.preview img{
+
+width:220px;
+
+height:220px;
+
+object-fit:cover;
+
+border-radius:10px;
+
+border:2px dashed #aaa;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="logo">
+
+Natural <span>One Life</span>
+
+</div>
+
+<div class="avatar">
+
+<img src="{{ url_for('static', filename='img/perfil.jpg') }}">
+
+</div>
+
+</header>
+
+<div class="container">
+
+<h1>Registrar Nuevo Producto</h1>
+
+<form
+action="/guardar-producto"
+method="POST"
+enctype="multipart/form-data">
+
+<div class="form-group">
+
+<label>Nombre del producto</label>
+
+<input
+type="text"
+name="nombre"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Descripción</label>
+
+<textarea
+name="descripcion"
+required></textarea>
+
+</div>
+
+<div class="row">
+
+<div class="col">
+
+<label>Precio</label>
+
+<input
+type="number"
+step="0.01"
+name="precio"
+required>
+
+</div>
+
+<div class="col">
+
+<label>Stock</label>
+
+<input
+type="number"
+name="stock"
+required>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>Categoría</label>
+
+<select
+name="categoria"
+required>
+
+<option value="">
+Seleccione...
+</option>
+
+{% for categoria in categorias %}
+
+<option value="{{ categoria.idCat }}">
+
+{{ categoria.nombreCat }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Imagen del producto</label>
+
+<input
+type="file"
+name="imagen"
+accept="image/*"
+required
+onchange="previewImage(event)">
+
+</div>
+
+<div class="preview">
+
+<img
+id="preview"
+src="https://placehold.co/220x220?text=Vista+Previa">
+
+</div>
+
+<div class="botones">
+
+<a href="/gestion-productos">
+
+<button
+type="button"
+class="btn cancelar">
+
+Cancelar
+
+</button>
+
+</a>
+
+<button
+class="btn guardar"
+type="submit">
+
+Guardar Producto
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+const imagen=document.getElementById("preview");
+
+imagen.src=URL.createObjectURL(event.target.files[0]);
+
+}
+
+</script>
+
+</body>
+</html>
