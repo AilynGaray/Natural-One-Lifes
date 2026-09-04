@@ -63,6 +63,174 @@
 
 
     <div class="nav-right">
+        <div class="search">
+
+    <input
+        type="text"
+        id="buscador"
+        placeholder="Buscar productos..."
+        autocomplete="off"
+    >
+
+    <button
+        type="button"
+        id="btnBuscar"
+        title="Buscar"
+    >
+        🔍
+    </button>
+
+</div>
+<!-- =====================================================
+     NOTIFICACIONES
+===================================================== -->
+
+<div class="notification-wrapper">
+
+    <button
+        type="button"
+        class="bell"
+        id="btnNotificaciones"
+        title="Notificaciones"
+    >
+
+        <i class="fa-solid fa-bell"></i>
+
+        {% if notificaciones_no_leidas > 0 %}
+
+            <span
+                class="notification-count"
+                id="notificationCount"
+            >
+                {{ notificaciones_no_leidas }}
+            </span>
+
+        {% endif %}
+
+    </button>
+
+
+    <!-- =================================================
+         PANEL
+    ================================================== -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
+
+        <div class="notification-header">
+
+            <strong>
+                Notificaciones
+            </strong>
+
+            <button
+                type="button"
+                id="cerrarNotificaciones"
+                title="Cerrar"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="notification-list">
+
+            {% if notificaciones %}
+
+                {% for notificacion in notificaciones %}
+
+                    <div
+                        class="notification-item {% if notificacion.leidaNot == 0 %}notification-unread{% endif %}"
+                        data-id="{{ notificacion.idNot }}"
+                    >
+
+                        <!-- ICONO -->
+
+                        <div class="notification-icon">
+
+                            {% if notificacion.tipoNot == "pedido" %}
+
+                                <i class="fa-solid fa-box"></i>
+
+                            {% elif notificacion.tipoNot == "cita" %}
+
+                                <i class="fa-solid fa-calendar-check"></i>
+
+                            {% else %}
+
+                                <i class="fa-solid fa-bell"></i>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- INFORMACIÓN -->
+
+                        <div class="notification-content">
+
+                            <strong>
+
+                                {% if notificacion.tipoNot == "pedido" %}
+
+                                    Actualización de pedido
+
+                                {% elif notificacion.tipoNot == "cita" %}
+
+                                    Actualización de cita
+
+                                {% else %}
+
+                                    Notificación
+
+                                {% endif %}
+
+                            </strong>
+
+
+                            <p>
+                                {{ notificacion.mensajeNot }}
+                            </p>
+
+
+                            {% if notificacion.fechaEnvioNot %}
+
+                                <small>
+                                    {{ notificacion.fechaEnvioNot }}
+                                </small>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="notification-empty">
+
+                    <span>
+                        <i class="fa-regular fa-bell-slash"></i>
+                    </span>
+
+                    <p>
+                        No tienes notificaciones.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
 
         <a
                 href="{{ url_for('perfil') }}"
@@ -834,7 +1002,219 @@
     </div>
 
 </footer>
+<script>
+    
+const buscador =
+    document.getElementById("buscador");
 
+const btnBuscar =
+    document.getElementById("btnBuscar");
+
+
+// ------------------------------------------------------------
+// EJECUTAR BÚSQUEDA
+// ------------------------------------------------------------
+
+function ejecutarBusqueda() {
+
+    const texto =
+        buscador.value.trim();
+
+
+    if (!texto) {
+
+        alert("Escriba un producto para buscar.");
+
+        buscador.focus();
+
+        return;
+
+    }
+
+
+    /*
+     * Envía la búsqueda a la página
+     * del catálogo.
+     */
+
+    window.location.href =
+        "{{ url_for('catalogo') }}" +
+        "?buscar=" +
+        encodeURIComponent(texto);
+
+}
+
+
+// ------------------------------------------------------------
+// BOTÓN BUSCAR
+// ------------------------------------------------------------
+
+btnBuscar.addEventListener(
+    "click",
+    ejecutarBusqueda
+);
+
+
+// ------------------------------------------------------------
+// ENTER EN EL BUSCADOR
+// ------------------------------------------------------------
+
+buscador.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            ejecutarBusqueda();
+
+        }
+
+    }
+);
+
+const btnNotificaciones =
+    document.getElementById("btnNotificaciones");
+
+const notificationPanel =
+    document.getElementById("notificationPanel");
+
+const cerrarNotificaciones =
+    document.getElementById("cerrarNotificaciones");
+
+const notificationCount =
+    document.getElementById("notificationCount");
+
+
+/* =====================================================
+   ABRIR NOTIFICACIONES
+===================================================== */
+
+btnNotificaciones.addEventListener(
+    "click",
+    function(event){
+
+        event.stopPropagation();
+
+        notificationPanel.classList.toggle("show");
+
+        /*
+         * Si se abre el panel,
+         * marcamos todas como leídas.
+         */
+
+        if(
+            notificationPanel.classList.contains("show")
+        ){
+
+            fetch(
+                "{{ url_for('marcar_notificaciones_leidas') }}",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            )
+            .then(response => response.json())
+            .then(data => {
+
+                if(data.success){
+
+                    /*
+                     * Eliminar el numerito
+                     */
+
+                    if(notificationCount){
+
+                        notificationCount.remove();
+
+                    }
+
+                    /*
+                     * Quitar el estilo
+                     * de no leída
+                     */
+
+                    document
+                        .querySelectorAll(
+                            ".notification-unread"
+                        )
+                        .forEach(function(item){
+
+                            item.classList.remove(
+                                "notification-unread"
+                            );
+
+                        });
+
+                }
+
+            })
+            .catch(error => {
+
+                console.error(
+                    "Error marcando notificaciones:",
+                    error
+                );
+
+            });
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR CON X
+===================================================== */
+
+cerrarNotificaciones.addEventListener(
+    "click",
+    function(event){
+
+        event.stopPropagation();
+
+        notificationPanel.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR AL HACER CLICK AFUERA
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            !notificationPanel.contains(
+                event.target
+            )
+            &&
+            !btnNotificaciones.contains(
+                event.target
+            )
+        ){
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+</script>
 
 </body>
 </html>

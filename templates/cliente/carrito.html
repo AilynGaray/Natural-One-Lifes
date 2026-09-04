@@ -80,22 +80,9 @@ body{
     z-index:100;
 }
 
-.navbar{
-    width:100%;
-    max-width:1250px;
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
 .header-left{
     display:flex;
     align-items:center;
-
     min-width:0;
 }
 
@@ -110,24 +97,16 @@ body{
 
 .nav a{
     color:rgba(255,255,255,.82);
-
     text-decoration:none;
-
     font-size:15px;
     font-weight:500;
-
     padding:12px 15px;
-
     border-radius:10px;
-
     transition:all .25s ease;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     gap:7px;
-
     white-space:nowrap;
 }
 
@@ -167,37 +146,31 @@ body{
 /* =====================================================
    HEADER RIGHT
 ===================================================== */
-
-.header-right{
-    display:flex;
-    align-items:center;
-
-    gap:14px;
-
-    flex-shrink:0;
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .profile-link{
     text-decoration:none;
-
     display:flex;
     align-items:center;
     justify-content:center;
 
-    flex-shrink:0;
 }
 
-.profile,
+.avatar,
 .foto-default{
     width:42px;
     height:42px;
-
     border-radius:50%;
-
     border:2px solid rgba(255,255,255,.85);
 }
 
-.profile{
+.avatar{
     object-fit:cover;
 }
 
@@ -1428,14 +1401,8 @@ footer{
 ===================================================== -->
 
 <header class="header">
-
-    <div class="navbar">
-
-        <div class="header-left">
-
-            <nav class="nav">
-
-                <a href="{{ url_for('inicio') }}">
+        <nav class="nav"> 
+            <a href="{{ url_for('inicio') }}">
 
                     <i class="fa-solid fa-house"></i>
 
@@ -1472,15 +1439,10 @@ footer{
                     <span>Carrito</span>
 
                 </a>
+        </nav>
 
-            </nav>
-
-        </div>
-
-
-        <div class="header-right">
-
-            <a
+<div class="header-right">
+<a
                 href="{{ url_for('perfil') }}"
                 class="profile-link"
             >
@@ -1507,11 +1469,9 @@ footer{
                 {% endif %}
 
             </a>
-
-        </div>
-
-    </div>
-
+</div>
+            
+        
 </header>
 
 <div class="container">

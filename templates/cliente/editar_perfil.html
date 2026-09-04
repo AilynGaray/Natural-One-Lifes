@@ -635,18 +635,43 @@ body{
                     <div class="input-wrapper">
 
                         <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            value="{{ usuario.nombreUsu }}"
-                            placeholder="Ingresa tu nombre"
-                            autocomplete="given-name"
-                            required>
+                        type="text"
+                        id="nombreUsu"
+                        name="nombreUsu"
+                        value="{{ usuario.nombreUsu or '' }}"
+                        placeholder="Ingresa tu nombre"
+                        autocomplete="given-name"
+                        required>
 
                     </div>
 
                 </div>
+                <!-- APELLIDO -->
 
+<div class="form-group">
+
+    <label for="apellidoUsu">
+
+        <span class="form-icon">👤</span>
+
+        Apellido
+
+    </label>
+
+    <div class="input-wrapper">
+
+        <input
+            type="text"
+            id="apellidoUsu"
+            name="apellidoUsu"
+            value="{{ usuario.apellidoUsu or '' }}"
+            placeholder="Ingresa tu apellido"
+            autocomplete="family-name"
+            required>
+
+    </div>
+
+</div>
 
                 <!-- CORREO -->
 
@@ -664,9 +689,9 @@ body{
 
                         <input
                             type="email"
-                            id="correo"
-                            name="correo"
-                            value="{{ usuario.emailUsu }}"
+                            id="emailUsu"
+                            name="emailUsu"
+                            value="{{ usuario.emailUsu or '' }}"
                             placeholder="correo@ejemplo.com"
                             autocomplete="email"
                             required>
@@ -692,8 +717,8 @@ body{
 
                         <input
                             type="tel"
-                            id="telefono"
-                            name="telefono"
+                            id="telefonoUsu"
+                            name="telefonoUsu"
                             value="{{ usuario.telefonoUsu or '' }}"
                             placeholder="Ej: 300 123 4567"
                             autocomplete="tel">

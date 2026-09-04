@@ -5,13 +5,110 @@ from config import mysql
 import os
 from werkzeug.utils import secure_filename
 
-@app.route("/inicio")
-@login_requerido
-def inicio():
+
+# ==========================================================
+# CREAR NOTIFICACIÓN
+# ==========================================================
+
+def crear_notificacion(
+    id_usuario,
+    tipo,
+    mensaje,
+    referencia_id=None
+):
 
     cursor = mysql.connection.cursor()
 
     try:
+
+        cursor.execute("""
+            INSERT INTO notificaciones (
+                idUsuarioNot,
+                tipoNot,
+                mensajeNot,
+                fechaEnvioNot,
+                leidaNot,
+                referenciaIdNot
+            )
+            VALUES (
+                %s,
+                %s,
+                %s,
+                NOW(),
+                0,
+                %s
+            )
+        """, (
+            id_usuario,
+            tipo,
+            mensaje,
+            referencia_id
+        ))
+
+        mysql.connection.commit()
+
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print(
+            "ERROR CREANDO NOTIFICACIÓN:",
+            e
+        )
+
+    finally:
+
+        cursor.close()
+
+
+# ==========================================================
+# OBTENER NOTIFICACIONES DEL USUARIO
+# ==========================================================
+
+def obtener_notificaciones(id_usuario):
+
+    cursor = mysql.connection.cursor()
+
+    try:
+
+        cursor.execute("""
+            SELECT
+                idNot,
+                idUsuarioNot,
+                tipoNot,
+                mensajeNot,
+                fechaEnvioNot,
+                leidaNot,
+                referenciaIdNot
+            FROM notificaciones
+            WHERE idUsuarioNot = %s
+            ORDER BY fechaEnvioNot DESC, idNot DESC
+            LIMIT 30
+        """, (
+            id_usuario,
+        ))
+
+        return cursor.fetchall()
+
+    finally:
+
+        cursor.close()
+@app.route("/inicio")
+@login_requerido
+def inicio():
+
+    id_usuario = session.get("idUsu")
+
+    if not id_usuario:
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+
+    try:
+
+        # ==================================================
+        # PRODUCTOS
+        # ==================================================
 
         cursor.execute("""
             SELECT
@@ -34,6 +131,11 @@ def inicio():
 
         productos = cursor.fetchall()
 
+
+        # ==================================================
+        # CATEGORÍAS
+        # ==================================================
+
         cursor.execute("""
             SELECT
                 idCat,
@@ -46,16 +148,149 @@ def inicio():
 
         categorias = cursor.fetchall()
 
+
+        # ==================================================
+        # USUARIO
+        # ==================================================
+
+        cursor.execute("""
+            SELECT
+                idUsu,
+                nombreUsu,
+                apellidoUsu,
+                emailUsu,
+                telefonoUsu,
+                fotoUsu
+            FROM usuarios
+            WHERE idUsu = %s
+            LIMIT 1
+        """, (
+            id_usuario,
+        ))
+
+        usuario = cursor.fetchone()
+
+
+        # ==================================================
+        # NOTIFICACIONES
+        # ==================================================
+
+        cursor.execute("""
+            SELECT
+                idNot,
+                idUsuarioNot,
+                tipoNot,
+                mensajeNot,
+                fechaEnvioNot,
+                leidaNot,
+                referenciaIdNot
+            FROM notificaciones
+            WHERE idUsuarioNot = %s
+            ORDER BY fechaEnvioNot DESC, idNot DESC
+            LIMIT 30
+        """, (
+            id_usuario,
+        ))
+
+        notificaciones = cursor.fetchall()
+
+
+        # ==================================================
+        # CONTAR NO LEÍDAS
+        # ==================================================
+
+        cursor.execute("""
+            SELECT COUNT(*) AS total
+            FROM notificaciones
+            WHERE idUsuarioNot = %s
+            AND leidaNot = 0
+        """, (
+            id_usuario,
+        ))
+
+        resultado = cursor.fetchone()
+
+        notificaciones_no_leidas = int(
+            resultado["total"] or 0
+        )
+
+
         return render_template(
             "cliente/inicio.html",
             productos=productos,
-            categorias=categorias
+            categorias=categorias,
+            usuario=usuario,
+            notificaciones=notificaciones,
+            notificaciones_no_leidas=notificaciones_no_leidas
+        )
+
+    except Exception as e:
+
+        print(
+            "ERROR CARGANDO INICIO:",
+            e
+        )
+
+        return (
+            "Ocurrió un error al cargar el inicio.",
+            500
         )
 
     finally:
+
+        cursor.close()       
+   
+# ==========================================================
+# MARCAR NOTIFICACIONES COMO LEÍDAS
+# ==========================================================
+
+@app.route("/marcar-notificaciones-leidas", methods=["POST"])
+@login_requerido
+def marcar_notificaciones_leidas():
+
+    id_usuario = session.get("idUsu")
+
+    if not id_usuario:
+        return {
+            "success": False,
+            "mensaje": "Usuario no autenticado"
+        }, 401
+
+    cursor = mysql.connection.cursor()
+
+    try:
+
+        cursor.execute("""
+            UPDATE notificaciones
+            SET leidaNot = 1
+            WHERE idUsuarioNot = %s
+            AND leidaNot = 0
+        """, (
+            id_usuario,
+        ))
+
+        mysql.connection.commit()
+
+        return {
+            "success": True
+        }
+
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print(
+            "ERROR MARCANDO NOTIFICACIONES:",
+            e
+        )
+
+        return {
+            "success": False
+        }, 500
+
+    finally:
+
         cursor.close()
-
-
 @app.route("/catalogo")
 @login_requerido
 def catalogo():
@@ -611,33 +846,97 @@ def editar_perfil():
 
     try:
 
+        # ==================================================
+        # GUARDAR CAMBIOS
+        # ==================================================
+
         if request.method == "POST":
 
-            nombre = request.form.get("nombre")
-            correo = request.form.get("correo")
-            telefono = request.form.get("telefono")
+            # IMPORTANTE:
+            # Estos nombres deben coincidir con el HTML
+
+            nombre = request.form.get("nombreUsu", "").strip()
+            apellido = request.form.get("apellidoUsu", "").strip()
+            correo = request.form.get("emailUsu", "").strip()
+            telefono = request.form.get("telefonoUsu", "").strip()
 
             foto = request.files.get("foto")
+
+            # ==================================================
+            # VALIDAR CAMPOS OBLIGATORIOS
+            # ==================================================
+
+            if not nombre:
+                flash("El nombre es obligatorio.", "error")
+                return redirect(url_for("editar_perfil"))
+
+            if not apellido:
+                flash("El apellido es obligatorio.", "error")
+                return redirect(url_for("editar_perfil"))
+
+            if not correo:
+                flash("El correo electrónico es obligatorio.", "error")
+                return redirect(url_for("editar_perfil"))
+
+            # ==================================================
+            # ACTUALIZAR DATOS
+            # ==================================================
 
             cursor.execute("""
                 UPDATE usuarios
                 SET
                     nombreUsu = %s,
+                    apellidoUsu = %s,
                     emailUsu = %s,
                     telefonoUsu = %s
                 WHERE idUsu = %s
             """, (
                 nombre,
+                apellido,
                 correo,
                 telefono,
                 id_usuario
             ))
 
+            # ==================================================
+            # ACTUALIZAR FOTO
+            # ==================================================
 
             if foto and foto.filename:
 
-                nombre_foto = secure_filename(foto.filename)
+                # Validar extensión
+                extensiones_permitidas = {
+                    ".jpg",
+                    ".jpeg",
+                    ".png"
+                }
 
+                extension = os.path.splitext(
+                    foto.filename
+                )[1].lower()
+
+                if extension not in extensiones_permitidas:
+
+                    flash(
+                        "Solo puedes subir imágenes JPG, JPEG o PNG.",
+                        "error"
+                    )
+
+                    mysql.connection.rollback()
+
+                    return redirect(
+                        url_for("editar_perfil")
+                    )
+
+                # Nombre seguro
+                nombre_foto = secure_filename(
+                    foto.filename
+                )
+
+                # Evitar problemas con nombres repetidos
+                nombre_foto = f"{id_usuario}_{nombre_foto}"
+
+                # Carpeta
                 carpeta = os.path.join(
                     app.root_path,
                     "static",
@@ -645,15 +944,21 @@ def editar_perfil():
                     "perfiles"
                 )
 
-                os.makedirs(carpeta, exist_ok=True)
+                os.makedirs(
+                    carpeta,
+                    exist_ok=True
+                )
 
+                # Ruta
                 ruta = os.path.join(
                     carpeta,
                     nombre_foto
                 )
 
+                # Guardar archivo
                 foto.save(ruta)
 
+                # Guardar nombre en BD
                 cursor.execute("""
                     UPDATE usuarios
                     SET fotoUsu = %s
@@ -663,23 +968,41 @@ def editar_perfil():
                     id_usuario
                 ))
 
+            # ==================================================
+            # CONFIRMAR CAMBIOS
+            # ==================================================
+
             mysql.connection.commit()
 
-            return redirect(url_for("perfil"))
+            flash(
+                "Tu perfil fue actualizado correctamente.",
+                "success"
+            )
 
-        
+            return redirect(
+                url_for("perfil")
+            )
+
+        # ==================================================
+        # MOSTRAR FORMULARIO
+        # ==================================================
 
         cursor.execute("""
             SELECT *
             FROM usuarios
             WHERE idUsu = %s
+            LIMIT 1
         """, (id_usuario,))
 
         usuario = cursor.fetchone()
 
         if not usuario:
+
             session.clear()
-            return redirect(url_for("login"))
+
+            return redirect(
+                url_for("login")
+            )
 
         return render_template(
             "cliente/editar_perfil.html",
@@ -690,15 +1013,19 @@ def editar_perfil():
 
         mysql.connection.rollback()
 
-        print("ERROR EDITANDO PERFIL:", e)
+        print(
+            "ERROR EDITANDO PERFIL:",
+            e
+        )
 
-        return "Ocurrió un error al editar el perfil.", 500
+        return (
+            "Ocurrió un error al editar el perfil.",
+            500
+        )
 
     finally:
 
         cursor.close()
-
-
 
 
 @app.route("/subir-examen")

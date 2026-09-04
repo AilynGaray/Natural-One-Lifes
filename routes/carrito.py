@@ -77,15 +77,8 @@ def agregar_carrito(id):
 
     if cantidad < 1:
         cantidad = 1
-
     cursor = mysql.connection.cursor()
-
     try:
-
-        # ----------------------------------------------------
-        # BUSCAR PRODUCTO
-        # ----------------------------------------------------
-
         cursor.execute("""
             SELECT
                 idPro,
@@ -98,32 +91,21 @@ def agregar_carrito(id):
             AND disponiblePro = 1
             LIMIT 1
         """, (id,))
-
         producto = cursor.fetchone()
-
         if not producto:
-
             flash(
                 "El producto no está disponible.",
                 "danger"
             )
-
             return redirect("/catalogo")
-
         stock = int(producto["stockPro"] or 0)
-
         if stock <= 0:
-
             flash(
                 "Este producto está agotado.",
                 "danger"
             )
 
             return redirect(f"/producto/{id}")
-
-        # ----------------------------------------------------
-        # OBTENER CARRITO
-        # ----------------------------------------------------
 
         cursor.execute("""
             SELECT idCar

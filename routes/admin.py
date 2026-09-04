@@ -224,7 +224,10 @@ def editar_perfil_admin():
     cursor = mysql.connection.cursor()
 
     try:
-
+        print(request.form)
+        print("Nombre:", request.form.get("nombreUsu"))
+        print("Apellido:", request.form.get("apellidoUsu"))
+        print("Email:", request.form.get("emailUsu"))
         cursor.execute("""
             SELECT
                 idUsu,
@@ -517,7 +520,7 @@ def editar_perfil_admin():
 
 
     return render_template(
-        "admin/editar_perfil.html",
+        "admin/editar_perfil_admin.html",
         usuario=usuario
     )
 

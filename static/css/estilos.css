@@ -1303,3 +1303,382 @@ footer a:hover {
     }
 
 }
+.search {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 11px;
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+}
+.search input {
+    width: 235px;
+    height: 38px;
+    border: none;
+    outline: none;
+    padding: 0 13px;
+    background: transparent;
+    color: #333;
+    font-size: 13px;
+}
+.search input::placeholder {
+    color: #9ca3af;
+}
+.search button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 8px;
+    background: #eaf7ed;
+    color: #087f23;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+.search button:hover {
+    background: #d5f0dc;
+    transform: scale(1.04);
+}
+/* =====================================================
+   NOTIFICACIONES
+===================================================== */
+
+.notification-wrapper{
+    position:relative;
+}
+
+
+.bell{
+    position:relative;
+
+    width:42px;
+    height:42px;
+
+    border:none;
+    background:transparent;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:.2s;
+}
+
+
+.bell:hover{
+    background:rgba(255,255,255,.12);
+}
+
+
+/* =====================================================
+   NUMERO
+===================================================== */
+
+.notification-count{
+
+    position:absolute;
+
+    top:1px;
+    right:0px;
+
+    min-width:18px;
+    height:18px;
+
+    padding:0 5px;
+
+    border-radius:50px;
+
+    background:#e53935;
+    color:white;
+
+    font-size:10px;
+    font-weight:700;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:2px solid #0b7d0b;
+
+}
+
+
+/* =====================================================
+   PANEL
+===================================================== */
+
+.notification-panel{
+
+    position:absolute;
+
+    top:52px;
+    right:0;
+
+    width:360px;
+
+    max-height:450px;
+
+    background:white;
+
+    border:1px solid #e2e7e3;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.15);
+
+    overflow:hidden;
+
+    display:none;
+
+    z-index:9999;
+
+}
+
+
+.notification-panel.show{
+    display:block;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.notification-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:16px 18px;
+
+    border-bottom:1px solid #edf0ed;
+
+    background:#fff;
+
+}
+
+
+.notification-header strong{
+
+    color:#26332a;
+
+    font-size:15px;
+
+}
+
+
+.notification-header button{
+
+    border:none;
+
+    background:none;
+
+    font-size:24px;
+
+    color:#6d766f;
+
+    cursor:pointer;
+
+    line-height:1;
+
+}
+
+
+.notification-header button:hover{
+    color:#0b7d0b;
+}
+
+
+/* =====================================================
+   LISTA
+===================================================== */
+
+.notification-list{
+
+    max-height:390px;
+
+    overflow-y:auto;
+
+}
+
+
+/* =====================================================
+   NOTIFICACIÓN
+===================================================== */
+
+.notification-item{
+
+    display:flex;
+
+    gap:12px;
+
+    padding:15px 17px;
+
+    border-bottom:1px solid #edf0ed;
+
+    transition:.2s;
+
+}
+
+
+.notification-item:hover{
+    background:#f7faf7;
+}
+
+
+/* NO LEÍDA */
+
+.notification-unread{
+
+    background:#f0f8f1;
+
+}
+
+
+.notification-unread:hover{
+    background:#e8f5e9;
+}
+
+
+/* =====================================================
+   ICONO
+===================================================== */
+
+.notification-icon{
+
+    width:38px;
+    height:38px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:#eaf6eb;
+
+    color:#0b7d0b;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:15px;
+
+}
+
+
+/* =====================================================
+   CONTENIDO
+===================================================== */
+
+.notification-content{
+    flex:1;
+    min-width:0;
+}
+
+
+.notification-content strong{
+
+    display:block;
+
+    color:#26332a;
+
+    font-size:13px;
+
+    margin-bottom:4px;
+
+}
+
+
+.notification-content p{
+
+    color:#626b65;
+
+    font-size:12px;
+
+    line-height:1.45;
+
+    margin:0 0 5px;
+
+    word-break:break-word;
+
+}
+
+
+.notification-content small{
+
+    color:#949c96;
+
+    font-size:10px;
+
+}
+
+
+/* =====================================================
+   VACÍO
+===================================================== */
+
+.notification-empty{
+
+    padding:45px 20px;
+
+    text-align:center;
+
+    color:#7a837d;
+
+}
+
+
+.notification-empty span{
+
+    display:block;
+
+    font-size:30px;
+
+    color:#a7b0a9;
+
+    margin-bottom:10px;
+
+}
+
+
+.notification-empty p{
+    font-size:13px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:500px){
+
+    .notification-panel{
+
+        position:fixed;
+
+        top:64px;
+
+        left:10px;
+        right:10px;
+
+        width:auto;
+
+        max-height:70vh;
+
+    }
+
+}
