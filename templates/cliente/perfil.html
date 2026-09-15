@@ -43,7 +43,7 @@ header{
     display:flex;
     align-items:center;
 
-    padding:10px 42px;
+    padding:0px 25px;
 
     box-shadow:0 4px 18px rgba(0,0,0,.12);
 
@@ -51,42 +51,25 @@ header{
     z-index:100;
 }
 
-.nav-container{
-    width:100%;
-    max-width:1250px;
-
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
 .nav{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:6px;
 }
 
 .nav a{
     color:rgba(255,255,255,.82);
-
     text-decoration:none;
-
     font-size:15px;
     font-weight:500;
-
-    padding:12px 17px;
-
+    padding:12px 15px;
     border-radius:10px;
-
     transition:all .25s ease;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     white-space:nowrap;
-
-    margin:0;
 }
 
 .nav a:hover{
@@ -106,6 +89,20 @@ header{
 
     box-shadow:0 3px 10px rgba(0,0,0,.12);
 }
+.nav a i{
+    width:16px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    flex-shrink:0;
+}
+
+.nav a.active i{
+    color:#087f23;
+}
+
 /* =====================================================
    CONTENEDOR
 ===================================================== */
@@ -814,13 +811,8 @@ header{
 <body>
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
 
 <header class="header">
-
-    <div class="nav-container">
 
         <nav class="nav">
 
@@ -845,8 +837,6 @@ header{
             </a>
 
         </nav>
-
-    </div>
 
 </header>
 

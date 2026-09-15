@@ -534,7 +534,7 @@ input[type="file"]{
 
 
         <form
-            action="{{ url_for('editar_perfil') }}"
+            action="{{ url_for('editar_perfil_admin') }}"
             method="POST"
             enctype="multipart/form-data"
         >
@@ -633,9 +633,9 @@ input[type="file"]{
 
                         <input
                             type="email"
-                            id="correoUsu"
-                            name="correoUsu"
-                            value="{{ usuario.correoUsu }}"
+                            id="emailUsu"
+                            name="emailUsu"
+                            value="{{ usuario.emailUsu }}"
                             required
                         >
 

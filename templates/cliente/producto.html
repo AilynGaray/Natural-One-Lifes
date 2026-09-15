@@ -1055,28 +1055,33 @@
 
         <!-- PERFIL -->
 
-        <a href="/perfil" class="profile-link">
+       <a
+                href="{{ url_for('perfil') }}"
+                class="profile-link"
+            >
 
-            {% if usuario.fotoUsu %}
+                {% if usuario and usuario.fotoUsu %}
 
-                <img
-                    src="{{ url_for(
-                        'static',
-                        filename='img/perfiles/' + usuario.fotoUsu
-                    ) }}"
-                    alt="Foto de perfil"
-                    class="avatar"
-                >
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/perfiles/' + usuario.fotoUsu
+                        ) }}"
+                        alt="Foto de perfil"
+                        class="profile"
+                    >
 
-            {% else %}
+                {% else %}
 
-                <div class="foto-default">
-                    👤
-                </div>
+                    <div class="foto-default">
 
-            {% endif %}
+                        <i class="fa-solid fa-user"></i>
 
-        </a>
+                    </div>
+
+                {% endif %}
+
+            </a>
 
 
     </div>

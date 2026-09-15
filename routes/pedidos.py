@@ -1,5 +1,12 @@
 from app import app
-from flask import render_template, request, redirect, session, flash
+from flask import (
+    render_template,
+    request,
+    redirect,
+    session,
+    flash
+)
+
 from config import mysql
 
 
@@ -24,12 +31,19 @@ def checkout():
         # --------------------------------------------------
 
         cursor.execute("""
-            SELECT idCar
+            SELECT
+                idCar
+
             FROM carrito
+
             WHERE idUsuarioCar = %s
+
             AND estadoCar = 1
+
             LIMIT 1
-        """, (id_usuario,))
+        """, (
+            id_usuario,
+        ))
 
         carrito = cursor.fetchone()
 
@@ -48,10 +62,15 @@ def checkout():
 
         cursor.execute("""
             SELECT
+
                 productos.idPro,
+
                 productos.nombrePro,
+
                 carritoItems.cantidadCai,
+
                 carritoItems.precioUnitarioCai,
+
                 (
                     carritoItems.cantidadCai *
                     carritoItems.precioUnitarioCai
@@ -60,10 +79,13 @@ def checkout():
             FROM carritoItems
 
             INNER JOIN productos
-                ON carritoItems.idProductoCai = productos.idPro
+                ON carritoItems.idProductoCai =
+                   productos.idPro
 
             WHERE carritoItems.idCarritoCai = %s
-        """, (carrito["idCar"],))
+        """, (
+            carrito["idCar"],
+        ))
 
         items = cursor.fetchall()
 
@@ -77,7 +99,7 @@ def checkout():
             return redirect("/carrito")
 
         # --------------------------------------------------
-        # TOTAL
+        # CALCULAR TOTAL
         # --------------------------------------------------
 
         total = sum(
@@ -86,17 +108,26 @@ def checkout():
         )
 
         # --------------------------------------------------
-        # USUARIO
+        # OBTENER USUARIO
         # --------------------------------------------------
 
         cursor.execute("""
             SELECT *
+
             FROM usuarios
+
             WHERE idUsu = %s
+
             LIMIT 1
-        """, (id_usuario,))
+        """, (
+            id_usuario,
+        ))
 
         usuario = cursor.fetchone()
+
+        # --------------------------------------------------
+        # MOSTRAR CHECKOUT
+        # --------------------------------------------------
 
         return render_template(
             "cliente/checkout.html",
@@ -107,7 +138,10 @@ def checkout():
 
     except Exception as e:
 
-        print("ERROR EN CHECKOUT:", e)
+        print(
+            "ERROR EN CHECKOUT:",
+            e
+        )
 
         flash(
             "Ocurrió un error al cargar el checkout.",
@@ -125,7 +159,10 @@ def checkout():
 # CREAR PEDIDO
 # ==========================================================
 
-@app.route("/crear-pedido", methods=["POST"])
+@app.route(
+    "/crear-pedido",
+    methods=["POST"]
+)
 def crear_pedido():
 
     id_usuario = session.get("idUsu")
@@ -249,16 +286,23 @@ def crear_pedido():
     try:
 
         # --------------------------------------------------
-        # CARRITO ACTIVO
+        # OBTENER CARRITO ACTIVO
         # --------------------------------------------------
 
         cursor.execute("""
-            SELECT idCar
+            SELECT
+                idCar
+
             FROM carrito
+
             WHERE idUsuarioCar = %s
+
             AND estadoCar = 1
+
             LIMIT 1
-        """, (id_usuario,))
+        """, (
+            id_usuario,
+        ))
 
         carrito = cursor.fetchone()
 
@@ -278,10 +322,15 @@ def crear_pedido():
         # --------------------------------------------------
 
         cursor.execute("""
-            SELECT COUNT(*) AS cantidad
+            SELECT
+                COUNT(*) AS cantidad
+
             FROM carritoItems
+
             WHERE idCarritoCai = %s
-        """, (id_carrito,))
+        """, (
+            id_carrito,
+        ))
 
         resultado_cantidad = cursor.fetchone()
 
@@ -310,7 +359,9 @@ def crear_pedido():
             FROM carritoItems
 
             WHERE idCarritoCai = %s
-        """, (id_carrito,))
+        """, (
+            id_carrito,
+        ))
 
         resultado = cursor.fetchone()
 
@@ -321,43 +372,35 @@ def crear_pedido():
         # --------------------------------------------------
 
         cursor.execute("""
-            INSERT INTO pedidos
-            (
+            INSERT INTO pedidos (
                 idUsuarioPed,
                 fechaPed,
                 estadoPed,
                 totalPed,
                 direccionEnvioPed,
-
                 nombreEnvioPed,
                 telefonoEnvioPed,
                 ciudadEnvioPed,
                 departamentoEnvioPed,
                 codigoPostalEnvioPed,
-
                 transportistaPed,
                 metodoPagoPed,
-
                 notificadoPed
             )
 
-            VALUES
-            (
+            VALUES (
                 %s,
                 NOW(),
                 %s,
                 %s,
                 %s,
-
                 %s,
                 %s,
                 %s,
                 %s,
                 %s,
-
                 %s,
                 %s,
-
                 %s
             )
         """, (
@@ -398,8 +441,7 @@ def crear_pedido():
         # --------------------------------------------------
 
         cursor.execute("""
-            INSERT INTO pedidoItems
-            (
+            INSERT INTO pedidoItems (
                 idPedidoPei,
                 idProductoPei,
                 cantidadPei,
@@ -426,6 +468,40 @@ def crear_pedido():
         """, (
             pedido_id,
             id_carrito
+        ))
+
+        # --------------------------------------------------
+        # NOTIFICACIÓN DE PEDIDO CREADO
+        # --------------------------------------------------
+
+        mensaje = (
+            f"Tu pedido #{pedido_id} "
+            f"ha sido creado correctamente y se encuentra "
+            f"en estado: Pendiente."
+        )
+
+        cursor.execute("""
+            INSERT INTO notificaciones (
+                idUsuarioNot,
+                tipoNot,
+                mensajeNot,
+                fechaEnvioNot,
+                leidaNot,
+                referenciaIdNot
+            )
+
+            VALUES (
+                %s,
+                'pedido',
+                %s,
+                NOW(),
+                0,
+                %s
+            )
+        """, (
+            id_usuario,
+            mensaje,
+            pedido_id
         ))
 
         # --------------------------------------------------
@@ -469,10 +545,6 @@ def crear_pedido():
 
 @app.route("/pedidos")
 def pedidos():
-
-    # ------------------------------------------------------
-    # COMPROBAR SESIÓN
-    # ------------------------------------------------------
 
     id_usuario = session.get("idUsu")
 
@@ -554,7 +626,7 @@ def actualizar_estado_pedido(id_pedido):
         return redirect("/login")
 
     # ------------------------------------------------------
-    # OBTENER ESTADO
+    # OBTENER NUEVO ESTADO
     # ------------------------------------------------------
 
     nuevo_estado = request.form.get(
@@ -592,12 +664,13 @@ def actualizar_estado_pedido(id_pedido):
     try:
 
         # --------------------------------------------------
-        # COMPROBAR PEDIDO
+        # OBTENER PEDIDO
         # --------------------------------------------------
 
         cursor.execute("""
             SELECT
                 idPed,
+                idUsuarioPed,
                 estadoPed
 
             FROM pedidos
@@ -605,7 +678,9 @@ def actualizar_estado_pedido(id_pedido):
             WHERE idPed = %s
 
             LIMIT 1
-        """, (id_pedido,))
+        """, (
+            id_pedido,
+        ))
 
         pedido = cursor.fetchone()
 
@@ -619,13 +694,33 @@ def actualizar_estado_pedido(id_pedido):
             return redirect("/pedidos")
 
         # --------------------------------------------------
+        # ESTADO ANTERIOR
+        # --------------------------------------------------
+
+        estado_anterior = pedido["estadoPed"]
+
+        # --------------------------------------------------
+        # COMPROBAR SI REALMENTE CAMBIÓ
+        # --------------------------------------------------
+
+        if estado_anterior == nuevo_estado:
+
+            flash(
+                "El pedido ya tiene ese estado.",
+                "error"
+            )
+
+            return redirect("/pedidos")
+
+        # --------------------------------------------------
         # ACTUALIZAR ESTADO
         # --------------------------------------------------
 
         cursor.execute("""
             UPDATE pedidos
 
-            SET estadoPed = %s
+            SET
+                estadoPed = %s
 
             WHERE idPed = %s
         """, (
@@ -634,7 +729,40 @@ def actualizar_estado_pedido(id_pedido):
         ))
 
         # --------------------------------------------------
-        # GUARDAR CAMBIO
+        # CREAR NOTIFICACIÓN
+        # --------------------------------------------------
+
+        mensaje = (
+            f"El estado de tu pedido #{id_pedido} "
+            f"ha cambiado a: {nuevo_estado}."
+        )
+
+        cursor.execute("""
+            INSERT INTO notificaciones (
+                idUsuarioNot,
+                tipoNot,
+                mensajeNot,
+                fechaEnvioNot,
+                leidaNot,
+                referenciaIdNot
+            )
+
+            VALUES (
+                %s,
+                'pedido',
+                %s,
+                NOW(),
+                0,
+                %s
+            )
+        """, (
+            pedido["idUsuarioPed"],
+            mensaje,
+            id_pedido
+        ))
+
+        # --------------------------------------------------
+        # GUARDAR CAMBIOS
         # --------------------------------------------------
 
         mysql.connection.commit()
