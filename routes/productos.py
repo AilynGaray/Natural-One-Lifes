@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, flash, session
 from config import mysql
 import os
 from werkzeug.utils import secure_filename
-
+from routes.permiso import administrador_requerido
 
 CARPETA = "static/img/productos"
 
@@ -34,8 +34,8 @@ def detalle_producto(id):
         "cliente/producto.html",
         producto=producto
     )
-
 @app.route("/gestion-productos")
+@administrador_requerido
 def gestion_productos():
 
     cursor = mysql.connection.cursor()
@@ -67,8 +67,8 @@ def gestion_productos():
         productos=productos,
         categorias=categorias
     )
-
 @app.route("/nuevo-producto")
+@administrador_requerido
 def nuevo_producto():
 
     cursor = mysql.connection.cursor()
@@ -89,6 +89,7 @@ def nuevo_producto():
     )
 
 @app.route("/guardar-producto", methods=["POST"])
+@administrador_requerido
 def guardar_producto():
 
     nombre = request.form["nombre"]
@@ -159,6 +160,7 @@ def guardar_producto():
     return redirect("/gestion-productos")
 
 @app.route("/eliminar-producto/<int:id>")
+@administrador_requerido
 def eliminar_producto(id):
 
     cursor = mysql.connection.cursor()
@@ -201,6 +203,7 @@ def eliminar_producto(id):
     return redirect("/gestion-productos")
 
 @app.route("/editar-producto/<int:id>")
+@administrador_requerido
 def editar_producto(id):
 
     cursor = mysql.connection.cursor()
@@ -238,6 +241,7 @@ def editar_producto(id):
         categorias=categorias
     )
 @app.route("/actualizar-producto/<int:id>", methods=["POST"])
+@administrador_requerido
 def actualizar_producto(id):
 
     nombre = request.form["nombre"]

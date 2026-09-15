@@ -5,11 +5,6 @@ from datetime import datetime
 
 from routes.permiso import login_requerido
 
-
-# ==========================================================
-# ACTUALIZAR CITAS VENCIDAS
-# ==========================================================
-
 def actualizar_citas_vencidas():
 
     cursor = None
@@ -53,11 +48,6 @@ def actualizar_citas_vencidas():
         except:
             pass
 
-
-# ==========================================================
-# GUARDAR CITA
-# ==========================================================
-
 @app.route("/guardar-cita", methods=["POST"])
 def guardar_cita():
 
@@ -68,10 +58,6 @@ def guardar_cita():
 
     # Actualizar citas vencidas antes de crear una nueva
     actualizar_citas_vencidas()
-
-    # ------------------------------------------------------
-    # DATOS DEL FORMULARIO
-    # ------------------------------------------------------
 
     id_profesional = request.form.get(
         "idProfesionalCit"
@@ -90,10 +76,6 @@ def guardar_cita():
         ""
     ).strip()
 
-    # ------------------------------------------------------
-    # VALIDAR DATOS
-    # ------------------------------------------------------
-
     if not id_profesional or not fecha or not hora:
 
         return """
@@ -107,20 +89,12 @@ def guardar_cita():
 
     try:
 
-        # --------------------------------------------------
-        # CONVERTIR FECHA Y HORA
-        # --------------------------------------------------
-
         fecha_hora_cita = datetime.strptime(
             f"{fecha} {hora}",
             "%Y-%m-%d %H:%M"
         )
 
         ahora = datetime.now()
-
-        # --------------------------------------------------
-        # COMPROBAR QUE NO SEA UNA FECHA PASADA
-        # --------------------------------------------------
 
         if fecha_hora_cita <= ahora:
 
@@ -132,10 +106,6 @@ def guardar_cita():
             """, 400
 
         cursor = mysql.connection.cursor()
-
-        # --------------------------------------------------
-        # COMPROBAR DISPONIBILIDAD DEL PROFESIONAL
-        # --------------------------------------------------
 
         cursor.execute("""
             SELECT
@@ -177,10 +147,6 @@ def guardar_cita():
                 </script>
             """, 400
 
-        # --------------------------------------------------
-        # COMPROBAR SI YA EXISTE UNA CITA
-        # --------------------------------------------------
-
         cursor.execute("""
             SELECT
                 idCit
@@ -216,10 +182,6 @@ def guardar_cita():
                 </script>
             """, 400
 
-        # --------------------------------------------------
-        # CREAR CITA
-        # --------------------------------------------------
-
         cursor.execute("""
             INSERT INTO citas (
                 idUsuarioCit,
@@ -246,15 +208,7 @@ def guardar_cita():
             motivo
         ))
 
-        # --------------------------------------------------
-        # ID DE LA CITA
-        # --------------------------------------------------
-
         id_cita = cursor.lastrowid
-
-        # --------------------------------------------------
-        # NOTIFICACIÓN DE CITA CREADA
-        # --------------------------------------------------
 
         mensaje = (
             f"Tu cita #{id_cita} "
@@ -285,10 +239,6 @@ def guardar_cita():
             mensaje,
             id_cita
         ))
-
-        # --------------------------------------------------
-        # GUARDAR CAMBIOS
-        # --------------------------------------------------
 
         mysql.connection.commit()
 
@@ -323,14 +273,10 @@ def guardar_cita():
         except:
             pass
 
-
-# ==========================================================
-# ACTUALIZAR ESTADO DE CITA
-# ==========================================================
-
 @app.route(
     "/actualizar-cita/<int:id_cita>",
-    methods=["POST"])
+    methods=["POST"]
+)
 @login_requerido
 def actualizar_cita(id_cita):
 
@@ -338,10 +284,6 @@ def actualizar_cita(id_cita):
         "estado",
         ""
     ).strip()
-
-    # ------------------------------------------------------
-    # ESTADOS PERMITIDOS
-    # ------------------------------------------------------
 
     estados_permitidos = [
         "Pendiente",
@@ -365,20 +307,13 @@ def actualizar_cita(id_cita):
 
     try:
 
-        # --------------------------------------------------
-        # OBTENER CITA
-        # --------------------------------------------------
-
         cursor.execute("""
             SELECT
                 idCit,
                 idUsuarioCit,
                 estadoCit
-
             FROM citas
-
             WHERE idCit = %s
-
             LIMIT 1
         """, (
             id_cita,
@@ -397,15 +332,30 @@ def actualizar_cita(id_cita):
                 url_for("gestion_citas")
             )
 
-        # --------------------------------------------------
-        # GUARDAR ESTADO ANTERIOR
-        # --------------------------------------------------
+        rol = session.get("rol")
+
+        es_admin = rol == "Administrador"
+        es_profesional = rol == "Profesional"
+        es_propietario = (
+            cita["idUsuarioCit"] == session["idUsu"]
+        )
+
+        if not (
+            es_admin
+            or es_profesional
+            or es_propietario
+        ):
+
+            flash(
+                "No tienes permiso para modificar esta cita.",
+                "error"
+            )
+
+            return redirect(
+                url_for("gestion_citas")
+            )
 
         estado_anterior = cita["estadoCit"]
-
-        # --------------------------------------------------
-        # SI EL ESTADO ES EL MISMO
-        # --------------------------------------------------
 
         if estado_anterior == estado:
 
@@ -418,24 +368,14 @@ def actualizar_cita(id_cita):
                 url_for("gestion_citas")
             )
 
-        # --------------------------------------------------
-        # ACTUALIZAR ESTADO
-        # --------------------------------------------------
-
         cursor.execute("""
             UPDATE citas
-
             SET estadoCit = %s
-
             WHERE idCit = %s
         """, (
             estado,
             id_cita
         ))
-
-        # --------------------------------------------------
-        # CREAR NOTIFICACIÓN
-        # --------------------------------------------------
 
         mensaje = (
             f"Tu cita #{id_cita} "
@@ -452,7 +392,6 @@ def actualizar_cita(id_cita):
                 leidaNot,
                 referenciaIdNot
             )
-
             VALUES (
                 %s,
                 'cita',
@@ -466,10 +405,6 @@ def actualizar_cita(id_cita):
             mensaje,
             id_cita
         ))
-
-        # --------------------------------------------------
-        # GUARDAR
-        # --------------------------------------------------
 
         mysql.connection.commit()
 
