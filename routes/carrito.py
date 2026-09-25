@@ -2,14 +2,9 @@ from app import app
 from flask import render_template, redirect, session, request, flash
 from config import mysql
 
-
-
 def obtener_carrito(id_usuario):
-
     cursor = mysql.connection.cursor()
-
     try:
-
         cursor.execute("""
             SELECT idCar
             FROM carrito
@@ -53,7 +48,69 @@ def obtener_carrito(id_usuario):
     finally:
 
         cursor.close()
+def obtener_producto_disponible(id_producto):
+    
+    cursor = mysql.connection.cursor()
 
+    try:
+
+        cursor.execute("""
+            SELECT
+                idPro,
+                nombrePro,
+                precioPro,
+                stockPro,
+                disponiblePro
+            FROM productos
+            WHERE idPro = %s
+            AND disponiblePro = 1
+            LIMIT 1
+        """, (id_producto,))
+
+        return cursor.fetchone()
+
+    finally:
+        cursor.close()
+
+
+def validar_stock_disponible(producto, cantidad):
+
+    stock = int(
+        producto["stockPro"] or 0
+    )
+
+    if stock <= 0:
+        return False, 0
+
+    if cantidad > stock:
+        return True, stock
+
+    return True, cantidad
+
+
+def obtener_item_carrito(id_carrito, id_producto):
+
+    cursor = mysql.connection.cursor()
+
+    try:
+
+        cursor.execute("""
+            SELECT
+                idCai,
+                cantidadCai
+            FROM carritoItems
+            WHERE idCarritoCai = %s
+            AND idProductoCai = %s
+            LIMIT 1
+        """, (
+            id_carrito,
+            id_producto
+        ))
+
+        return cursor.fetchone()
+
+    finally:
+        cursor.close()
 
 @app.route("/agregar-carrito/<int:id>", methods=["GET", "POST"])
 def agregar_carrito(id):
@@ -78,43 +135,27 @@ def agregar_carrito(id):
     if cantidad < 1:
         cantidad = 1
     cursor = mysql.connection.cursor()
+    
     try:
-        cursor.execute("""
-            SELECT
-                idPro,
-                nombrePro,
-                precioPro,
-                stockPro,
-                disponiblePro
-            FROM productos
-            WHERE idPro = %s
-            AND disponiblePro = 1
-            LIMIT 1
-        """, (id,))
-        producto = cursor.fetchone()
+        producto = obtener_producto_disponible(id)
         if not producto:
             flash(
-                "El producto no está disponible.",
-                "danger"
+            "El producto no está disponible.",
+            "danger"
             )
             return redirect("/catalogo")
-        stock = int(producto["stockPro"] or 0)
-        if stock <= 0:
+        cantidad_valida, cantidad_final = validar_stock_disponible(
+        producto,
+        cantidad
+        )
+        if not cantidad_valida:
             flash(
-                "Este producto está agotado.",
-                "danger"
-            )
-
+            "Este producto está agotado.",
+            "danger"
+        )
             return redirect(f"/producto/{id}")
-
-        cursor.execute("""
-            SELECT idCar
-            FROM carrito
-            WHERE idUsuarioCar = %s
-            AND estadoCar = 1
-            LIMIT 1
-        """, (id_usuario,))
-
+        cantidad = cantidad_final
+        id_carrito = obtener_carrito(id_usuario)
         carrito = cursor.fetchone()
 
         if carrito:
@@ -139,40 +180,27 @@ def agregar_carrito(id):
             """, (id_usuario,))
 
             id_carrito = cursor.lastrowid
-
-        # ----------------------------------------------------
-        # VERIFICAR PRODUCTO EXISTENTE
-        # ----------------------------------------------------
-
-        cursor.execute("""
-            SELECT
-                idCai,
-                cantidadCai
-            FROM carritoItems
-            WHERE idCarritoCai = %s
-            AND idProductoCai = %s
-            LIMIT 1
-        """, (
-            id_carrito,
-            id
-        ))
-
-        existe = cursor.fetchone()
+            existe = obtener_item_carrito(
+                id_carrito,
+                id)  
+            existe = cursor.fetchone()
 
         if existe:
 
             nueva_cantidad = (
                 int(existe["cantidadCai"]) + cantidad
             )
-
-            if nueva_cantidad > stock:
-
-                nueva_cantidad = stock
-
+            # Regla de negocio:
+            # la cantidad solicitada nunca puede superar el stock disponible
+            # registrado para el producto.
+            if nueva_cantidad > int(producto["stockPro"] or 0):
+                nueva_cantidad = int(
+                producto["stockPro"] or 0
+                )
                 flash(
                     "Se agregó solamente la cantidad disponible.",
                     "warning"
-                )
+                    )
 
             cursor.execute("""
                 UPDATE carritoItems
@@ -184,16 +212,9 @@ def agregar_carrito(id):
             ))
 
         else:
-
-            if cantidad > stock:
-
-                cantidad = stock
-
-                flash(
-                    "Se agregó solamente la cantidad disponible.",
-                    "warning"
-                )
-
+            if cantidad > int(producto["stockPro"] or 0):
+                cantidad = int(producto["stockPro"] or 0)
+                flash("Se agregó solamente la cantidad disponible.","warning")
             cursor.execute("""
                 INSERT INTO carritoItems
                 (
