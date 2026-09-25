@@ -1,108 +1,194 @@
 from app import app
-from flask import render_template, request, redirect, flash, session
+from flask import render_template, request, redirect, flash
 from config import mysql
 import os
 from werkzeug.utils import secure_filename
 from routes.permiso import administrador_requerido
 
+
 CARPETA = "static/img/productos"
+
 
 @app.route("/producto/<int:id>")
 def detalle_producto(id):
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute("""
-        SELECT
-            productos.*,
-            catalogo.nombreCat
-        FROM productos
-        LEFT JOIN catalogo
-            ON productos.idCategoriaPro = catalogo.idCat
-        WHERE productos.idPro = %s
-    """, (id,))
+    try:
+        cursor.execute("""
+            SELECT
+                productos.*,
+                catalogo.nombreCat
+            FROM productos
+            LEFT JOIN catalogo
+                ON productos.idCategoriaPro = catalogo.idCat
+            WHERE productos.idPro = %s
+        """, (id,))
 
-    producto = cursor.fetchone()
+        producto = cursor.fetchone()
 
-    cursor.close()
+        if not producto:
+            flash("El producto no existe.", "danger")
+            return redirect("/catalogo")
 
-    if not producto:
-        flash("El producto no existe.", "danger")
+        return render_template(
+            "cliente/producto.html",
+            producto=producto
+        )
+
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print("ERROR CONSULTANDO PRODUCTO:", e)
+
+        flash(
+            "No fue posible consultar el producto.",
+            "danger"
+        )
+
         return redirect("/catalogo")
 
-    return render_template(
-        "cliente/producto.html",
-        producto=producto
-    )
+    finally:
+        cursor.close()
+
+
 @app.route("/gestion-productos")
 @administrador_requerido
 def gestion_productos():
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute("""
-        SELECT
-            productos.*,
-            catalogo.nombreCat
-        FROM productos
-        INNER JOIN catalogo
-            ON productos.idCategoriaPro = catalogo.idCat
-        ORDER BY idPro DESC
-    """)
+    try:
+        cursor.execute("""
+            SELECT
+                productos.*,
+                catalogo.nombreCat
+            FROM productos
+            INNER JOIN catalogo
+                ON productos.idCategoriaPro = catalogo.idCat
+            ORDER BY productos.idPro DESC
+        """)
 
-    productos = cursor.fetchall()
+        productos = cursor.fetchall()
 
-    cursor.execute("""
-        SELECT *
-        FROM catalogo
-        ORDER BY nombreCat
-    """)
+        cursor.execute("""
+            SELECT *
+            FROM catalogo
+            ORDER BY nombreCat
+        """)
 
-    categorias = cursor.fetchall()
+        categorias = cursor.fetchall()
 
-    cursor.close()
+        return render_template(
+            "admin/gestion_productos.html",
+            productos=productos,
+            categorias=categorias
+        )
 
-    return render_template(
-        "admin/gestion_productos.html",
-        productos=productos,
-        categorias=categorias
-    )
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print("ERROR CARGANDO PRODUCTOS:", e)
+
+        flash(
+            "No fue posible cargar los productos.",
+            "danger"
+        )
+
+        return redirect("/")
+
+    finally:
+        cursor.close()
+
+
 @app.route("/nuevo-producto")
 @administrador_requerido
 def nuevo_producto():
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute("""
-        SELECT *
-        FROM catalogo
-        ORDER BY nombreCat
-    """)
+    try:
+        cursor.execute("""
+            SELECT *
+            FROM catalogo
+            ORDER BY nombreCat
+        """)
 
-    categorias = cursor.fetchall()
+        categorias = cursor.fetchall()
 
-    cursor.close()
+        return render_template(
+            "admin/nuevo_producto.html",
+            categorias=categorias
+        )
 
-    return render_template(
-        "admin/nuevo_producto.html",
-        categorias=categorias
-    )
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print("ERROR CARGANDO CATEGORÍAS:", e)
+
+        flash(
+            "No fue posible cargar las categorías.",
+            "danger"
+        )
+
+        return redirect("/gestion-productos")
+
+    finally:
+        cursor.close()
+
 
 @app.route("/guardar-producto", methods=["POST"])
 @administrador_requerido
 def guardar_producto():
 
-    nombre = request.form["nombre"]
-    descripcion = request.form["descripcion"]
-    precio = request.form["precio"]
-    stock = request.form["stock"]
-    categoria = request.form["categoria"]
+    nombre = request.form.get("nombre", "").strip()
+    descripcion = request.form.get("descripcion", "").strip()
+    precio = request.form.get("precio", "").strip()
+    stock = request.form.get("stock", "").strip()
+    categoria = request.form.get("categoria", "").strip()
+
+    # Validación básica de los datos recibidos desde el formulario.
+    if not nombre or not precio or not stock or not categoria:
+
+        flash(
+            "Completa todos los campos obligatorios.",
+            "warning"
+        )
+
+        return redirect("/nuevo-producto")
+
+    try:
+        precio = float(precio)
+        stock = int(stock)
+        categoria = int(categoria)
+
+    except ValueError:
+
+        flash(
+            "El precio, stock y categoría deben tener valores válidos.",
+            "warning"
+        )
+
+        return redirect("/nuevo-producto")
+
+    if precio < 0 or stock < 0:
+
+        flash(
+            "El precio y el stock no pueden ser negativos.",
+            "warning"
+        )
+
+        return redirect("/nuevo-producto")
 
     imagen = request.files.get("imagen")
 
     nombreImagen = ""
 
-    if imagen and imagen.filename != "":
+    if imagen and imagen.filename:
+
         nombreImagen = secure_filename(imagen.filename)
 
         os.makedirs(CARPETA, exist_ok=True)
@@ -113,51 +199,90 @@ def guardar_producto():
 
     cursor = mysql.connection.cursor()
 
-    sql = """
-        INSERT INTO productos
-        (
-            nombrePro,
-            descripcionPro,
-            imagenesPro,
-            precioPro,
-            stockPro,
-            stockMinimoPro,
-            disponiblePro,
-            idCategoriaPro,
-            fechaCreacionPro,
-            fechaActualizacionPro
+    try:
+
+        # Regla de negocio:
+        # un producto solo está disponible si tiene stock mayor a cero.
+        disponible = 1 if stock > 0 else 0
+
+        cursor.execute("""
+            INSERT INTO productos
+            (
+                nombrePro,
+                descripcionPro,
+                imagenesPro,
+                precioPro,
+                stockPro,
+                stockMinimoPro,
+                disponiblePro,
+                idCategoriaPro,
+                fechaCreacionPro,
+                fechaActualizacionPro
+            )
+            VALUES
+            (
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                5,
+                %s,
+                %s,
+                NOW(),
+                NOW()
+            )
+        """, (
+            nombre,
+            descripcion,
+            nombreImagen,
+            precio,
+            stock,
+            disponible,
+            categoria
+        ))
+
+        mysql.connection.commit()
+
+        flash(
+            "Producto registrado correctamente.",
+            "success"
         )
-        VALUES
-        (
-            %s,
-            %s,
-            %s,
-            %s,
-            %s,
-            5,
-            1,
-            %s,
-            NOW(),
-            NOW()
+
+        return redirect("/gestion-productos")
+
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print("ERROR GUARDANDO PRODUCTO:", e)
+
+        # Si la BD falla después de guardar la imagen,
+        # se intenta eliminar el archivo para evitar archivos huérfanos.
+        if nombreImagen:
+
+            ruta = os.path.join(
+                CARPETA,
+                nombreImagen
+            )
+
+            if os.path.exists(ruta):
+
+                try:
+                    os.remove(ruta)
+                except OSError:
+                    pass
+
+        flash(
+            "No fue posible registrar el producto.",
+            "danger"
         )
-    """
 
-    cursor.execute(sql, (
-        nombre,
-        descripcion,
-        nombreImagen,
-        precio,
-        stock,
-        categoria
-    ))
+        return redirect("/nuevo-producto")
 
-    mysql.connection.commit()
+    finally:
+        cursor.close()
 
-    cursor.close()
-
-    flash("Producto registrado correctamente.", "success")
-
-    return redirect("/gestion-productos")
 
 @app.route("/eliminar-producto/<int:id>")
 @administrador_requerido
@@ -165,42 +290,76 @@ def eliminar_producto(id):
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute(
-        """
-        SELECT imagenesPro
-        FROM productos
-        WHERE idPro = %s
-        """,
-        (id,)
-    )
+    try:
 
-    producto = cursor.fetchone()
+        cursor.execute("""
+            SELECT imagenesPro
+            FROM productos
+            WHERE idPro = %s
+        """, (id,))
 
-    if producto and producto["imagenesPro"]:
+        producto = cursor.fetchone()
 
-        ruta = os.path.join(
-            CARPETA,
-            producto["imagenesPro"]
+        if not producto:
+
+            flash(
+                "El producto no existe.",
+                "warning"
+            )
+
+            return redirect("/gestion-productos")
+
+        nombre_imagen = producto["imagenesPro"]
+
+        cursor.execute("""
+            DELETE FROM productos
+            WHERE idPro = %s
+        """, (id,))
+
+        mysql.connection.commit()
+
+        # La imagen se elimina después de confirmar
+        # correctamente la eliminación del registro.
+        if nombre_imagen:
+
+            ruta = os.path.join(
+                CARPETA,
+                nombre_imagen
+            )
+
+            if os.path.exists(ruta):
+
+                try:
+                    os.remove(ruta)
+                except OSError as error:
+                    print(
+                        "No se pudo eliminar la imagen:",
+                        error
+                    )
+
+        flash(
+            "Producto eliminado correctamente.",
+            "success"
         )
 
-        if os.path.exists(ruta):
-            os.remove(ruta)
+        return redirect("/gestion-productos")
 
-    cursor.execute(
-        """
-        DELETE FROM productos
-        WHERE idPro = %s
-        """,
-        (id,)
-    )
+    except Exception as e:
 
-    mysql.connection.commit()
+        mysql.connection.rollback()
 
-    cursor.close()
+        print("ERROR ELIMINANDO PRODUCTO:", e)
 
-    flash("Producto eliminado correctamente.", "success")
+        flash(
+            "No fue posible eliminar el producto.",
+            "danger"
+        )
 
-    return redirect("/gestion-productos")
+        return redirect("/gestion-productos")
+
+    finally:
+        cursor.close()
+
 
 @app.route("/editar-producto/<int:id>")
 @administrador_requerido
@@ -208,81 +367,149 @@ def editar_producto(id):
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute(
-        """
-        SELECT *
-        FROM productos
-        WHERE idPro = %s
-        """,
-        (id,)
-    )
+    try:
 
-    producto = cursor.fetchone()
+        cursor.execute("""
+            SELECT *
+            FROM productos
+            WHERE idPro = %s
+        """, (id,))
 
-    cursor.execute(
-        """
-        SELECT *
-        FROM catalogo
-        ORDER BY nombreCat
-        """
-    )
+        producto = cursor.fetchone()
 
-    categorias = cursor.fetchall()
+        if not producto:
 
-    cursor.close()
+            flash(
+                "Producto no encontrado.",
+                "danger"
+            )
 
-    if not producto:
-        flash("Producto no encontrado.", "danger")
+            return redirect("/gestion-productos")
+
+        cursor.execute("""
+            SELECT *
+            FROM catalogo
+            ORDER BY nombreCat
+        """)
+
+        categorias = cursor.fetchall()
+
+        return render_template(
+            "admin/editar_producto.html",
+            producto=producto,
+            categorias=categorias
+        )
+
+    except Exception as e:
+
+        mysql.connection.rollback()
+
+        print("ERROR CARGANDO PRODUCTO:", e)
+
+        flash(
+            "No fue posible cargar el producto.",
+            "danger"
+        )
+
         return redirect("/gestion-productos")
 
-    return render_template(
-        "admin/editar_producto.html",
-        producto=producto,
-        categorias=categorias
-    )
+    finally:
+        cursor.close()
+
+
 @app.route("/actualizar-producto/<int:id>", methods=["POST"])
 @administrador_requerido
 def actualizar_producto(id):
 
-    nombre = request.form["nombre"]
-    descripcion = request.form["descripcion"]
-    precio = request.form["precio"]
-    stock = request.form["stock"]
-    categoria = request.form["categoria"]
+    nombre = request.form.get("nombre", "").strip()
+    descripcion = request.form.get("descripcion", "").strip()
+    precio = request.form.get("precio", "").strip()
+    stock = request.form.get("stock", "").strip()
+    categoria = request.form.get("categoria", "").strip()
+
+    if not nombre or not precio or not stock or not categoria:
+
+        flash(
+            "Completa todos los campos obligatorios.",
+            "warning"
+        )
+
+        return redirect(f"/editar-producto/{id}")
+
+    try:
+
+        precio = float(precio)
+        stock = int(stock)
+        categoria = int(categoria)
+
+    except ValueError:
+
+        flash(
+            "Los valores ingresados no son válidos.",
+            "warning"
+        )
+
+        return redirect(f"/editar-producto/{id}")
+
+    if precio < 0 or stock < 0:
+
+        flash(
+            "El precio y el stock no pueden ser negativos.",
+            "warning"
+        )
+
+        return redirect(f"/editar-producto/{id}")
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute(
-        """
-        UPDATE productos
-        SET
-            nombrePro = %s,
-            descripcionPro = %s,
-            precioPro = %s,
-            stockPro = %s,
-            disponiblePro = CASE
-                WHEN %s > 0 THEN 1
-                ELSE 0
-            END,
-            idCategoriaPro = %s,
-            fechaActualizacionPro = NOW()
-        WHERE idPro = %s
-        """,
-        (
+    try:
+
+        # Regla de negocio:
+        # si el stock es mayor a cero, el producto queda disponible.
+        disponible = 1 if stock > 0 else 0
+
+        cursor.execute("""
+            UPDATE productos
+            SET
+                nombrePro = %s,
+                descripcionPro = %s,
+                precioPro = %s,
+                stockPro = %s,
+                disponiblePro = %s,
+                idCategoriaPro = %s,
+                fechaActualizacionPro = NOW()
+            WHERE idPro = %s
+        """, (
             nombre,
             descripcion,
             precio,
             stock,
-            stock,
+            disponible,
             categoria,
             id
+        ))
+
+        mysql.connection.commit()
+
+        flash(
+            "Producto actualizado correctamente.",
+            "success"
         )
-    )
 
-    mysql.connection.commit()
+        return redirect("/gestion-productos")
 
-    cursor.close()
+    except Exception as e:
 
-    flash("Producto actualizado correctamente.", "success")
+        mysql.connection.rollback()
 
-    return redirect("/gestion-productos")
+        print("ERROR ACTUALIZANDO PRODUCTO:", e)
+
+        flash(
+            "No fue posible actualizar el producto.",
+            "danger"
+        )
+
+        return redirect(f"/editar-producto/{id}")
+
+    finally:
+        cursor.close()
