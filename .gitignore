@@ -1,1 +1,10 @@
 .env
+__pycache__/
+*.pyc
+
+.env
+
+static/uploads/
+
+venv/
+.venv/
